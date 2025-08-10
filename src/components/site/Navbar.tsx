@@ -1,5 +1,6 @@
 import { Plane, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import HeaderSearchBar from "./HeaderSearchBar";
 
 const Navbar = () => {
   return (
@@ -23,6 +24,11 @@ const Navbar = () => {
           <Menu />
         </Button>
       </nav>
+      <div className="hidden md:block border-t bg-background/80">
+        <div className="container mx-auto py-3">
+          <HeaderSearchBar />
+        </div>
+      </div>
     </header>
   );
 };
