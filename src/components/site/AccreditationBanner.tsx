@@ -20,7 +20,7 @@ const AccreditationBanner: React.FC = () => {
             aria-controls="accreditation-panel-desktop"
             className="bg-primary flex items-center justify-center px-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            <span className="text-foreground uppercase tracking-widest text-[10px] md:text-xs font-semibold -rotate-90 whitespace-nowrap select-none">
+            <span className="text-background uppercase tracking-widest text-[10px] md:text-xs font-semibold -rotate-90 whitespace-nowrap select-none">
               ACCREDITATION
             </span>
           </button>
@@ -29,7 +29,7 @@ const AccreditationBanner: React.FC = () => {
           <div
             id="accreditation-panel-desktop"
             className={
-              `bg-card/95 backdrop-blur-sm px-4 py-4 md:px-5 md:py-5 flex flex-col items-center justify-center gap-3 md:gap-4 transition-transform duration-300 ${open ? 'translate-x-0' : '-translate-x-full'}`
+              `bg-foreground/95 text-background backdrop-blur-sm px-4 py-4 md:px-5 md:py-5 flex flex-col items-center justify-center gap-3 md:gap-4 transition-transform duration-300 ${open ? 'translate-x-0' : '-translate-x-full'}`
             }
           >
             <img
@@ -40,10 +40,10 @@ const AccreditationBanner: React.FC = () => {
               width={80}
               height={80}
             />
-            <p className="text-foreground text-center text-xs md:text-sm font-semibold leading-snug max-w-[220px]">
+            <p className="text-foreground text-center text-xs md:text-sm font-bold leading-snug max-w-[220px]">
               We are ATOL Accredited – Your Travel Security Guaranteed.
             </p>
-            <div className="h-px w-full bg-foreground/20" />
+            <div className="h-px w-full bg-background/20" />
             <img
               src="/assets/images/iata-logo.webp"
               alt="IATA logo"
@@ -52,7 +52,7 @@ const AccreditationBanner: React.FC = () => {
               width={80}
               height={80}
             />
-            <p className="text-foreground text-center text-xs md:text-sm font-semibold leading-snug max-w-[220px]">
+            <p className="text-foreground text-center text-xs md:text-sm font-bold leading-snug max-w-[220px]">
               We are IATA Registered – MyTrip UK
             </p>
           </div>
@@ -61,7 +61,7 @@ const AccreditationBanner: React.FC = () => {
 
       {/* Mobile/tablet: horizontal banner at bottom of hero */}
       <div className="md:hidden absolute left-4 right-4 bottom-4 z-30 animate-enter">
-        <div className="flex items-stretch rounded-[var(--radius)] overflow-hidden shadow-elevated bg-card/95 backdrop-blur-sm">
+        <div className="flex items-stretch rounded-[var(--radius)] overflow-hidden shadow-elevated bg-foreground/95 text-background backdrop-blur-sm">
           {/* Yellow tab (toggle) */}
           <button
             type="button"
@@ -70,7 +70,7 @@ const AccreditationBanner: React.FC = () => {
             aria-controls="accreditation-panel-mobile"
             className="bg-primary px-2 md:px-3 py-4 flex items-center justify-center"
           >
-            <span className="text-foreground uppercase tracking-widest text-[10px] font-semibold">
+            <span className="text-background uppercase tracking-widest text-[10px] font-semibold">
               ACCREDITATION
             </span>
           </button>
@@ -90,10 +90,10 @@ const AccreditationBanner: React.FC = () => {
                 width={64}
                 height={64}
               />
-              <p className="text-foreground text-xs font-semibold leading-snug">
+              <p className="text-foreground text-xs font-bold leading-snug">
                 We are ATOL Accredited – Your Travel Security Guaranteed.
               </p>
-              <div className="col-span-2 h-px bg-foreground/15" />
+              <div className="col-span-2 h-px bg-background/20" />
               <img
                 src="/assets/images/iata-logo.webp"
                 alt="IATA logo"
@@ -102,7 +102,7 @@ const AccreditationBanner: React.FC = () => {
                 width={64}
                 height={64}
               />
-              <p className="text-foreground text-xs font-semibold leading-snug">
+              <p className="text-foreground text-xs font-bold leading-snug">
                 We are IATA Registered – MyTrip UK
               </p>
             </div>
