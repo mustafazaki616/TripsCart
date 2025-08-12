@@ -5,6 +5,7 @@ import PopularFlights from "@/components/site/PopularFlights";
 import Features from "@/components/site/Features";
 import FAQSection from "@/components/site/FAQSection";
 import Footer from "@/components/site/Footer";
+import TrustpilotReviews from "@/components/site/TrustpilotReviews";
 
 const Index = () => {
   const faqJsonLd = {
@@ -24,6 +25,7 @@ const Index = () => {
         <HowItWorks />
         <PopularFlights />
         <Features />
+        <TrustpilotReviews />
         <FAQSection />
       </main>
       <Footer />

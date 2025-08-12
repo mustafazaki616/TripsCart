@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar as CalendarWidget } from "@/components/ui/calendar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
@@ -57,6 +58,21 @@ const BookingForm: React.FC = () => {
 
   return (
     <form onSubmit={submit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-4 md:p-6">
+      {/* Category tabs */}
+      <Tabs defaultValue="flight" className="w-full">
+        <TabsList className="justify-start bg-transparent p-0 h-auto gap-6">
+          <TabsTrigger value="flight" className="data-[state=active]:text-primary data-[state=active]:font-semibold">Flight</TabsTrigger>
+          <TabsTrigger value="hotels" disabled>Hotels</TabsTrigger>
+          <TabsTrigger value="flighthotel" disabled>Flights & Hotels</TabsTrigger>
+          <TabsTrigger value="car" disabled>Car Hire</TabsTrigger>
+          <TabsTrigger value="visa" disabled>Visa</TabsTrigger>
+        </TabsList>
+      </Tabs>
+      <div className="relative mt-2">
+        <div className="h-px bg-border" />
+        <span className="absolute left-0 -top-px h-[2px] w-28 bg-primary rounded-full" aria-hidden="true" />
+      </div>
+
       {/* Top controls */}
       <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground px-1">
         <div className="flex items-center gap-3">
