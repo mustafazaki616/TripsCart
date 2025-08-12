@@ -1,6 +1,5 @@
 import heroImage from "@/assets/hero-flight.jpg";
 import BookingForm from "./BookingForm";
-import AccreditationBanner from "./AccreditationBanner";
 
 const HeroSection = () => {
   return (
@@ -20,7 +19,6 @@ const HeroSection = () => {
           <BookingForm />
         </div>
       </div>
-      <AccreditationBanner />
     </section>
   );
 };
