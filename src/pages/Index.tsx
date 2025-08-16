@@ -1,10 +1,8 @@
-import Navbar from "@/components/site/Navbar";
 import HeroSection from "@/components/site/HeroSection";
 import HowItWorks from "@/components/site/HowItWorks";
 import PopularFlights from "@/components/site/PopularFlights";
 import Features from "@/components/site/Features";
 import FAQSection from "@/components/site/FAQSection";
-import Footer from "@/components/site/Footer";
 import TrustpilotReviews from "@/components/site/TrustpilotReviews";
 
 const Index = () => {
@@ -18,19 +16,15 @@ const Index = () => {
   };
 
   return (
-    <div>
-      <Navbar />
-      <main>
-        <HeroSection />
-        <HowItWorks />
-        <PopularFlights />
-        <Features />
-        <TrustpilotReviews />
-        <FAQSection />
-      </main>
-      <Footer />
+    <>
+      <HeroSection />
+      <HowItWorks />
+      <PopularFlights />
+      <Features />
+      <TrustpilotReviews />
+      <FAQSection />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
-    </div>
+    </>
   );
 };
 

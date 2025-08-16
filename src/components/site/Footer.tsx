@@ -6,8 +6,8 @@ const Footer = () => {
       <div className="container mx-auto py-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <div className="text-xl font-bold">AirVoyage</div>
-            <p className="mt-2 text-sm text-muted-foreground">AirVoyage offers a seamless flight search experience, smart comparisons, and secure checkout to help you book the best fares with ease.</p>
+                    <div className="text-xl font-bold">TripsCart</div>
+        <p className="mt-2 text-sm text-muted-foreground">TripsCart offers a seamless flight search experience, smart comparisons, and secure checkout to help you book the best fares with ease.</p>
           </div>
           <div>
             <div className="font-semibold mb-3">Company</div>
@@ -35,7 +35,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="mt-8 pt-6 border-t text-xs text-muted-foreground flex items-center justify-between">
-          <div>© {new Date().getFullYear()} AirVoyage. All rights reserved.</div>
+          <div>© {new Date().getFullYear()} TripsCart. All rights reserved.</div>
           <div className="flex gap-4">
             <a href="#" className="hover:text-foreground">Privacy Policy</a>
             <a href="#" className="hover:text-foreground">Terms of Use</a>

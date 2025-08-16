@@ -1,0 +1,50 @@
+/* Marquee Banner Styles */
+.marquee-section {
+  overflow: hidden;
+  width: 100%;
+}
+
+.marquee {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.marquee-content {
+  display: flex;
+  animation: marquee 30s linear infinite;
+  width: max-content;
+}
+
+.marquee-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2rem;
+}
+
+.marquee-item img {
+  object-fit: contain;
+  max-width: 100%;
+}
+
+/* Animation for right-to-left scrolling */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .marquee-content {
+    animation-duration: 20s;
+  }
+  
+  .marquee-item {
+    padding: 0 1rem;
+  }
+}
