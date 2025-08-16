@@ -14,49 +14,9 @@ import FlightsHotelsBookingForm from "./FlightsHotelsBookingForm";
 import CarHireBookingForm from "./CarHireBookingForm";
 import VisaBookingForm from "./VisaBookingForm";
 import { sendAdminEmail } from "@/lib/email";
+import { searchAirports, getAirportByCode, getPopularAirports, type Airport } from "@/data/airports";
 
-// Extended list of airports/cities
-const cities = [
-  { code: "KUL", name: "Kuala Lumpur" },
-  { code: "BKK", name: "Bangkok" },
-  { code: "LHR", name: "London" },
-  { code: "DXB", name: "Dubai" },
-  { code: "DPS", name: "Bali (Denpasar)" },
-  { code: "IST", name: "Istanbul" },
-  { code: "JFK", name: "New York" },
-  { code: "CDG", name: "Paris" },
-  { code: "SIN", name: "Singapore" },
-  { code: "HKG", name: "Hong Kong" },
-  { code: "SYD", name: "Sydney" },
-  { code: "FCO", name: "Rome" },
-  { code: "MAD", name: "Madrid" },
-  { code: "AMS", name: "Amsterdam" },
-  { code: "FRA", name: "Frankfurt" },
-  { code: "BCN", name: "Barcelona" },
-  { code: "DEL", name: "Delhi" },
-  { code: "BOM", name: "Mumbai" },
-  { code: "YYZ", name: "Toronto" },
-  { code: "LAX", name: "Los Angeles" },
-  { code: "ORD", name: "Chicago" },
-  { code: "PEK", name: "Beijing" },
-  { code: "PVG", name: "Shanghai" },
-  { code: "NRT", name: "Tokyo" },
-  { code: "ICN", name: "Seoul" },
-  { code: "MEX", name: "Mexico City" },
-  { code: "GRU", name: "São Paulo" },
-  { code: "JNB", name: "Johannesburg" },
-  { code: "CPT", name: "Cape Town" },
-  { code: "CAI", name: "Cairo" },
-  { code: "DOH", name: "Doha" },
-  { code: "AUH", name: "Abu Dhabi" },
-  { code: "ISB", name: "Islamabad" },
-  { code: "KHI", name: "Karachi" },
-  { code: "LHE", name: "Lahore" },
-  { code: "MAN", name: "Manchester" },
-  { code: "BHX", name: "Birmingham" },
-  { code: "EDI", name: "Edinburgh" },
-  { code: "GLA", name: "Glasgow" },
-];
+
 
 
 const cabinClasses = ["Economy", "Premium Economy", "Business", "First"] as const;
@@ -95,6 +55,25 @@ const BookingForm: React.FC = () => {
   const [openTravellers, setOpenTravellers] = React.useState(false);
   const [originFilter, setOriginFilter] = React.useState("");
   const [destinationFilter, setDestinationFilter] = React.useState("");
+  const [originSuggestions, setOriginSuggestions] = React.useState<Airport[]>([]);
+  const [destinationSuggestions, setDestinationSuggestions] = React.useState<Airport[]>([]);
+
+  // Update suggestions when filter changes
+  React.useEffect(() => {
+    if (originFilter.length >= 2) {
+      setOriginSuggestions(searchAirports(originFilter, 8));
+    } else {
+      setOriginSuggestions(getPopularAirports());
+    }
+  }, [originFilter]);
+
+  React.useEffect(() => {
+    if (destinationFilter.length >= 2) {
+      setDestinationSuggestions(searchAirports(destinationFilter, 8));
+    } else {
+      setDestinationSuggestions(getPopularAirports());
+    }
+  }, [destinationFilter]);
   const [errors, setErrors] = React.useState<FormErrors>({});
   const [showModal, setShowModal] = React.useState(false);
   const [data, setData] = React.useState<FormState>({
@@ -218,7 +197,7 @@ const BookingForm: React.FC = () => {
       </div>
 
       {/* Fields grid */}
-      <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-6 gap-3 md:gap-4 px-1 sm:px-0">
+      <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-3 md:gap-4 px-1 sm:px-0">
         {/* Origin */}
         <div className="col-span-full sm:col-span-1 md:col-span-2">
           <label className="mb-1 block text-sm text-muted-foreground">Fly From</label>
@@ -227,10 +206,10 @@ const BookingForm: React.FC = () => {
               <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60 text-left">
                 {data.origin ? (
                   <span>
-                    {cities.find((c) => c.code === data.origin)?.name} ({data.origin})
+                    {getAirportByCode(data.origin)?.city} - {getAirportByCode(data.origin)?.name} ({data.origin})
                   </span>
                 ) : (
-                  <span className="text-muted-foreground">Country / City</span>
+                  <span className="text-muted-foreground">Search airports...</span>
                 )}
               </Button>
             </PopoverTrigger>
@@ -240,7 +219,7 @@ const BookingForm: React.FC = () => {
                   <Search className="opacity-70" />
                   <input
                     className="h-9 flex-1 bg-transparent outline-none"
-                    placeholder="Search city or code"
+                    placeholder="Search airports, cities, or codes"
                     value={originFilter}
                     onChange={(e) => setOriginFilter(e.target.value)}
                     autoFocus
@@ -257,23 +236,27 @@ const BookingForm: React.FC = () => {
                 </div>
               </div>
               <div className="max-h-64 overflow-auto">
-                {cities
-                  .filter((c) =>
-                    (c.name + c.code).toLowerCase().includes(originFilter.toLowerCase())
-                  )
-                  .map((c) => (
+                {originSuggestions.length > 0 ? (
+                  originSuggestions.map((airport) => (
                     <button
-                      key={c.code}
+                      key={airport.code}
                       type="button"
-                      className="w-full text-left px-3 py-2 hover:bg-accent"
+                      className="w-full text-left px-3 py-2 hover:bg-accent border-b border-border/50 last:border-b-0"
                       onClick={() => {
-                        setData((d) => ({ ...d, origin: c.code }));
+                        setData((d) => ({ ...d, origin: airport.code }));
+                        setOriginFilter("");
                         setOpenOrigin(false);
                       }}
                     >
-                      {c.name} ({c.code})
+                      <div className="flex flex-col">
+                        <div className="font-medium">{airport.city}, {airport.country}</div>
+                        <div className="text-sm text-muted-foreground">{airport.name} ({airport.code})</div>
+                      </div>
                     </button>
-                  ))}
+                  ))
+                ) : (
+                  <div className="px-3 py-2 text-sm text-muted-foreground">No airports found</div>
+                )}
               </div>
             </PopoverContent>
           </Popover>
@@ -294,10 +277,10 @@ const BookingForm: React.FC = () => {
               <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60 text-left">
                 {data.destination ? (
                   <span>
-                    {cities.find((c) => c.code === data.destination)?.name} ({data.destination})
+                    {getAirportByCode(data.destination)?.city} - {getAirportByCode(data.destination)?.name} ({data.destination})
                   </span>
                 ) : (
-                  <span className="text-muted-foreground">Country / City</span>
+                  <span className="text-muted-foreground">Search airports...</span>
                 )}
               </Button>
             </PopoverTrigger>
@@ -307,7 +290,7 @@ const BookingForm: React.FC = () => {
                   <Search className="opacity-70" />
                   <input
                     className="h-9 flex-1 bg-transparent outline-none"
-                    placeholder="Search city or code"
+                    placeholder="Search airports, cities, or codes"
                     value={destinationFilter}
                     onChange={(e) => setDestinationFilter(e.target.value)}
                     autoFocus
@@ -324,23 +307,27 @@ const BookingForm: React.FC = () => {
                 </div>
               </div>
               <div className="max-h-64 overflow-auto">
-                {cities
-                  .filter((c) =>
-                    (c.name + c.code).toLowerCase().includes(destinationFilter.toLowerCase())
-                  )
-                  .map((c) => (
+                {destinationSuggestions.length > 0 ? (
+                  destinationSuggestions.map((airport) => (
                     <button
-                      key={c.code}
+                      key={airport.code}
                       type="button"
-                      className="w-full text-left px-3 py-2 hover:bg-accent"
+                      className="w-full text-left px-3 py-2 hover:bg-accent border-b border-border/50 last:border-b-0"
                       onClick={() => {
-                        setData((d) => ({ ...d, destination: c.code }));
+                        setData((d) => ({ ...d, destination: airport.code }));
+                        setDestinationFilter("");
                         setOpenDestination(false);
                       }}
                     >
-                      {c.name} ({c.code})
+                      <div className="flex flex-col">
+                        <div className="font-medium">{airport.city}, {airport.country}</div>
+                        <div className="text-sm text-muted-foreground">{airport.name} ({airport.code})</div>
+                      </div>
                     </button>
-                  ))}
+                  ))
+                ) : (
+                  <div className="px-3 py-2 text-sm text-muted-foreground">No airports found</div>
+                )}
               </div>
             </PopoverContent>
           </Popover>

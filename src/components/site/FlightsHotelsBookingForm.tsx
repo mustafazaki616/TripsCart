@@ -6,49 +6,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Plane, Phone, Calendar, Mail, Users, ArrowLeftRight, Search, X } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { sendAdminEmail } from "@/lib/email";
+import { searchAirports, getAirportByCode, getPopularAirports, type Airport } from "@/data/airports";
 
-// Extended list of airports/cities
-const cities = [
-  { code: "KUL", name: "Kuala Lumpur" },
-  { code: "BKK", name: "Bangkok" },
-  { code: "LHR", name: "London" },
-  { code: "DXB", name: "Dubai" },
-  { code: "DPS", name: "Bali (Denpasar)" },
-  { code: "IST", name: "Istanbul" },
-  { code: "JFK", name: "New York" },
-  { code: "CDG", name: "Paris" },
-  { code: "SIN", name: "Singapore" },
-  { code: "HKG", name: "Hong Kong" },
-  { code: "SYD", name: "Sydney" },
-  { code: "FCO", name: "Rome" },
-  { code: "MAD", name: "Madrid" },
-  { code: "AMS", name: "Amsterdam" },
-  { code: "FRA", name: "Frankfurt" },
-  { code: "BCN", name: "Barcelona" },
-  { code: "DEL", name: "Delhi" },
-  { code: "BOM", name: "Mumbai" },
-  { code: "YYZ", name: "Toronto" },
-  { code: "LAX", name: "Los Angeles" },
-  { code: "ORD", name: "Chicago" },
-  { code: "PEK", name: "Beijing" },
-  { code: "PVG", name: "Shanghai" },
-  { code: "NRT", name: "Tokyo" },
-  { code: "ICN", name: "Seoul" },
-  { code: "MEX", name: "Mexico City" },
-  { code: "GRU", name: "São Paulo" },
-  { code: "JNB", name: "Johannesburg" },
-  { code: "CPT", name: "Cape Town" },
-  { code: "CAI", name: "Cairo" },
-  { code: "DOH", name: "Doha" },
-  { code: "AUH", name: "Abu Dhabi" },
-  { code: "ISB", name: "Islamabad" },
-  { code: "KHI", name: "Karachi" },
-  { code: "LHE", name: "Lahore" },
-  { code: "MAN", name: "Manchester" },
-  { code: "BHX", name: "Birmingham" },
-  { code: "EDI", name: "Edinburgh" },
-  { code: "GLA", name: "Glasgow" },
-];
+
 
 type FormState = {
   origin: string;
@@ -233,7 +193,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
         </div>
 
         {/* Flight Fields */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <div>
             <label className="mb-1 block text-sm text-muted-foreground">Fly From</label>
             <Popover open={openOrigin} onOpenChange={setOpenOrigin}>
@@ -241,10 +201,10 @@ const FlightsHotelsBookingForm: React.FC = () => {
                 <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60">
                   {data.origin ? (
                     <span>
-                      {cities.find((c) => c.code === data.origin)?.name} ({data.origin})
+                      {getAirportByCode(data.origin)?.name} ({data.origin})
                     </span>
                   ) : (
-                    <span className="text-muted-foreground">Country / City</span>
+                    <span className="text-muted-foreground">Airport Name...</span>
                   )}
                 </Button>
               </PopoverTrigger>
@@ -271,21 +231,21 @@ const FlightsHotelsBookingForm: React.FC = () => {
                   </div>
                 </div>
                 <div className="max-h-64 overflow-auto">
-                  {cities
-                    .filter((c) =>
-                      (c.name + c.code).toLowerCase().includes(originFilter.toLowerCase())
-                    )
-                    .map((c) => (
+                  {(originFilter ? searchAirports(originFilter) : getPopularAirports())
+                    .map((airport) => (
                       <button
-                        key={c.code}
+                        key={airport.code}
                         type="button"
                         className="w-full text-left px-3 py-2 hover:bg-accent"
                         onClick={() => {
-                          setField("origin", c.code);
+                          setField("origin", airport.code);
                           setOpenOrigin(false);
                         }}
                       >
-                        {c.name} ({c.code})
+                        <div className="font-medium">{airport.name}</div>
+                        <div className="text-sm text-muted-foreground">
+                          {airport.city}, {airport.country} ({airport.code})
+                        </div>
                       </button>
                     ))}
                 </div>
@@ -300,10 +260,10 @@ const FlightsHotelsBookingForm: React.FC = () => {
                 <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60">
                   {data.destination ? (
                     <span>
-                      {cities.find((c) => c.code === data.destination)?.name} ({data.destination})
+                      {getAirportByCode(data.destination)?.name} ({data.destination})
                     </span>
                   ) : (
-                    <span className="text-muted-foreground">Country / City</span>
+                    <span className="text-muted-foreground">Airport Name...</span>
                   )}
                 </Button>
               </PopoverTrigger>
@@ -330,21 +290,21 @@ const FlightsHotelsBookingForm: React.FC = () => {
                   </div>
                 </div>
                 <div className="max-h-64 overflow-auto">
-                  {cities
-                    .filter((c) =>
-                      (c.name + c.code).toLowerCase().includes(destinationFilter.toLowerCase())
-                    )
-                    .map((c) => (
+                  {(destinationFilter ? searchAirports(destinationFilter) : getPopularAirports())
+                    .map((airport) => (
                       <button
-                        key={c.code}
+                        key={airport.code}
                         type="button"
                         className="w-full text-left px-3 py-2 hover:bg-accent"
                         onClick={() => {
-                          setField("destination", c.code);
+                          setField("destination", airport.code);
                           setOpenDestination(false);
                         }}
                       >
-                        {c.name} ({c.code})
+                        <div className="font-medium">{airport.name}</div>
+                        <div className="text-sm text-muted-foreground">
+                          {airport.city}, {airport.country} ({airport.code})
+                        </div>
                       </button>
                     ))}
                 </div>
@@ -411,7 +371,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
         {/* Room Details */}
         <div className="mt-6">
           <h3 className="text-lg font-semibold mb-4">Room 1</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <div>
               <label className="mb-1 block text-sm text-muted-foreground">No of Passengers</label>
               <div className="relative">
@@ -434,7 +394,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
           </div>
           
           {/* Dynamic Age Fields */}
-          <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {data.personAges.map((age, index) => (
               <div key={index}>
                 <label className="mb-1 block text-sm text-muted-foreground">Person {index + 1} Age</label>

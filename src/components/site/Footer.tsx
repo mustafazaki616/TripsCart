@@ -53,25 +53,25 @@ const Footer = () => {
           <div>
             <div className="font-semibold mb-3">Company</div>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#" className="hover:text-foreground">Blog</a></li>
-              <li><a href="#" className="hover:text-foreground">Careers</a></li>
-              <li><a href="#" className="hover:text-foreground">Press</a></li>
+              <li><a href="#" className="hover:text-yellow-400">Blog</a></li>
+              <li><a href="#" className="hover:text-yellow-400">Careers</a></li>
+              <li><a href="#" className="hover:text-yellow-400">Press</a></li>
             </ul>
           </div>
           <div>
             <div className="font-semibold mb-3">Product</div>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#popular" className="hover:text-foreground">Flights</a></li>
-              <li><a href="#features" className="hover:text-foreground">Features</a></li>
-              <li><a href="#faq" className="hover:text-foreground">FAQ</a></li>
+              <li><a href="#popular" className="hover:text-yellow-400">Flights</a></li>
+              <li><a href="#features" className="hover:text-yellow-400">Features</a></li>
+              <li><a href="#faq" className="hover:text-yellow-400">FAQ</a></li>
             </ul>
           </div>
           <div>
             <div className="font-semibold mb-3">Follow</div>
             <div className="flex items-center gap-3 text-muted-foreground mb-4">
-              <a href="https://twitter.com" aria-label="Twitter" className="hover:text-foreground" target="_blank" rel="noopener noreferrer"><Twitter /></a>
-              <a href="https://www.facebook.com/share/1A38pdBkqU/?mibextid=wwXIfr" aria-label="Facebook" className="hover:text-foreground" target="_blank" rel="noopener noreferrer"><Facebook /></a>
-              <a href="https://www.instagram.com/tripscartuk?igsh=MWo0bzV1cm8yYWp3Nw%3D%3D&utm_source=qr" aria-label="Instagram" className="hover:text-foreground" target="_blank" rel="noopener noreferrer"><Instagram /></a>
+              <a href="https://twitter.com" aria-label="Twitter" className="hover:text-yellow-400" target="_blank" rel="noopener noreferrer"><Twitter /></a>
+              <a href="https://www.facebook.com/share/1A38pdBkqU/?mibextid=wwXIfr" aria-label="Facebook" className="hover:text-yellow-400" target="_blank" rel="noopener noreferrer"><Facebook /></a>
+              <a href="https://www.instagram.com/tripscartuk?igsh=MWo0bzV1cm8yYWp3Nw%3D%3D&utm_source=qr" aria-label="Instagram" className="hover:text-yellow-400" target="_blank" rel="noopener noreferrer"><Instagram /></a>
             </div>
             <div className="text-sm font-semibold mb-2 text-foreground">We accept card payment</div>
             <div className="flex items-center gap-1 flex-wrap">
@@ -88,8 +88,8 @@ const Footer = () => {
         <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t text-xs text-muted-foreground flex flex-col sm:flex-row items-center sm:justify-between gap-4 sm:gap-0">
           <div className="text-center sm:text-left">© {new Date().getFullYear()} TripsCart. All rights reserved.</div>
           <div className="flex gap-4 text-center">
-            <a href="#" className="hover:text-foreground">Privacy Policy</a>
-            <a href="#" className="hover:text-foreground">Terms of Use</a>
+            <a href="/booking-terms" className="hover:text-yellow-400">Privacy Policy</a>
+            <a href="/booking-terms" className="hover:text-yellow-400">Terms of Use</a>
           </div>
         </div>
       </div>
