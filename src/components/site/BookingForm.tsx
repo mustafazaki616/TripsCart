@@ -197,291 +197,332 @@ const BookingForm: React.FC = () => {
       </div>
 
       {/* Fields grid */}
-      <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-3 md:gap-4 px-1 sm:px-0">
-        {/* Origin */}
-        <div className="col-span-full sm:col-span-1 md:col-span-2">
-          <label className="mb-1 block text-sm text-muted-foreground">Fly From</label>
-          <Popover open={openOrigin} onOpenChange={setOpenOrigin}>
-            <PopoverTrigger asChild>
-              <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60 text-left">
-                {data.origin ? (
-                  <span>
-                    {getAirportByCode(data.origin)?.city} - {getAirportByCode(data.origin)?.name} ({data.origin})
-                  </span>
-                ) : (
-                  <span className="text-muted-foreground">Search airports...</span>
-                )}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent align="start" className="w-[var(--radix-popover-trigger-width)] p-0">
-              <div className="p-2 border-b">
-                <div className="flex items-center gap-2 rounded-md bg-secondary/60 px-2">
-                  <Search className="opacity-70" />
-                  <input
-                    className="h-9 flex-1 bg-transparent outline-none"
-                    placeholder="Search airports, cities, or codes"
-                    value={originFilter}
-                    onChange={(e) => setOriginFilter(e.target.value)}
-                    autoFocus
-                  />
-                  {originFilter && (
-                    <button
-                      type="button"
-                      className="opacity-60 hover:opacity-100"
-                      onClick={() => setOriginFilter("")}
-                    >
-                      <X className="h-4 w-4" />
-                    </button>
-                  )}
-                </div>
-              </div>
-              <div className="max-h-64 overflow-auto">
-                {originSuggestions.length > 0 ? (
-                  originSuggestions.map((airport) => (
-                    <button
-                      key={airport.code}
-                      type="button"
-                      className="w-full text-left px-3 py-2 hover:bg-accent border-b border-border/50 last:border-b-0"
-                      onClick={() => {
-                        setData((d) => ({ ...d, origin: airport.code }));
-                        setOriginFilter("");
-                        setOpenOrigin(false);
-                      }}
-                    >
-                      <div className="flex flex-col">
-                        <div className="font-medium">{airport.city}, {airport.country}</div>
-                        <div className="text-sm text-muted-foreground">{airport.name} ({airport.code})</div>
-                      </div>
-                    </button>
-                  ))
-                ) : (
-                  <div className="px-3 py-2 text-sm text-muted-foreground">No airports found</div>
-                )}
-              </div>
-            </PopoverContent>
-          </Popover>
-          {errors.origin && <p className="mt-1 text-xs text-destructive">{errors.origin}</p>}
-          <Plane className="absolute right-3 top-3.5 opacity-60 pointer-events-none hidden md:block" />
-        </div>
-        {/* Swap button */}
-        <div className="hidden md:flex items-end justify-center">
-          <Button type="button" variant="secondary" size="icon" onClick={swap} aria-label="Swap origin and destination" className={cn("rounded-full", swapAnim && "animate-spin") }>
-            <ArrowLeftRight />
-          </Button>
-        </div>
-        {/* Destination */}
-        <div className="col-span-full sm:col-span-1 md:col-span-2">
-          <label className="mb-1 block text-sm text-muted-foreground">Fly To</label>
-          <Popover open={openDestination} onOpenChange={setOpenDestination}>
-            <PopoverTrigger asChild>
-              <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60 text-left">
-                {data.destination ? (
-                  <span>
-                    {getAirportByCode(data.destination)?.city} - {getAirportByCode(data.destination)?.name} ({data.destination})
-                  </span>
-                ) : (
-                  <span className="text-muted-foreground">Search airports...</span>
-                )}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent align="start" className="w-[var(--radix-popover-trigger-width)] p-0">
-              <div className="p-2 border-b">
-                <div className="flex items-center gap-2 rounded-md bg-secondary/60 px-2">
-                  <Search className="opacity-70" />
-                  <input
-                    className="h-9 flex-1 bg-transparent outline-none"
-                    placeholder="Search airports, cities, or codes"
-                    value={destinationFilter}
-                    onChange={(e) => setDestinationFilter(e.target.value)}
-                    autoFocus
-                  />
-                  {destinationFilter && (
-                    <button
-                      type="button"
-                      className="opacity-60 hover:opacity-100"
-                      onClick={() => setDestinationFilter("")}
-                    >
-                      <X className="h-4 w-4" />
-                    </button>
-                  )}
-                </div>
-              </div>
-              <div className="max-h-64 overflow-auto">
-                {destinationSuggestions.length > 0 ? (
-                  destinationSuggestions.map((airport) => (
-                    <button
-                      key={airport.code}
-                      type="button"
-                      className="w-full text-left px-3 py-2 hover:bg-accent border-b border-border/50 last:border-b-0"
-                      onClick={() => {
-                        setData((d) => ({ ...d, destination: airport.code }));
-                        setDestinationFilter("");
-                        setOpenDestination(false);
-                      }}
-                    >
-                      <div className="flex flex-col">
-                        <div className="font-medium">{airport.city}, {airport.country}</div>
-                        <div className="text-sm text-muted-foreground">{airport.name} ({airport.code})</div>
-                      </div>
-                    </button>
-                  ))
-                ) : (
-                  <div className="px-3 py-2 text-sm text-muted-foreground">No airports found</div>
-                )}
-              </div>
-            </PopoverContent>
-          </Popover>
-          {errors.destination && <p className="mt-1 text-xs text-destructive">{errors.destination}</p>}
-          <Plane className="absolute right-3 top-3.5 opacity-60 rotate-180 pointer-events-none hidden md:block" />
-        </div>
-        {/* Departure */}
-        <div className="col-span-full sm:col-span-1 md:col-span-2">
-          <label className="mb-1 block text-sm text-muted-foreground">Departure Date</label>
-          <Popover open={openDepart} onOpenChange={setOpenDepart}>
-            <PopoverTrigger asChild>
-              <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60">
-                <Calendar className="mr-2 opacity-70" />
-                {data.departDate ? format(data.departDate, "EEE, dd MMM") : "Select date"}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="p-0" align="start">
-              <CalendarWidget mode="single" selected={data.departDate} onSelect={(d) => setData((s)=>({...s, departDate: d ?? undefined}))} initialFocus />
-            </PopoverContent>
-          </Popover>
-          {errors.departDate && <p className="mt-1 text-xs text-destructive">{errors.departDate}</p>}
-        </div>
-        {/* Return */}
-        <div className="md:col-span-2">
-          <label className="mb-1 block text-sm text-muted-foreground">Return Date</label>
-          <Popover open={openReturn} onOpenChange={setOpenReturn}>
-            <PopoverTrigger asChild>
-              <Button variant="outline" disabled={data.tripType!=="round"} className="w-full justify-start h-12 bg-secondary/60 disabled:opacity-70">
-                <Calendar className="mr-2 opacity-70" />
-                {data.returnDate ? format(data.returnDate, "EEE, dd MMM") : "Returning"}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="p-0" align="start">
-              <CalendarWidget mode="single" selected={data.returnDate} onSelect={(d) => setData((s)=>({...s, returnDate: d ?? undefined}))} initialFocus />
-            </PopoverContent>
-          </Popover>
-          {errors.returnDate && <p className="mt-1 text-xs text-destructive">{errors.returnDate}</p>}
-        </div>
-        {/* Travelers dropdown matching original style */}
-        <div className="col-span-full sm:col-span-1">
-          <label className="mb-1 block text-sm text-muted-foreground">Passengers</label>
-          <Popover open={openTravellers} onOpenChange={setOpenTravellers}>
-            <PopoverTrigger asChild>
-              <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60 text-left">
-                <span className="truncate">
-                  {data.adults + data.children + data.infants} Passenger{(data.adults + data.children + data.infants) > 1 ? "s" : ""}
-                </span>
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent align="end" className="w-72">
-              {[
-                { key: "adults", label: "Adults", caption: "12+", min: 1 },
-                { key: "children", label: "Children", caption: "2-11", min: 0 },
-                { key: "infants", label: "Infants", caption: "Under 2", min: 0 },
-              ].map((row) => {
-                const value = data[row.key as keyof FormState] as number;
-                return (
-                  <div key={row.key} className="flex items-center justify-between py-2">
-                    <div>
-                      <div className="font-medium">{row.label}</div>
-                      <div className="text-xs text-muted-foreground">{row.caption}</div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Button
-                        type="button"
-                        size="icon"
-                        variant="secondary"
-                        onClick={() =>
-                          setData((d) => {
-                            const next = Math.max(row.min, value - 1);
-                            const updated = { ...d, [row.key]: next } as FormState;
-                            if (row.key === "adults" && updated.infants > next) {
-                              updated.infants = next; // infants cannot exceed adults
-                            }
-                            return updated;
-                          })
-                        }
-                        aria-label={`Decrease ${row.label}`}
-                      >
-                        <Minus className="h-4 w-4" />
-                      </Button>
-                      <span className="w-6 text-center">{value}</span>
-                      <Button
-                        type="button"
-                        size="icon"
-                        variant="secondary"
-                        onClick={() =>
-                          setData((d) => {
-                            const cap = 9; // typical cap
-                            const total = d.adults + d.children + d.infants;
-                            if (total >= cap) return d;
-                            const updated = { ...d, [row.key]: value + 1 } as FormState;
-                            if (row.key === "infants" && updated.infants > updated.adults) {
-                              // infants cannot exceed adults
-                              return d;
-                            }
-                            return updated;
-                          })
-                        }
-                        aria-label={`Increase ${row.label}`}
-                      >
-                        <Plus className="h-4 w-4" />
-                      </Button>
+      <div className="mt-4 space-y-4 px-1 sm:px-0">
+        {/* Mobile: Stack all fields vertically, Desktop: Use grid layout */}
+        <div className="grid grid-cols-1 md:grid-cols-6 gap-3 md:gap-4">
+          {/* Origin */}
+          <div className="md:col-span-2">
+            <label className="mb-1 block text-sm text-muted-foreground">Fly From</label>
+            <div className="relative">
+              <Popover open={openOrigin} onOpenChange={setOpenOrigin}>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60 text-left pr-10">
+                    {data.origin ? (
+                      <span>
+                        {getAirportByCode(data.origin)?.city} - {getAirportByCode(data.origin)?.name} ({data.origin})
+                      </span>
+                    ) : (
+                      <span className="text-muted-foreground">Airport Name...</span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent align="start" className="w-[var(--radix-popover-trigger-width)] p-0">
+                  <div className="p-2 border-b">
+                    <div className="flex items-center gap-2 rounded-md bg-secondary/60 px-2">
+                      <Search className="opacity-70" />
+                      <input
+                        className="h-9 flex-1 bg-transparent outline-none"
+                        placeholder="Search airports, cities, or codes"
+                        value={originFilter}
+                        onChange={(e) => setOriginFilter(e.target.value)}
+                        autoFocus
+                      />
+                      {originFilter && (
+                        <button
+                          type="button"
+                          className="opacity-60 hover:opacity-100"
+                          onClick={() => setOriginFilter("")}
+                        >
+                          <X className="h-4 w-4" />
+                        </button>
+                      )}
                     </div>
                   </div>
-                );
-              })}
-              <div className="mt-3 flex justify-end">
-                <Button type="button" onClick={() => setOpenTravellers(false)}>Done</Button>
+                  <div className="max-h-64 overflow-auto">
+                    {originSuggestions.length > 0 ? (
+                      originSuggestions.map((airport) => (
+                        <button
+                          key={airport.code}
+                          type="button"
+                          className="w-full text-left px-3 py-2 hover:bg-accent border-b border-border/50 last:border-b-0"
+                          onClick={() => {
+                            setData((d) => ({ ...d, origin: airport.code }));
+                            setOriginFilter("");
+                            setOpenOrigin(false);
+                          }}
+                        >
+                          <div className="flex flex-col">
+                            <div className="font-medium">{airport.city}, {airport.country}</div>
+                            <div className="text-sm text-muted-foreground">{airport.name} ({airport.code})</div>
+                          </div>
+                        </button>
+                      ))
+                    ) : (
+                      <div className="px-3 py-2 text-sm text-muted-foreground">No airports found</div>
+                    )}
+                  </div>
+                </PopoverContent>
+              </Popover>
+              <Plane className="absolute right-3 top-3.5 opacity-60 pointer-events-none" />
+            </div>
+            {errors.origin && <p className="mt-1 text-xs text-destructive">{errors.origin}</p>}
+          </div>
+          
+          {/* Swap button - hidden on mobile */}
+          <div className="hidden md:flex items-end justify-center">
+            <Button type="button" variant="secondary" size="icon" onClick={swap} aria-label="Swap origin and destination" className={cn("rounded-full", swapAnim && "animate-spin") }>
+              <ArrowLeftRight />
+            </Button>
+          </div>
+          
+          {/* Destination */}
+          <div className="md:col-span-2">
+            <label className="mb-1 block text-sm text-muted-foreground">Fly To</label>
+            <div className="relative">
+              <Popover open={openDestination} onOpenChange={setOpenDestination}>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60 text-left pr-10">
+                    {data.destination ? (
+                      <span>
+                        {getAirportByCode(data.destination)?.city} - {getAirportByCode(data.destination)?.name} ({data.destination})
+                      </span>
+                    ) : (
+                      <span className="text-muted-foreground">Airport Name...</span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent align="start" className="w-[var(--radix-popover-trigger-width)] p-0">
+                  <div className="p-2 border-b">
+                    <div className="flex items-center gap-2 rounded-md bg-secondary/60 px-2">
+                      <Search className="opacity-70" />
+                      <input
+                        className="h-9 flex-1 bg-transparent outline-none"
+                        placeholder="Search airports, cities, or codes"
+                        value={destinationFilter}
+                        onChange={(e) => setDestinationFilter(e.target.value)}
+                        autoFocus
+                      />
+                      {destinationFilter && (
+                        <button
+                          type="button"
+                          className="opacity-60 hover:opacity-100"
+                          onClick={() => setDestinationFilter("")}
+                        >
+                          <X className="h-4 w-4" />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                  <div className="max-h-64 overflow-auto">
+                    {destinationSuggestions.length > 0 ? (
+                      destinationSuggestions.map((airport) => (
+                        <button
+                          key={airport.code}
+                          type="button"
+                          className="w-full text-left px-3 py-2 hover:bg-accent border-b border-border/50 last:border-b-0"
+                          onClick={() => {
+                            setData((d) => ({ ...d, destination: airport.code }));
+                            setDestinationFilter("");
+                            setOpenDestination(false);
+                          }}
+                        >
+                          <div className="flex flex-col">
+                            <div className="font-medium">{airport.city}, {airport.country}</div>
+                            <div className="text-sm text-muted-foreground">{airport.name} ({airport.code})</div>
+                          </div>
+                        </button>
+                      ))
+                    ) : (
+                      <div className="px-3 py-2 text-sm text-muted-foreground">No airports found</div>
+                    )}
+                  </div>
+                </PopoverContent>
+              </Popover>
+              <Plane className="absolute right-3 top-3.5 opacity-60 rotate-180 pointer-events-none" />
+            </div>
+            {errors.destination && <p className="mt-1 text-xs text-destructive">{errors.destination}</p>}
+          </div>
+        </div>
+        
+        {/* Date fields */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+          {/* Departure */}
+          <div>
+            <label className="mb-1 block text-sm text-muted-foreground">Departure Date</label>
+            <Popover open={openDepart} onOpenChange={setOpenDepart}>
+              <PopoverTrigger asChild>
+                <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60">
+                  <Calendar className="mr-2 opacity-70" />
+                  {data.departDate ? format(data.departDate, "EEE, dd MMM") : "Departure"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="p-0" align="start">
+                <CalendarWidget mode="single" selected={data.departDate} onSelect={(d) => setData((s)=>({...s, departDate: d ?? undefined}))} initialFocus />
+              </PopoverContent>
+            </Popover>
+            {errors.departDate && <p className="mt-1 text-xs text-destructive">{errors.departDate}</p>}
+          </div>
+          
+          {/* Return */}
+          <div>
+            <label className="mb-1 block text-sm text-muted-foreground">Return Date</label>
+            <Popover open={openReturn} onOpenChange={setOpenReturn}>
+              <PopoverTrigger asChild>
+                <Button variant="outline" disabled={data.tripType!=="round"} className="w-full justify-start h-12 bg-secondary/60 disabled:opacity-70">
+                  <Calendar className="mr-2 opacity-70" />
+                  {data.returnDate ? format(data.returnDate, "EEE, dd MMM") : "Returning"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="p-0" align="start">
+                <CalendarWidget mode="single" selected={data.returnDate} onSelect={(d) => setData((s)=>({...s, returnDate: d ?? undefined}))} initialFocus />
+              </PopoverContent>
+            </Popover>
+            {errors.returnDate && <p className="mt-1 text-xs text-destructive">{errors.returnDate}</p>}
+          </div>
+        </div>
+        
+        {/* Travelers and Class - Hidden on mobile, shown on desktop */}
+        <div className="hidden md:grid md:grid-cols-2 gap-3 md:gap-4">
+          {/* Travelers dropdown */}
+          <div>
+            <label className="mb-1 block text-sm text-muted-foreground">Passengers</label>
+            <Popover open={openTravellers} onOpenChange={setOpenTravellers}>
+              <PopoverTrigger asChild>
+                <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60 text-left">
+                  <span className="truncate">
+                    {data.adults + data.children + data.infants} Passenger{(data.adults + data.children + data.infants) > 1 ? "s" : ""}
+                  </span>
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent align="end" className="w-72">
+                {[
+                  { key: "adults", label: "Adults", caption: "12+", min: 1 },
+                  { key: "children", label: "Children", caption: "2-11", min: 0 },
+                  { key: "infants", label: "Infants", caption: "Under 2", min: 0 },
+                ].map((row) => {
+                  const value = data[row.key as keyof FormState] as number;
+                  return (
+                    <div key={row.key} className="flex items-center justify-between py-2">
+                      <div>
+                        <div className="font-medium">{row.label}</div>
+                        <div className="text-xs text-muted-foreground">{row.caption}</div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          type="button"
+                          size="icon"
+                          variant="secondary"
+                          onClick={() =>
+                            setData((d) => {
+                              const next = Math.max(row.min, value - 1);
+                              const updated = { ...d, [row.key]: next } as FormState;
+                              if (row.key === "adults" && updated.infants > next) {
+                                updated.infants = next; // infants cannot exceed adults
+                              }
+                              return updated;
+                            })
+                          }
+                          aria-label={`Decrease ${row.label}`}
+                        >
+                          <Minus className="h-4 w-4" />
+                        </Button>
+                        <span className="w-6 text-center">{value}</span>
+                        <Button
+                          type="button"
+                          size="icon"
+                          variant="secondary"
+                          onClick={() =>
+                            setData((d) => {
+                              const cap = 9; // typical cap
+                              const total = d.adults + d.children + d.infants;
+                              if (total >= cap) return d;
+                              const updated = { ...d, [row.key]: value + 1 } as FormState;
+                              if (row.key === "infants" && updated.infants > updated.adults) {
+                                // infants cannot exceed adults
+                                return d;
+                              }
+                              return updated;
+                            })
+                          }
+                          aria-label={`Increase ${row.label}`}
+                        >
+                          <Plus className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  );
+                })}
+                <div className="mt-3 flex justify-end">
+                  <Button type="button" onClick={() => setOpenTravellers(false)}>Done</Button>
+                </div>
+              </PopoverContent>
+            </Popover>
+            {(errors.adults || errors.infants) && (
+              <p className="mt-1 text-xs text-destructive">{errors.adults || errors.infants}</p>
+            )}
+          </div>
+          
+          {/* Cabin */}
+          <div>
+            <label className="mb-1 block text-sm text-muted-foreground">Class</label>
+            <Select value={data.cabin} onValueChange={(v)=> setData((d)=>({...d, cabin: v as FormState["cabin"]}))}>
+              <SelectTrigger className="h-12 bg-secondary/60">
+                <SelectValue placeholder="Economy" />
+              </SelectTrigger>
+              <SelectContent className="z-50">
+                {cabinClasses.map((c)=> (
+                  <SelectItem key={c} value={c}>{c}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {errors.cabin && <p className="mt-1 text-xs text-destructive">{errors.cabin}</p>}
+          </div>
+        </div>
+        
+        {/* Contact fields */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+          {/* Phone */}
+          <div>
+            <label className="mb-1 block text-sm text-muted-foreground">Phone Number</label>
+            <div className="relative">
+              <div className="absolute left-3 top-3.5 flex items-center gap-2 z-10">
+                <span className="text-lg">🇬🇧</span>
+                <span className="text-sm text-muted-foreground">+44</span>
               </div>
-            </PopoverContent>
-          </Popover>
-          {(errors.adults || errors.infants) && (
-            <p className="mt-1 text-xs text-destructive">{errors.adults || errors.infants}</p>
-          )}
-        </div>
-        {/* Cabin */}
-        <div className="col-span-full sm:col-span-1">
-          <label className="mb-1 block text-sm text-muted-foreground">Class</label>
-          <Select value={data.cabin} onValueChange={(v)=> setData((d)=>({...d, cabin: v as FormState["cabin"]}))}>
-            <SelectTrigger className="h-12 bg-secondary/60">
-              <SelectValue placeholder="Economy" />
-            </SelectTrigger>
-            <SelectContent className="z-50">
-              {cabinClasses.map((c)=> (
-                <SelectItem key={c} value={c}>{c}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          {errors.cabin && <p className="mt-1 text-xs text-destructive">{errors.cabin}</p>}
-        </div>
-        {/* Phone */}
-        <div className="col-span-full sm:col-span-1 md:col-span-2">
-          <label className="mb-1 block text-sm text-muted-foreground">Phone Number</label>
-          <div className="relative">
-            <Input placeholder="e.g., +44 20 1234 5678" inputMode="tel" className="h-12 bg-secondary/60 pr-10" value={data.phone ?? ""} onChange={(e)=> setData((d)=>({...d, phone: e.target.value}))} />
-            <Phone className="absolute right-3 top-3.5 opacity-70" />
+              <Input 
+                placeholder="UK Number" 
+                inputMode="tel" 
+                className="h-12 bg-secondary/60 pl-16 pr-10" 
+                value={data.phone ?? ""} 
+                onChange={(e)=> setData((d)=>({...d, phone: e.target.value}))} 
+              />
+              <Phone className="absolute right-3 top-3.5 opacity-70" />
+            </div>
+            {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
           </div>
-          {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
-        </div>
-        {/* Email */}
-        <div className="col-span-full sm:col-span-1 md:col-span-2">
-          <label className="mb-1 block text-sm text-muted-foreground">Email Address</label>
-          <div className="relative">
-            <Input placeholder="Email (optional)" type="email" className="h-12 bg-secondary/60 pr-10" value={data.email ?? ""} onChange={(e)=> setData((d)=>({...d, email: e.target.value}))} />
-            <Mail className="absolute right-3 top-3.5 opacity-70" />
+          
+          {/* Email */}
+          <div>
+            <label className="mb-1 block text-sm text-muted-foreground">Email Address</label>
+            <div className="relative">
+              <Input 
+                placeholder="Email (Optional)" 
+                type="email" 
+                className="h-12 bg-secondary/60 pr-10" 
+                value={data.email ?? ""} 
+                onChange={(e)=> setData((d)=>({...d, email: e.target.value}))} 
+              />
+              <Mail className="absolute right-3 top-3.5 opacity-70" />
+            </div>
+            {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
           </div>
-          {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
         </div>
+        
         {/* Submit */}
-        <div className="md:col-span-2 flex items-end col-span-full">
+        <div className="pt-2">
           <Button type="submit" variant="hero" className="w-full h-12 group text-base">
-            Search Flights
-            <ArrowLeftRight className="transition-transform group-hover:translate-x-0.5" />
+            Search Flight
+            <Search className="ml-2 transition-transform group-hover:translate-x-0.5" />
           </Button>
         </div>
       </div>
