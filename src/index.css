@@ -107,6 +107,11 @@
     pointer-events: auto !important;
   }
   
+  /* Ensure content inside popovers is always interactive */
+  [data-radix-popper-content-wrapper] * {
+    pointer-events: auto;
+  }
+  
   /* Mobile container for better positioning */
   .mobile-container {
     width: 100%;
