@@ -91,11 +91,30 @@
     --radius: 0.75rem;
   }
   
-  /* Mobile optimization */
+  /* Mobile optimization & Smoothness improvements */
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+  }
+  
   html, body {
     overflow-x: hidden;
     width: 100%;
     -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  
+  /* Performance optimizations */
+  * {
+    box-sizing: border-box;
+  }
+  
+  *::before,
+  *::after {
+    box-sizing: border-box;
   }
   
   /* Fix for touch events on mobile */
@@ -162,5 +181,75 @@
   }
   .mobile-safe-bottom {
     padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+  
+  /* Smooth transitions and animations */
+  .smooth-transition {
+    transition: var(--transition-smooth);
+  }
+  
+  /* Hardware acceleration for better performance */
+  .gpu-accelerated {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+  
+  /* Smooth hover effects */
+  .smooth-hover {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .smooth-hover:hover {
+    transform: translateY(-1px);
+  }
+  
+  /* Optimized focus states */
+  .focus-smooth:focus {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+    transition: outline-offset 0.2s ease;
+  }
+  
+  /* Smooth scroll for containers */
+  .smooth-scroll {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Reduce motion for users who prefer it */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+  
+  /* Improve button and interactive element smoothness */
+  button, [role="button"], input, select, textarea {
+    transition: all 0.15s ease;
+  }
+  
+  /* Smooth image loading */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  /* Optimize for touch devices */
+  @media (hover: none) and (pointer: coarse) {
+    .hover\:scale-105:hover {
+      transform: none;
+    }
+    
+    button:active,
+    [role="button"]:active {
+      transform: scale(0.98);
+      transition: transform 0.1s ease;
+    }
   }
 }

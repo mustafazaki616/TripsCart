@@ -1,51 +1,27 @@
 import * as React from 'react';
-import { Phone, X } from 'lucide-react';
+import { Phone, MessageSquare } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { sendAdminEmail } from '@/lib/email';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 const EmergencyCallButton = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const [phoneNumber, setPhoneNumber] = React.useState('');
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
-  const [showSuccess, setShowSuccess] = React.useState(false);
-  const [error, setError] = React.useState('');
 
   const openModal = () => {
     setIsModalOpen(true);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Validate phone number
-    if (!phoneNumber.trim()) {
-      setError('Please enter your phone number');
-      return;
-    }
-    
-    setIsSubmitting(true);
-    setError('');
-    
-    try {
-      // Send email to admin
-      await sendAdminEmail({
-        phone: phoneNumber,
-        requestType: 'Emergency Flight Callback Request'
-      }, 'Emergency Flight Callback');
-      
-      // Show success message
-      setShowSuccess(true);
-      setPhoneNumber('');
-    } catch (err) {
-      console.error('Failed to send emergency callback request:', err);
-      setError('Failed to send your request. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
+  const handleLandlineCall = () => {
+    window.location.href = 'tel:019-315-87001';
+    setIsModalOpen(false);
   };
+
+  const handleWhatsAppCall = () => {
+    window.open('https://wa.me/447304229064', '_blank');
+    setIsModalOpen(false);
+  };
+
+
 
   return (
     <>
@@ -61,7 +37,7 @@ const EmergencyCallButton = () => {
               </div>
             </TooltipTrigger>
             <TooltipContent side="left" className="bg-[#333333] text-white border-none py-2 px-4 rounded-lg">
-              <span className="text-sm font-medium">Emergency Flights Only (Free Instant Callback)</span>
+              <span className="text-sm font-medium">Contact Us - Call or WhatsApp</span>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -70,58 +46,49 @@ const EmergencyCallButton = () => {
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Emergency Flight Request</DialogTitle>
+            <DialogTitle>Contact Us</DialogTitle>
           </DialogHeader>
           
-          {showSuccess ? (
-            <div className="py-6 text-center">
-              <div className="mb-4 text-green-500 flex justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-medium">Request Received!</h3>
-              <p className="text-sm text-muted-foreground mt-2">
-                We'll call you back immediately for your emergency flight needs.
-              </p>
+          <div className="py-4 space-y-4">
+            <p className="text-sm text-muted-foreground text-center">
+              Choose how you'd like to contact us:
+            </p>
+            
+            <div className="space-y-3">
               <Button 
-                className="mt-4" 
-                onClick={() => {
-                  setShowSuccess(false);
-                  setIsModalOpen(false);
-                }}
+                onClick={handleLandlineCall}
+                className="w-full h-14 flex items-center justify-center gap-3 text-left"
+                variant="outline"
               >
-                Close
+                <Phone className="h-5 w-5 text-primary" />
+                <div className="flex flex-col items-start">
+                  <span className="font-medium">Call Landline</span>
+                  <span className="text-sm text-muted-foreground">019-315-87001</span>
+                </div>
+              </Button>
+              
+              <Button 
+                onClick={handleWhatsAppCall}
+                className="w-full h-14 flex items-center justify-center gap-3 text-left bg-green-600 hover:bg-green-700 text-white"
+              >
+                <MessageSquare className="h-5 w-5" />
+                <div className="flex flex-col items-start">
+                  <span className="font-medium">WhatsApp Chat</span>
+                  <span className="text-sm text-green-100">+44 7304 229064</span>
+                </div>
               </Button>
             </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-4 py-4">
-              <div className="space-y-2">
-                <p className="text-sm text-muted-foreground">
-                  Enter your phone number and we'll call you back immediately for emergency flight bookings.
-                </p>
-                <div className="relative">
-                  <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    type="tel"
-                    placeholder="Your phone number"
-                    className="pl-10"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                  />
-                </div>
-                {error && <p className="text-sm text-destructive">{error}</p>}
-              </div>
-              <div className="flex justify-end gap-2">
-                <Button type="button" variant="outline" onClick={() => setIsModalOpen(false)}>
-                  Cancel
-                </Button>
-                <Button type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? 'Sending...' : 'Request Callback'}
-                </Button>
-              </div>
-            </form>
-          )}
+            
+            <div className="text-center pt-2">
+              <Button 
+                variant="ghost" 
+                onClick={() => setIsModalOpen(false)}
+                className="text-sm"
+              >
+                Cancel
+              </Button>
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
     </>

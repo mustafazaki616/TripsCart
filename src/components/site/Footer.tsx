@@ -28,9 +28,9 @@ const Footer = () => {
           <div>
             <div className="font-semibold mb-3">Follow</div>
             <div className="flex items-center gap-3 text-muted-foreground">
-              <a href="#" aria-label="Twitter" className="hover:text-foreground"><Twitter /></a>
-              <a href="#" aria-label="Facebook" className="hover:text-foreground"><Facebook /></a>
-              <a href="#" aria-label="Instagram" className="hover:text-foreground"><Instagram /></a>
+              <a href="https://twitter.com" aria-label="Twitter" className="hover:text-foreground" target="_blank" rel="noopener noreferrer"><Twitter /></a>
+              <a href="https://www.facebook.com/share/1A38pdBkqU/?mibextid=wwXIfr" aria-label="Facebook" className="hover:text-foreground" target="_blank" rel="noopener noreferrer"><Facebook /></a>
+              <a href="https://www.instagram.com/tripscartuk?igsh=MWo0bzV1cm8yYWp3Nw%3D%3D&utm_source=qr" aria-label="Instagram" className="hover:text-foreground" target="_blank" rel="noopener noreferrer"><Instagram /></a>
             </div>
           </div>
         </div>
