@@ -1,73 +1,104 @@
-# Welcome to your Lovable project
+# TripsCart - Travel Booking Platform
 
-## Project info
+## Project Overview
 
-**URL**: https://lovable.dev/projects/b6c35374-3f9f-4a9e-a319-74a2262ec5ad
+TripsCart is a modern travel booking platform built with React, TypeScript, and Tailwind CSS. The application provides a responsive user interface for booking flights, hotels, and other travel services.
 
-## How can I edit this code?
+## Features
 
-There are several ways of editing your application.
+- **Responsive Design**: Fully optimized for mobile, tablet, and desktop views
+- **Modern UI**: Built with Tailwind CSS and Shadcn UI components
+- **Flight Booking**: Search and book flights with flexible date options
+- **Hotel Booking**: Find and reserve accommodations
+- **User Authentication**: Secure login and registration system
+- **Booking Management**: View and manage your travel bookings
 
-**Use Lovable**
+## Getting Started
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/b6c35374-3f9f-4a9e-a319-74a2262ec5ad) and start prompting.
+### Prerequisites
 
-Changes made via Lovable will be committed automatically to this repo.
+- Node.js (v16 or higher)
+- npm or yarn
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+### Installation
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Clone the repository
+git clone https://github.com/mustafazaki616/TripsCart.git
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Navigate to the project directory
+cd TripsCart
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Install dependencies
+npm install
+# or
+yarn install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start the development server
 npm run dev
+# or
+yarn dev
 ```
 
-**Edit a file directly in GitHub**
+The application will be available at `http://localhost:8080`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Technology Stack
 
-**Use GitHub Codespaces**
+- **Frontend Framework**: React with TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: Shadcn UI
+- **Build Tool**: Vite
+- **State Management**: React Context API
+- **Form Handling**: React Hook Form
+- **Routing**: React Router
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Project Structure
 
-## What technologies are used for this project?
+```
+src/
+├── assets/        # Static assets like images and icons
+├── components/    # Reusable UI components
+│   ├── layout/    # Layout components (Navbar, Footer, etc.)
+│   ├── site/      # Site-specific components
+│   └── ui/        # UI components from Shadcn
+├── hooks/         # Custom React hooks
+├── lib/           # Utility functions and configurations
+├── pages/         # Page components
+└── styles/        # Global styles
+```
 
-This project is built with:
+## Contributing
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-## How can I deploy this project?
+## License
 
-Simply open [Lovable](https://lovable.dev/projects/b6c35374-3f9f-4a9e-a319-74a2262ec5ad) and click on Share -> Publish.
+This project is licensed under the MIT License.
 
-## Can I connect a custom domain to my Lovable project?
 
-Yes, you can!
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+
+
+
+
+## Deployment
+
+The project can be deployed using various platforms:
+
+### Vercel (Recommended)
+
+1. Push your code to GitHub
+2. Import your repository in Vercel
+3. Configure the build settings:
+   - Framework Preset: Vite
+   - Build Command: `npm run build`
+   - Output Directory: `dist`
+
+### Netlify
+
+1. Push your code to GitHub
+2. Import your repository in Netlify
+3. Configure the build settings:
+   - Build Command: `npm run build`
+   - Publish Directory: `dist`
