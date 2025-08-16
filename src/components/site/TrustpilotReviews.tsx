@@ -11,13 +11,13 @@ const reviews = [
   {
     name: "Samreen Khalid",
     date: "Nov 24, 2024",
-    text: "I really love My Trip UK! They always have the best deals and do an amazing job taking care...",
+    text: "I really love TripsCart UK! They always have the best deals and do an amazing job taking care...",
     initials: "SK",
   },
   {
     name: "Akhil Firman",
     date: "Nov 21, 2024",
-    text: "I highly recommend them. My Trip UK has been my travel agent for a long time and has...",
+    text: "I highly recommend them. TripsCart UK has been my travel agent for a long time and has...",
     initials: "AF",
   },
 ];

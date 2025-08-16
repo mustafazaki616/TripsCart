@@ -16,8 +16,8 @@ const Navbar = () => {
             <a href="tel:0208-004-4475" className="flex items-center gap-1 hover:text-white/80 transition-colors">
               <Phone className="w-3 h-3" /> +44 01315 87001
             </a>
-            <a href="mailto:sales@mytripuk.com" className="flex items-center gap-1 hover:text-white/80 transition-colors">
-              <Mail className="w-3 h-3" /> sales@mytripuk.com
+            <a href="mailto:info@tripscart.co.uk" className="flex items-center gap-1 hover:text-white/80 transition-colors">
+              <Mail className="w-3 h-3" /> info@tripscart.co.uk
             </a>
             <div className="flex items-center gap-1">
               <span className="flex items-center gap-1">
@@ -148,8 +148,8 @@ const Navbar = () => {
                   <a href="tel:0208-004-4475" className="flex items-center gap-1 text-xs">
                     <Phone className="w-3 h-3" /> +44 01315 87001
                   </a>
-                  <a href="mailto:sales@mytripuk.com" className="flex items-center gap-1 text-xs">
-                    <Mail className="w-3 h-3" /> sales@mytripuk.com
+                  <a href="mailto:info@tripscart.com" className="flex items-center gap-1 text-xs">
+                    <Mail className="w-3 h-3" /> info@tripscart.co.uk
                   </a>
                 </div>
                 <div className="flex items-center gap-3 mt-3 justify-center">
