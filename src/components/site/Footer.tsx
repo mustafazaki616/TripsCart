@@ -3,11 +3,11 @@ import { Facebook, Instagram, Twitter } from "lucide-react";
 const Footer = () => {
   return (
     <footer className="border-t bg-background px-4 sm:px-6">
-      <div className="container mx-auto py-8 md:py-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+      <div className="container mx-auto py-6 md:py-12">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
           <div>
-                    <div className="text-xl font-bold">TripsCart</div>
-        <p className="mt-2 text-sm text-muted-foreground">TripsCart offers a seamless flight search experience, smart comparisons, and secure checkout to help you book the best fares with ease.</p>
+            <div className="text-lg sm:text-xl font-bold">TripsCart</div>
+            <p className="mt-2 text-xs sm:text-sm text-muted-foreground">TripsCart offers a seamless flight search experience, smart comparisons, and secure checkout to help you book the best fares with ease.</p>
           </div>
           <div>
             <div className="font-semibold mb-3">Company</div>
@@ -34,9 +34,9 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="mt-8 pt-6 border-t text-xs text-muted-foreground flex items-center justify-between">
-          <div>© {new Date().getFullYear()} TripsCart. All rights reserved.</div>
-          <div className="flex gap-4">
+        <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t text-xs text-muted-foreground flex flex-col sm:flex-row items-center sm:justify-between gap-4 sm:gap-0">
+          <div className="text-center sm:text-left">© {new Date().getFullYear()} TripsCart. All rights reserved.</div>
+          <div className="flex gap-4 text-center">
             <a href="#" className="hover:text-foreground">Privacy Policy</a>
             <a href="#" className="hover:text-foreground">Terms of Use</a>
           </div>

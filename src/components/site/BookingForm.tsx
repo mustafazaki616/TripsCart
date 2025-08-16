@@ -164,10 +164,10 @@ const BookingForm: React.FC = () => {
 
   return (
     <>
-    <form onSubmit={submit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-3 sm:p-4 md:p-6 w-full max-w-[100vw] overflow-x-hidden">
+    <form onSubmit={submit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-3 sm:p-4 md:p-6 w-full max-w-full overflow-hidden">
       {/* Category tabs */}
       <Tabs defaultValue="flight" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 h-auto sm:h-14 rounded-t-lg bg-secondary/80 p-1 flex-wrap">
+        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 h-auto sm:h-14 rounded-t-lg bg-secondary/80 p-1 flex-wrap gap-1 text-xs sm:text-sm">
           <TabsTrigger value="flight" className="data-[state=active]:text-primary data-[state=active]:font-semibold">Flight</TabsTrigger>
           <TabsTrigger value="hotels" className="data-[state=active]:text-primary data-[state=active]:font-semibold">Hotels</TabsTrigger>
           <TabsTrigger value="flighthotel" className="data-[state=active]:text-primary data-[state=active]:font-semibold">Flights & Hotels</TabsTrigger>
@@ -183,8 +183,8 @@ const BookingForm: React.FC = () => {
         {/* Flight Form */}
         <TabsContent value="flight">
         {/* Top controls */}
-        <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground px-1">
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground px-1">
+        <div className="flex items-center gap-2 sm:gap-3">
           <label className="inline-flex items-center gap-2">
             <input
               type="radio"
@@ -206,7 +206,7 @@ const BookingForm: React.FC = () => {
             One Way
           </label>
         </div>
-        <div className="flex items-center gap-3 ml-auto">
+        <div className="flex items-center gap-2 sm:gap-3 ml-auto">
           <div className="inline-flex items-center gap-2 text-sm">
             <UserRound className="opacity-70 w-4 h-4" />
             <span className="whitespace-nowrap">
@@ -218,7 +218,7 @@ const BookingForm: React.FC = () => {
       </div>
 
       {/* Fields grid */}
-      <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-6 gap-3 md:gap-4">
+      <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-6 gap-3 md:gap-4 px-1 sm:px-0">
         {/* Origin */}
         <div className="col-span-full sm:col-span-1 md:col-span-2">
           <label className="mb-1 block text-sm text-muted-foreground">Fly From</label>

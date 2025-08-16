@@ -38,7 +38,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      <nav className="container mx-auto flex items-center justify-between py-4 px-4 sm:px-6">
+      <nav className="container mx-auto flex items-center justify-between py-3 px-4 sm:px-6">
         <a href="/" className="flex items-center gap-2">
           <ShoppingCart className="text-primary" />
           <span className="text-lg font-bold">TripsCart</span>
@@ -94,16 +94,16 @@ const Navbar = () => {
               <Menu />
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-[85vw] max-w-[300px] p-0">
-            <div className="p-4 border-b flex items-center gap-2">
+          <SheetContent side="left" className="w-[85vw] max-w-[280px] p-0 border-r">
+            <div className="p-4 border-b flex items-center gap-2 bg-primary/10">
               <ShoppingCart className="text-primary" />
               <span className="text-lg font-bold">TripsCart</span>
             </div>
-            <nav className="p-2 overflow-y-auto max-h-[calc(100vh-80px)]">
-              <a href="/" className="block px-3 py-2 rounded hover:bg-accent">HOME</a>
-              <a href="/about" className="block px-3 py-2 rounded hover:bg-accent">ABOUT</a>
+            <nav className="p-2 overflow-y-auto max-h-[calc(100vh-80px)] text-sm">
+              <a href="/" className="block px-3 py-2.5 rounded hover:bg-accent border-b">HOME</a>
+              <a href="/about" className="block px-3 py-2.5 rounded hover:bg-accent border-b">ABOUT</a>
               <Collapsible>
-                <CollapsibleTrigger className="w-full text-left px-3 py-2 rounded hover:bg-accent inline-flex items-center justify-between">
+                <CollapsibleTrigger className="w-full text-left px-3 py-2.5 rounded hover:bg-accent inline-flex items-center justify-between border-b">
                   <span>FLIGHTS</span> <ChevronDown className="w-4 h-4" />
                 </CollapsibleTrigger>
                 <CollapsibleContent className="pl-4">
@@ -115,7 +115,7 @@ const Navbar = () => {
                 </CollapsibleContent>
               </Collapsible>
               <Collapsible>
-                <CollapsibleTrigger className="w-full text-left px-3 py-2 rounded hover:bg-accent inline-flex items-center justify-between">
+                <CollapsibleTrigger className="w-full text-left px-3 py-2.5 rounded hover:bg-accent inline-flex items-center justify-between border-b">
                   <span>FLIGHTS TO AFRICA</span> <ChevronDown className="w-4 h-4" />
                 </CollapsibleTrigger>
                 <CollapsibleContent className="pl-4">
@@ -126,7 +126,7 @@ const Navbar = () => {
                 </CollapsibleContent>
               </Collapsible>
               <Collapsible>
-                <CollapsibleTrigger className="w-full text-left px-3 py-2 rounded hover:bg-accent inline-flex items-center justify-between">
+                <CollapsibleTrigger className="w-full text-left px-3 py-2.5 rounded hover:bg-accent inline-flex items-center justify-between border-b">
                   <span>UMRAH</span> <ChevronDown className="w-4 h-4" />
                 </CollapsibleTrigger>
                 <CollapsibleContent className="pl-4">
@@ -139,9 +139,31 @@ const Navbar = () => {
                   <a className="block px-3 py-2 rounded hover:bg-accent" href="/umrah">Ramadan Offers</a>
                 </CollapsibleContent>
               </Collapsible>
-                              <a href="/hajj" className="block px-3 py-2 rounded hover:bg-accent">HAJJ</a>
-                <a href="/booking-terms" className="block px-3 py-2 rounded hover:bg-accent">BOOKING TERMS</a>
-                <a href="/contact" className="block px-3 py-2 rounded hover:bg-accent">CONTACT</a>
+              <a href="/hajj" className="block px-3 py-2.5 rounded hover:bg-accent border-b">HAJJ</a>
+              <a href="/booking-terms" className="block px-3 py-2.5 rounded hover:bg-accent border-b">BOOKING TERMS</a>
+              <a href="/contact" className="block px-3 py-2.5 rounded hover:bg-accent border-b">CONTACT</a>
+              
+              <div className="mt-4 px-3 py-2 bg-primary/10 rounded">
+                <div className="flex flex-col gap-2">
+                  <a href="tel:0208-004-4475" className="flex items-center gap-1 text-xs">
+                    <Phone className="w-3 h-3" /> +44 01315 87001
+                  </a>
+                  <a href="mailto:sales@mytripuk.com" className="flex items-center gap-1 text-xs">
+                    <Mail className="w-3 h-3" /> sales@mytripuk.com
+                  </a>
+                </div>
+                <div className="flex items-center gap-3 mt-3 justify-center">
+                  <a href="https://facebook.com" aria-label="Facebook" className="hover:text-primary transition-colors">
+                    <Facebook className="w-4 h-4" />
+                  </a>
+                  <a href="https://instagram.com" aria-label="Instagram" className="hover:text-primary transition-colors">
+                    <Instagram className="w-4 h-4" />
+                  </a>
+                  <a href="https://twitter.com" aria-label="Twitter" className="hover:text-primary transition-colors">
+                    <Twitter className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
             </nav>
           </SheetContent>
         </Sheet>

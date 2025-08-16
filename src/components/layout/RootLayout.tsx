@@ -10,11 +10,13 @@ interface RootLayoutProps {
 
 const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
   return (
-    <div className="flex min-h-screen flex-col w-full overflow-x-hidden">
+    <div className="flex min-h-screen flex-col w-full overflow-x-hidden max-w-[100vw]">
       <Navbar />
-      <main className="flex-1 w-full">
-        {children}
-        {/* <MarqueeBanner /> */}
+      <main className="flex-1 w-full max-w-full">
+        <div className="mobile-container">
+          {children}
+          {/* <MarqueeBanner /> */}
+        </div>
       </main>
       <Footer />
       <AccreditationDrawer />
