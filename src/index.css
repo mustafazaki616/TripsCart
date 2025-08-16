@@ -98,6 +98,15 @@
     -webkit-tap-highlight-color: transparent;
   }
   
+  /* Fix for touch events on mobile */
+  [data-radix-popper-content-wrapper] {
+    pointer-events: none !important;
+  }
+  
+  [data-radix-popper-content-wrapper][data-state="open"] {
+    pointer-events: auto !important;
+  }
+  
   /* Mobile container for better positioning */
   .mobile-container {
     width: 100%;
