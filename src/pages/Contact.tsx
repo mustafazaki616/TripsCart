@@ -112,7 +112,7 @@ const Contact = () => {
               <h3 className="text-xl font-semibold mb-3">Call Us</h3>
               <p className="text-muted-foreground mb-4">
                 <a href="tel:+442012345678" className="text-primary hover:underline">
-                  +44 01315 87001
+                  019-315-87001
                 </a>
               </p>
               <p className="text-sm text-muted-foreground">
@@ -128,11 +128,11 @@ const Contact = () => {
               <h3 className="text-xl font-semibold mb-3">Email Us</h3>
               <p className="text-muted-foreground mb-4">
                 <a href="mailto:info@tripscart.com" className="text-primary hover:underline">
-                  info@tripscart.com
+                  info@tripscart.co.uk
                 </a>
               </p>
               <p className="text-sm text-muted-foreground">
-                Support: support@tripscart.com
+                Support: info@tripcart.co.uk
               </p>
             </div>
           </div>
