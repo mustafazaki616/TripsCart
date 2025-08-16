@@ -164,10 +164,10 @@ const BookingForm: React.FC = () => {
 
   return (
     <>
-    <form onSubmit={submit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-4 md:p-6">
+    <form onSubmit={submit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-3 sm:p-4 md:p-6 w-full max-w-[100vw] overflow-x-hidden">
       {/* Category tabs */}
       <Tabs defaultValue="flight" className="w-full">
-        <TabsList className="justify-start bg-transparent p-0 h-auto gap-6">
+        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 h-auto sm:h-14 rounded-t-lg bg-secondary/80 p-1 flex-wrap">
           <TabsTrigger value="flight" className="data-[state=active]:text-primary data-[state=active]:font-semibold">Flight</TabsTrigger>
           <TabsTrigger value="hotels" className="data-[state=active]:text-primary data-[state=active]:font-semibold">Hotels</TabsTrigger>
           <TabsTrigger value="flighthotel" className="data-[state=active]:text-primary data-[state=active]:font-semibold">Flights & Hotels</TabsTrigger>
@@ -218,13 +218,13 @@ const BookingForm: React.FC = () => {
       </div>
 
       {/* Fields grid */}
-      <div className="mt-4 grid grid-cols-1 md:grid-cols-6 gap-3 md:gap-4">
+      <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-6 gap-3 md:gap-4">
         {/* Origin */}
-        <div className="md:col-span-2">
+        <div className="col-span-full sm:col-span-1 md:col-span-2">
           <label className="mb-1 block text-sm text-muted-foreground">Fly From</label>
           <Popover open={openOrigin} onOpenChange={setOpenOrigin}>
             <PopoverTrigger asChild>
-              <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60">
+              <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60 text-left">
                 {data.origin ? (
                   <span>
                     {cities.find((c) => c.code === data.origin)?.name} ({data.origin})
@@ -287,11 +287,11 @@ const BookingForm: React.FC = () => {
           </Button>
         </div>
         {/* Destination */}
-        <div className="md:col-span-2">
+        <div className="col-span-full sm:col-span-1 md:col-span-2">
           <label className="mb-1 block text-sm text-muted-foreground">Fly To</label>
           <Popover open={openDestination} onOpenChange={setOpenDestination}>
             <PopoverTrigger asChild>
-              <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60">
+              <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60 text-left">
                 {data.destination ? (
                   <span>
                     {cities.find((c) => c.code === data.destination)?.name} ({data.destination})
@@ -348,7 +348,7 @@ const BookingForm: React.FC = () => {
           <Plane className="absolute right-3 top-3.5 opacity-60 rotate-180 pointer-events-none hidden md:block" />
         </div>
         {/* Departure */}
-        <div className="md:col-span-2">
+        <div className="col-span-full sm:col-span-1 md:col-span-2">
           <label className="mb-1 block text-sm text-muted-foreground">Departure Date</label>
           <Popover open={openDepart} onOpenChange={setOpenDepart}>
             <PopoverTrigger asChild>
@@ -380,11 +380,11 @@ const BookingForm: React.FC = () => {
           {errors.returnDate && <p className="mt-1 text-xs text-destructive">{errors.returnDate}</p>}
         </div>
         {/* Travelers dropdown matching original style */}
-        <div className="md:col-span-1">
+        <div className="col-span-full sm:col-span-1">
           <label className="mb-1 block text-sm text-muted-foreground">Passengers</label>
           <Popover open={openTravellers} onOpenChange={setOpenTravellers}>
             <PopoverTrigger asChild>
-              <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60">
+              <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60 text-left">
                 <span className="truncate">
                   {data.adults + data.children + data.infants} Passenger{(data.adults + data.children + data.infants) > 1 ? "s" : ""}
                 </span>
@@ -458,7 +458,7 @@ const BookingForm: React.FC = () => {
           )}
         </div>
         {/* Cabin */}
-        <div className="md:col-span-1">
+        <div className="col-span-full sm:col-span-1">
           <label className="mb-1 block text-sm text-muted-foreground">Class</label>
           <Select value={data.cabin} onValueChange={(v)=> setData((d)=>({...d, cabin: v as FormState["cabin"]}))}>
             <SelectTrigger className="h-12 bg-secondary/60">
@@ -473,7 +473,7 @@ const BookingForm: React.FC = () => {
           {errors.cabin && <p className="mt-1 text-xs text-destructive">{errors.cabin}</p>}
         </div>
         {/* Phone */}
-        <div className="md:col-span-2">
+        <div className="col-span-full sm:col-span-1 md:col-span-2">
           <label className="mb-1 block text-sm text-muted-foreground">Phone Number</label>
           <div className="relative">
             <Input placeholder="e.g., +44 20 1234 5678" inputMode="tel" className="h-12 bg-secondary/60 pr-10" value={data.phone ?? ""} onChange={(e)=> setData((d)=>({...d, phone: e.target.value}))} />
@@ -482,7 +482,7 @@ const BookingForm: React.FC = () => {
           {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
         </div>
         {/* Email */}
-        <div className="md:col-span-2">
+        <div className="col-span-full sm:col-span-1 md:col-span-2">
           <label className="mb-1 block text-sm text-muted-foreground">Email Address</label>
           <div className="relative">
             <Input placeholder="Email (optional)" type="email" className="h-12 bg-secondary/60 pr-10" value={data.email ?? ""} onChange={(e)=> setData((d)=>({...d, email: e.target.value}))} />
@@ -491,8 +491,8 @@ const BookingForm: React.FC = () => {
           {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
         </div>
         {/* Submit */}
-        <div className="md:col-span-2 flex items-end">
-          <Button type="submit" variant="hero" className="w-full h-12 group">
+        <div className="md:col-span-2 flex items-end col-span-full">
+          <Button type="submit" variant="hero" className="w-full h-12 group text-base">
             Search Flights
             <ArrowLeftRight className="transition-transform group-hover:translate-x-0.5" />
           </Button>

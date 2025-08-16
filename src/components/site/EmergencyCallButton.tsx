@@ -49,12 +49,12 @@ const EmergencyCallButton = () => {
 
   return (
     <>
-      <div className="fixed bottom-6 left-6 z-50 flex flex-col items-start">
+      <div className="fixed bottom-4 left-4 md:bottom-6 md:left-6 z-50 flex flex-col items-start">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
               <div 
-                className="call-button bg-primary rounded-full p-3 shadow-lg cursor-pointer hover:bg-primary/90 transition-all duration-300"
+                className="call-button bg-primary rounded-full p-3 shadow-lg cursor-pointer hover:bg-primary/90 transition-all duration-300 h-12 w-12 md:h-14 md:w-14 flex items-center justify-center"
                 onClick={openModal}
               >
                 <Phone className="h-6 w-6 text-primary-foreground" />

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import * as React from "react";
+import { cn } from "@/lib/utils";
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -37,7 +38,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      <nav className="container mx-auto flex items-center justify-between py-4">
+      <nav className="container mx-auto flex items-center justify-between py-4 px-4 sm:px-6">
         <a href="/" className="flex items-center gap-2">
           <ShoppingCart className="text-primary" />
           <span className="text-lg font-bold">TripsCart</span>
@@ -93,12 +94,12 @@ const Navbar = () => {
               <Menu />
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-[85vw] sm:max-w-xs p-0">
+          <SheetContent side="left" className="w-[85vw] max-w-[300px] p-0">
             <div className="p-4 border-b flex items-center gap-2">
               <ShoppingCart className="text-primary" />
               <span className="text-lg font-bold">TripsCart</span>
             </div>
-            <nav className="p-2">
+            <nav className="p-2 overflow-y-auto max-h-[calc(100vh-80px)]">
               <a href="/" className="block px-3 py-2 rounded hover:bg-accent">HOME</a>
               <a href="/about" className="block px-3 py-2 rounded hover:bg-accent">ABOUT</a>
               <Collapsible>
