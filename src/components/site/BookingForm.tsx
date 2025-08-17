@@ -493,10 +493,10 @@ const BookingForm: React.FC = () => {
             <div className="relative">
               <div className="absolute left-3 top-3.5 flex items-center gap-2 z-10">
                 <span className="text-lg">🇬🇧</span>
-                <span className="text-sm text-muted-foreground">+44</span>
+                <span className="text-sm text-muted-foreground"></span>
               </div>
               <Input 
-                placeholder="UK Number" 
+                placeholder="UK Number Only" 
                 inputMode="tel" 
                 className="h-10 md:h-12 bg-secondary/60 pl-16 pr-10 text-xs md:text-sm" 
                 value={data.phone ?? ""} 
@@ -512,7 +512,7 @@ const BookingForm: React.FC = () => {
             <label className="mb-1 block text-xs md:text-sm text-muted-foreground">Email Address</label>
             <div className="relative">
               <Input 
-                placeholder="Email (Optional)" 
+                placeholder="Email" 
                 type="email" 
                 className="h-10 md:h-12 bg-secondary/60 pr-10 text-xs md:text-sm" 
                 value={data.email ?? ""} 
