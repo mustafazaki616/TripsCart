@@ -164,9 +164,9 @@ const BookingForm: React.FC = () => {
         {/* Top controls */}
         <div className="px-1">
           {/* Mobile: 2x2 grid layout, Desktop: horizontal layout */}
-          <div className="grid grid-cols-2 gap-2 md:flex md:flex-wrap md:items-center md:gap-4 text-xs md:text-sm text-muted-foreground">
-            {/* Trip type controls */}
-            <div className="flex items-center gap-2 md:gap-3">
+          <div className="grid grid-cols-2 gap-1 md:flex md:flex-wrap md:items-center md:gap-4 text-xs md:text-sm text-muted-foreground">
+            {/* Trip type controls - spans both columns on mobile for better fit */}
+            <div className="col-span-2 md:col-span-1 flex items-center gap-2 md:gap-3 justify-center md:justify-start">
               <label className="inline-flex items-center gap-1 md:gap-2">
                 <input
                   type="radio"
@@ -190,15 +190,15 @@ const BookingForm: React.FC = () => {
             </div>
             
             {/* Traveler count */}
-            <div className="inline-flex items-center gap-1 md:gap-2 justify-end md:justify-start">
+            <div className="inline-flex items-center gap-1 md:gap-2 justify-center md:justify-start">
               <UserRound className="opacity-70 w-3 h-3 md:w-4 md:h-4" />
               <span className="whitespace-nowrap text-xs md:text-sm">
                 {data.adults + data.children + data.infants} Traveler{(data.adults + data.children + data.infants) > 1 ? "s" : ""}
               </span>
             </div>
             
-            {/* Cabin class - spans both columns on mobile */}
-            <div className="col-span-2 md:col-span-1 flex justify-center md:justify-start md:ml-auto">
+            {/* Cabin class */}
+            <div className="flex justify-center md:justify-start md:ml-auto">
               <div className="opacity-70 text-xs md:text-sm">{data.cabin}</div>
             </div>
           </div>
