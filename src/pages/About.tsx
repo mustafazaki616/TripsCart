@@ -40,7 +40,7 @@ const About = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div className="text-center p-4 bg-primary/10 rounded-lg">
                   <div className="text-2xl font-bold text-primary">
-                    <Counter end={10} suffix="K+" />
+                    <Counter end={50} suffix="K+" />
                   </div>
                   <div className="text-sm text-muted-foreground">Happy Travelers</div>
                 </div>

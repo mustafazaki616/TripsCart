@@ -100,7 +100,7 @@ const Contact = () => {
               </p>
               <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
                 <Clock className="w-4 h-4" />
-                <span>Mon-Fri: 9:00 AM - 6:00 PM</span>
+                <span>Mon-Sun: 9:00 AM - 9:00 PM</span>
               </div>
             </div>
 
@@ -173,7 +173,7 @@ const Contact = () => {
                       type="tel"
                       value={formData.phone}
                       onChange={(e) => setField("phone", e.target.value)}
-                      placeholder="+44 (0) 20 1234 5678"
+                      placeholder="019-315-87001"
                       className="h-12"
                     />
                   </div>

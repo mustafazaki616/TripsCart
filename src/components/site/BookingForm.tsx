@@ -162,39 +162,47 @@ const BookingForm: React.FC = () => {
         {/* Flight Form */}
         <TabsContent value="flight">
         {/* Top controls */}
-        <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground px-1">
-        <div className="flex items-center gap-2 sm:gap-3">
-          <label className="inline-flex items-center gap-2">
-            <input
-              type="radio"
-              name="trip"
-              className="accent-[hsl(var(--primary))]"
-              checked={data.tripType === "round"}
-              onChange={() => setData((d) => ({ ...d, tripType: "round" }))}
-            />
-            Round-trip
-          </label>
-          <label className="inline-flex items-center gap-2">
-            <input
-              type="radio"
-              name="trip"
-              className="accent-[hsl(var(--primary))]"
-              checked={data.tripType === "oneway"}
-              onChange={() => setData((d) => ({ ...d, tripType: "oneway", returnDate: undefined }))}
-            />
-            One Way
-          </label>
-        </div>
-        <div className="flex items-center gap-2 sm:gap-3 ml-auto">
-          <div className="inline-flex items-center gap-2 text-sm">
-            <UserRound className="opacity-70 w-4 h-4" />
-            <span className="whitespace-nowrap">
-              {data.adults + data.children + data.infants} Traveler{(data.adults + data.children + data.infants) > 1 ? "s" : ""}
-            </span>
+        <div className="px-1">
+          {/* Mobile: 2x2 grid layout, Desktop: horizontal layout */}
+          <div className="grid grid-cols-2 gap-2 md:flex md:flex-wrap md:items-center md:gap-4 text-xs md:text-sm text-muted-foreground">
+            {/* Trip type controls */}
+            <div className="flex items-center gap-2 md:gap-3">
+              <label className="inline-flex items-center gap-1 md:gap-2">
+                <input
+                  type="radio"
+                  name="trip"
+                  className="accent-[hsl(var(--primary))]"
+                  checked={data.tripType === "round"}
+                  onChange={() => setData((d) => ({ ...d, tripType: "round" }))}
+                />
+                <span className="text-xs md:text-sm">Round-trip</span>
+              </label>
+              <label className="inline-flex items-center gap-1 md:gap-2">
+                <input
+                  type="radio"
+                  name="trip"
+                  className="accent-[hsl(var(--primary))]"
+                  checked={data.tripType === "oneway"}
+                  onChange={() => setData((d) => ({ ...d, tripType: "oneway", returnDate: undefined }))}
+                />
+                <span className="text-xs md:text-sm">One Way</span>
+              </label>
+            </div>
+            
+            {/* Traveler count */}
+            <div className="inline-flex items-center gap-1 md:gap-2 justify-end md:justify-start">
+              <UserRound className="opacity-70 w-3 h-3 md:w-4 md:h-4" />
+              <span className="whitespace-nowrap text-xs md:text-sm">
+                {data.adults + data.children + data.infants} Traveler{(data.adults + data.children + data.infants) > 1 ? "s" : ""}
+              </span>
+            </div>
+            
+            {/* Cabin class - spans both columns on mobile */}
+            <div className="col-span-2 md:col-span-1 flex justify-center md:justify-start md:ml-auto">
+              <div className="opacity-70 text-xs md:text-sm">{data.cabin}</div>
+            </div>
           </div>
-          <div className="opacity-70 text-sm">{data.cabin}</div>
         </div>
-      </div>
 
       {/* Fields grid */}
       <div className="mt-4 space-y-4 px-1 sm:px-0">

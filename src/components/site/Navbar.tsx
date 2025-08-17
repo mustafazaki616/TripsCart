@@ -49,22 +49,22 @@ const Navbar = () => {
           <div className="group relative">
             <a href="#" className="hover:text-yellow-400 transition-colors inline-flex items-center gap-1">FLIGHTS <ChevronDown className="w-4 h-4" /></a>
             <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all absolute left-0 mt-2 w-72 rounded-md border bg-background p-2 shadow-lg">
-              <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan">Cheap Flights to Pakistan</a>
-              <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan">Cheap Flights to India</a>
-              <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan">Cheap Flights to Zimbabwe</a>
-              <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan">Cheap Flights to Turkey</a>
-              <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan">Cheap Flights to Thailand</a>
-              <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan">Cheap Flights to Dubai</a>
+              <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan"> Flights to Pakistan</a>
+              <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan"> Flights to India</a>
+              <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan"> Flights to Zimbabwe</a>
+              <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan"> Flights to Turkey</a>
+              <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan"> Flights to Thailand</a>
+              <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan"> Flights to Dubai</a>
 
             </div>
           </div>
           <div className="group relative">
             <a href="#" className="hover:text-yellow-400 transition-colors inline-flex items-center gap-1">FLIGHTS TO AFRICA <ChevronDown className="w-4 h-4" /></a>
             <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all absolute left-0 mt-2 w-72 rounded-md border bg-background p-2 shadow-lg">
-              <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/africa">Cheap Flights to Accra</a>
-              <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/africa">Cheap Flights to Nairobi</a>
-              <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/africa">Cheap Flights to Lagos</a>
-              <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/africa">Cheap Flights to Harare</a>
+              <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/africa"> Flights to Accra</a>
+              <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/africa"> Flights to Nairobi</a>
+              <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/africa"> Flights to Lagos</a>
+              <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/africa"> Flights to Harare</a>
             </div>
           </div>
           <div className="group relative">
@@ -107,11 +107,11 @@ const Navbar = () => {
                   <span>FLIGHTS</span> <ChevronDown className="w-4 h-4" />
                 </CollapsibleTrigger>
                 <CollapsibleContent className="pl-4">
-                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan">Cheap Flights to Lahore</a>
-                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan">Cheap Flights to Islamabad</a>
-                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan">Cheap Flights to Sialkot</a>
-                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan">Cheap Flights to Karachi</a>
-                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan">Cheap Flights to Peshawar</a>
+                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan"> Flights to Lahore</a>
+                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan"> Flights to Islamabad</a>
+                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan"> Flights to Sialkot</a>
+                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan"> Flights to Karachi</a>
+                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan"> Flights to Peshawar</a>
                 </CollapsibleContent>
               </Collapsible>
               <Collapsible>
@@ -119,10 +119,10 @@ const Navbar = () => {
                   <span>FLIGHTS TO AFRICA</span> <ChevronDown className="w-4 h-4" />
                 </CollapsibleTrigger>
                 <CollapsibleContent className="pl-4">
-                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/africa">Cheap Flights to Accra</a>
-                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/africa">Cheap Flights to Nairobi</a>
-                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/africa">Cheap Flights to Lagos</a>
-                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/africa">Cheap Flights to Harare</a>
+                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/africa"> Flights to Accra</a>
+                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/africa"> Flights to Nairobi</a>
+                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/africa"> Flights to Lagos</a>
+                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/africa"> Flights to Harare</a>
                 </CollapsibleContent>
               </Collapsible>
               <Collapsible>

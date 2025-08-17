@@ -19,7 +19,7 @@ const FlightsPakistan = () => {
           {/* Title */}
           <div className="container mx-auto px-4 text-center mb-12">
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              Cheap International Flights 
+              Affordable International Flights 
             </h1>
           </div>
 

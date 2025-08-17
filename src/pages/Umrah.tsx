@@ -19,7 +19,7 @@ const Umrah = () => {
           {/* Title */}
           <div className="container mx-auto px-4 text-center mb-12">
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              Cheap Umrah Packages from UK
+              Affordable Umrah Packages from UK
             </h1>
           </div>
 
@@ -36,7 +36,7 @@ const Umrah = () => {
           <div className="max-w-3xl mx-auto prose prose-invert">
             <h2>Plan Your Sacred Journey with TripsCart</h2>
             <p>
-              Cheap Umrah packages from the UK provide a budget-friendly option for pilgrims seeking to perform 
+              Affordable Umrah packages from the UK provide a budget-friendly option for pilgrims seeking to perform 
               the sacred journey to Makkah and Madinah. These packages generally cover the essential aspects of 
               the trip, including return flights, visa processing, and hotel accommodations.
             </p>
@@ -57,7 +57,7 @@ const Umrah = () => {
                 <div key={i} className="rounded-xl border bg-card p-6">
                   <div className="text-lg font-medium">Umrah Package {i}</div>
                   <div className="mt-2 text-sm text-muted-foreground">7 nights • Flights + Hotels + Transport</div>
-                  <div className="mt-4 font-semibold">from $470</div>
+                  <div className="mt-4 font-semibold">from £470</div>
                 </div>
               ))}
             </div>

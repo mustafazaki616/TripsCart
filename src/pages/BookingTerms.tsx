@@ -220,9 +220,9 @@ const BookingTerms = () => {
                   For questions about these terms or to make changes to your booking:
                 </p>
                 <ul className="list-disc list-inside space-y-1 ml-4">
-                  <li><strong>Email:</strong> support@tripscart.com</li>
-                  <li><strong>Phone:</strong> +44 (0) 20 1234 5678</li>
-                  <li><strong>Hours:</strong> Monday-Friday 9:00 AM - 6:00 PM GMT</li>
+                  <li><strong>Email:</strong> info@tripscart.co.uk</li>
+                  <li><strong>Phone:</strong> 019-315-87001</li>
+                  <li><strong>Hours:</strong> Monday-Sunday 9:00 AM - 9:00 PM GMT</li>
                   <li><strong>Emergency:</strong> 24/7 emergency contact provided with booking confirmation</li>
                 </ul>
               </div>
