@@ -143,7 +143,7 @@ const BookingForm: React.FC = () => {
 
   return (
     <>
-    <form onSubmit={submit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-3 sm:p-4 md:p-6 w-full max-w-full overflow-hidden relative">
+    <form onSubmit={submit} className="rounded-2xl bg-card/20 backdrop-blur border shadow-soft p-2 sm:p-3 md:p-6 w-full max-w-full overflow-hidden relative">
       {/* Category tabs */}
       <Tabs defaultValue="flight" className="w-full">
         <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 h-auto sm:h-14 rounded-t-lg bg-secondary/80 p-1 flex-wrap gap-1 text-xs sm:text-sm">
@@ -198,15 +198,15 @@ const BookingForm: React.FC = () => {
 
       {/* Fields grid */}
       <div className="mt-4 space-y-4 px-1 sm:px-0">
-        {/* Mobile: Stack all fields vertically, Desktop: Use grid layout */}
-        <div className="grid grid-cols-1 md:grid-cols-6 gap-3 md:gap-4">
+        {/* Mobile: Two fields per row, Desktop: Use grid layout */}
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-2 md:gap-4">
           {/* Origin */}
           <div className="md:col-span-2">
-            <label className="mb-1 block text-sm text-muted-foreground">Fly From</label>
+            <label className="mb-1 block text-xs md:text-sm text-muted-foreground">Fly From</label>
             <div className="relative">
               <Popover open={openOrigin} onOpenChange={setOpenOrigin}>
                 <PopoverTrigger asChild>
-                  <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60 text-left pr-10">
+                  <Button variant="outline" className="w-full justify-start h-10 md:h-12 bg-secondary/60 text-left pr-8 md:pr-10 text-xs md:text-sm">
                     {data.origin ? (
                       <span>
                         {getAirportByCode(data.origin)?.city} - {getAirportByCode(data.origin)?.name} ({data.origin})
@@ -277,11 +277,11 @@ const BookingForm: React.FC = () => {
           
           {/* Destination */}
           <div className="md:col-span-2">
-            <label className="mb-1 block text-sm text-muted-foreground">Fly To</label>
+            <label className="mb-1 block text-xs md:text-sm text-muted-foreground">Fly To</label>
             <div className="relative">
               <Popover open={openDestination} onOpenChange={setOpenDestination}>
                 <PopoverTrigger asChild>
-                  <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60 text-left pr-10">
+                  <Button variant="outline" className="w-full justify-start h-10 md:h-12 bg-secondary/60 text-left pr-8 md:pr-10 text-xs md:text-sm">
                     {data.destination ? (
                       <span>
                         {getAirportByCode(data.destination)?.city} - {getAirportByCode(data.destination)?.name} ({data.destination})
@@ -345,15 +345,15 @@ const BookingForm: React.FC = () => {
         </div>
         
         {/* Date fields */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+        <div className="grid grid-cols-2 gap-2 md:gap-4">
           {/* Departure */}
           <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Departure Date</label>
+            <label className="mb-1 block text-xs md:text-sm text-muted-foreground">Departure Date</label>
             <Popover open={openDepart} onOpenChange={setOpenDepart}>
               <PopoverTrigger asChild>
-                <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60">
-                  <Calendar className="mr-2 opacity-70" />
-                  {data.departDate ? format(data.departDate, "EEE, dd MMM") : "Departure"}
+                <Button variant="outline" className="w-full justify-start h-10 md:h-12 bg-secondary/60 text-xs md:text-sm">
+                  <Calendar className="mr-1 md:mr-2 opacity-70 w-3 h-3 md:w-4 md:h-4" />
+                  {data.departDate ? format(data.departDate, "dd MMM") : "Departure"}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="p-0" align="start">
@@ -365,12 +365,12 @@ const BookingForm: React.FC = () => {
           
           {/* Return */}
           <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Return Date</label>
+            <label className="mb-1 block text-xs md:text-sm text-muted-foreground">Return Date</label>
             <Popover open={openReturn} onOpenChange={setOpenReturn}>
               <PopoverTrigger asChild>
-                <Button variant="outline" disabled={data.tripType!=="round"} className="w-full justify-start h-12 bg-secondary/60 disabled:opacity-70">
-                  <Calendar className="mr-2 opacity-70" />
-                  {data.returnDate ? format(data.returnDate, "EEE, dd MMM") : "Returning"}
+                <Button variant="outline" disabled={data.tripType!=="round"} className="w-full justify-start h-10 md:h-12 bg-secondary/60 disabled:opacity-70 text-xs md:text-sm">
+                  <Calendar className="mr-1 md:mr-2 opacity-70 w-3 h-3 md:w-4 md:h-4" />
+                  {data.returnDate ? format(data.returnDate, "dd MMM") : "Returning"}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="p-0" align="start">
@@ -385,10 +385,10 @@ const BookingForm: React.FC = () => {
         <div className="hidden md:grid md:grid-cols-2 gap-3 md:gap-4">
           {/* Travelers dropdown */}
           <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Passengers</label>
+            <label className="mb-1 block text-xs md:text-sm text-muted-foreground">Passengers</label>
             <Popover open={openTravellers} onOpenChange={setOpenTravellers}>
               <PopoverTrigger asChild>
-                <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60 text-left">
+                <Button variant="outline" className="w-full justify-start h-10 md:h-12 bg-secondary/60 text-left text-xs md:text-sm">
                   <span className="truncate">
                     {data.adults + data.children + data.infants} Passenger{(data.adults + data.children + data.infants) > 1 ? "s" : ""}
                   </span>
@@ -464,9 +464,9 @@ const BookingForm: React.FC = () => {
           
           {/* Cabin */}
           <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Class</label>
+            <label className="mb-1 block text-xs md:text-sm text-muted-foreground">Class</label>
             <Select value={data.cabin} onValueChange={(v)=> setData((d)=>({...d, cabin: v as FormState["cabin"]}))}>
-              <SelectTrigger className="h-12 bg-secondary/60">
+              <SelectTrigger className="h-10 md:h-12 bg-secondary/60 text-xs md:text-sm">
                 <SelectValue placeholder="Economy" />
               </SelectTrigger>
               <SelectContent className="z-50">
@@ -480,10 +480,10 @@ const BookingForm: React.FC = () => {
         </div>
         
         {/* Contact fields */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+        <div className="grid grid-cols-2 gap-2 md:gap-4">
           {/* Phone */}
           <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Phone Number</label>
+            <label className="mb-1 block text-xs md:text-sm text-muted-foreground">Phone Number</label>
             <div className="relative">
               <div className="absolute left-3 top-3.5 flex items-center gap-2 z-10">
                 <span className="text-lg">🇬🇧</span>
@@ -492,7 +492,7 @@ const BookingForm: React.FC = () => {
               <Input 
                 placeholder="UK Number" 
                 inputMode="tel" 
-                className="h-12 bg-secondary/60 pl-16 pr-10" 
+                className="h-10 md:h-12 bg-secondary/60 pl-16 pr-10 text-xs md:text-sm" 
                 value={data.phone ?? ""} 
                 onChange={(e)=> setData((d)=>({...d, phone: e.target.value}))} 
               />
@@ -503,12 +503,12 @@ const BookingForm: React.FC = () => {
           
           {/* Email */}
           <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Email Address</label>
+            <label className="mb-1 block text-xs md:text-sm text-muted-foreground">Email Address</label>
             <div className="relative">
               <Input 
                 placeholder="Email (Optional)" 
                 type="email" 
-                className="h-12 bg-secondary/60 pr-10" 
+                className="h-10 md:h-12 bg-secondary/60 pr-10 text-xs md:text-sm" 
                 value={data.email ?? ""} 
                 onChange={(e)=> setData((d)=>({...d, email: e.target.value}))} 
               />
@@ -520,9 +520,9 @@ const BookingForm: React.FC = () => {
         
         {/* Submit */}
         <div className="pt-2">
-          <Button type="submit" variant="hero" className="w-full h-12 group text-base">
+          <Button type="submit" variant="hero" className="w-full h-10 md:h-12 group text-sm md:text-base">
             Search Flight
-            <Search className="ml-2 transition-transform group-hover:translate-x-0.5" />
+            <Search className="ml-2 w-3 h-3 md:w-4 md:h-4 transition-transform group-hover:translate-x-0.5" />
           </Button>
         </div>
       </div>
