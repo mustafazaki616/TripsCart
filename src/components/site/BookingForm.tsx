@@ -189,16 +189,106 @@ const BookingForm: React.FC = () => {
               </label>
             </div>
             
-            {/* Traveler count */}
+            {/* Traveler count - Mobile: Dropdown, Desktop: Display */}
             <div className="inline-flex items-center gap-1 md:gap-2">
               <UserRound className="opacity-70 w-3 h-3 md:w-4 md:h-4" />
-              <span className="whitespace-nowrap text-xs md:text-sm">
+              {/* Mobile dropdown */}
+              <div className="md:hidden">
+                <Popover open={openTravellers} onOpenChange={setOpenTravellers}>
+                  <PopoverTrigger asChild>
+                    <Button variant="ghost" className="h-auto p-0 text-xs hover:bg-transparent">
+                      <span className="whitespace-nowrap text-xs">
+                        {data.adults + data.children + data.infants} Traveler{(data.adults + data.children + data.infants) > 1 ? "s" : ""}
+                      </span>
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent align="end" className="w-72">
+                    {[
+                      { key: "adults", label: "Adults", caption: "12+", min: 1 },
+                      { key: "children", label: "Children", caption: "2-11", min: 0 },
+                      { key: "infants", label: "Infants", caption: "Under 2", min: 0 },
+                    ].map((row) => {
+                      const value = data[row.key as keyof FormState] as number;
+                      return (
+                        <div key={row.key} className="flex items-center justify-between py-2">
+                          <div>
+                            <div className="font-medium">{row.label}</div>
+                            <div className="text-xs text-muted-foreground">{row.caption}</div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Button
+                              type="button"
+                              size="icon"
+                              variant="secondary"
+                              onClick={() =>
+                                setData((d) => {
+                                  const next = Math.max(row.min, value - 1);
+                                  const updated = { ...d, [row.key]: next } as FormState;
+                                  if (row.key === "adults" && updated.infants > next) {
+                                    updated.infants = next;
+                                  }
+                                  return updated;
+                                })
+                              }
+                              aria-label={`Decrease ${row.label}`}
+                            >
+                              <Minus className="h-4 w-4" />
+                            </Button>
+                            <span className="w-6 text-center">{value}</span>
+                            <Button
+                              type="button"
+                              size="icon"
+                              variant="secondary"
+                              onClick={() =>
+                                setData((d) => {
+                                  const cap = 9;
+                                  const total = d.adults + d.children + d.infants;
+                                  if (total >= cap) return d;
+                                  const updated = { ...d, [row.key]: value + 1 } as FormState;
+                                  if (row.key === "infants" && updated.infants > updated.adults) {
+                                    return d;
+                                  }
+                                  return updated;
+                                })
+                              }
+                              aria-label={`Increase ${row.label}`}
+                            >
+                              <Plus className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                    <div className="mt-3 flex justify-end">
+                      <Button type="button" onClick={() => setOpenTravellers(false)}>Done</Button>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </div>
+              {/* Desktop display */}
+              <span className="hidden md:inline whitespace-nowrap text-xs md:text-sm">
                 {data.adults + data.children + data.infants} Traveler{(data.adults + data.children + data.infants) > 1 ? "s" : ""}
               </span>
             </div>
             
-            {/* Cabin class */}
-            <div className="opacity-70 text-xs md:text-sm">{data.cabin}</div>
+            {/* Cabin class - Mobile: Dropdown, Desktop: Display */}
+            <div>
+              {/* Mobile dropdown */}
+              <div className="md:hidden">
+                <Select value={data.cabin} onValueChange={(v) => setData((d) => ({ ...d, cabin: v as FormState["cabin"] }))}>
+                  <SelectTrigger className="h-auto p-0 border-0 bg-transparent text-xs hover:bg-transparent focus:ring-0 shadow-none">
+                    <SelectValue className="opacity-70 text-xs" />
+                  </SelectTrigger>
+                  <SelectContent className="z-50">
+                    {cabinClasses.map((c) => (
+                      <SelectItem key={c} value={c}>{c}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              {/* Desktop display */}
+              <div className="hidden md:block opacity-70 text-xs md:text-sm">{data.cabin}</div>
+            </div>
           </div>
         </div>
 
@@ -214,7 +304,7 @@ const BookingForm: React.FC = () => {
                 <PopoverTrigger asChild>
                   <Button variant="outline" className="w-full justify-start h-10 md:h-12 bg-secondary/60 text-left pr-8 md:pr-10 text-xs md:text-sm">
                     {data.origin ? (
-                      <span>
+                      <span className="truncate">
                         {getAirportByCode(data.origin)?.city} - {getAirportByCode(data.origin)?.name} ({data.origin})
                       </span>
                     ) : (
@@ -289,7 +379,7 @@ const BookingForm: React.FC = () => {
                 <PopoverTrigger asChild>
                   <Button variant="outline" className="w-full justify-start h-10 md:h-12 bg-secondary/60 text-left pr-8 md:pr-10 text-xs md:text-sm">
                     {data.destination ? (
-                      <span>
+                      <span className="truncate">
                         {getAirportByCode(data.destination)?.city} - {getAirportByCode(data.destination)?.name} ({data.destination})
                       </span>
                     ) : (
@@ -491,18 +581,18 @@ const BookingForm: React.FC = () => {
           <div>
             <label className="mb-1 block text-xs md:text-sm text-muted-foreground">Phone Number</label>
             <div className="relative">
-              <div className="absolute left-3 top-3.5 flex items-center gap-2 z-10">
-                <span className="text-lg">🇬🇧</span>
-                <span className="text-sm text-muted-foreground"></span>
+              <div className="absolute left-2 md:left-3 top-1/2 -translate-y-1/2 flex items-center gap-1 md:gap-2 z-10">
+                <span className="text-sm md:text-lg">🇬🇧</span>
+                <span className="text-xs md:text-sm text-muted-foreground">+44</span>
               </div>
               <Input 
                 placeholder="UK Number Only" 
                 inputMode="tel" 
-                className="h-10 md:h-12 bg-secondary/60 pl-16 pr-10 text-xs md:text-sm" 
+                className="h-10 md:h-12 bg-secondary/60 pl-12 md:pl-16 pr-8 md:pr-10 text-xs md:text-sm placeholder:text-xs md:placeholder:text-sm" 
                 value={data.phone ?? ""} 
                 onChange={(e)=> setData((d)=>({...d, phone: e.target.value}))} 
               />
-              <Phone className="absolute right-3 top-3.5 opacity-70" />
+              <Phone className="absolute right-2 md:right-3 top-1/2 -translate-y-1/2 opacity-70 w-3 h-3 md:w-4 md:h-4" />
             </div>
             {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
           </div>
@@ -512,13 +602,13 @@ const BookingForm: React.FC = () => {
             <label className="mb-1 block text-xs md:text-sm text-muted-foreground">Email Address</label>
             <div className="relative">
               <Input 
-                placeholder="Email" 
+                placeholder="Email (Optional)" 
                 type="email" 
-                className="h-10 md:h-12 bg-secondary/60 pr-10 text-xs md:text-sm" 
+                className="h-10 md:h-12 bg-secondary/60 pr-8 md:pr-10 text-xs md:text-sm placeholder:text-xs md:placeholder:text-sm" 
                 value={data.email ?? ""} 
                 onChange={(e)=> setData((d)=>({...d, email: e.target.value}))} 
               />
-              <Mail className="absolute right-3 top-3.5 opacity-70" />
+              <Mail className="absolute right-2 md:right-3 top-1/2 -translate-y-1/2 opacity-70 w-3 h-3 md:w-4 md:h-4" />
             </div>
             {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
           </div>
