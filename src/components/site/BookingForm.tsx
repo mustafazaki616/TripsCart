@@ -539,13 +539,10 @@ const BookingForm: React.FC = () => {
           <div>
             <label className="mb-1 block text-xs md:text-sm text-muted-foreground">Phone Number</label>
             <div className="relative">
-              <div className="absolute left-2 md:left-3 top-1/2 -translate-y-1/2 flex items-center gap-1 md:gap-2 z-10">
-                <span className="text-xs md:text-sm text-muted-foreground">UK Number Only</span>
-              </div>
               <Input 
-                 
+                placeholder="UK Number Only"
                 inputMode="tel" 
-                className="h-10 md:h-12 bg-secondary/60 pl-12 md:pl-16 pr-8 md:pr-10 text-xs md:text-sm placeholder:text-xs md:placeholder:text-sm" 
+                className="h-10 md:h-12 bg-secondary/60 pl-3 md:pl-4 pr-8 md:pr-10 text-xs md:text-sm placeholder:text-xs md:placeholder:text-sm" 
                 value={data.phone ?? ""} 
                 onChange={(e)=> setData((d)=>({...d, phone: e.target.value}))} 
               />
