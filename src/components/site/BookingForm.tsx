@@ -196,7 +196,7 @@ const BookingForm: React.FC = () => {
               <div className="md:hidden">
                 <Popover open={openTravellers} onOpenChange={setOpenTravellers}>
                   <PopoverTrigger asChild>
-                    <Button variant="ghost" className="h-auto p-0 text-xs hover:bg-transparent">
+                    <Button variant="ghost" className="h-auto p-1 text-xs">
                       <span className="whitespace-nowrap text-xs">
                         {data.adults + data.children + data.infants} Traveler{(data.adults + data.children + data.infants) > 1 ? "s" : ""}
                       </span>
@@ -582,11 +582,10 @@ const BookingForm: React.FC = () => {
             <label className="mb-1 block text-xs md:text-sm text-muted-foreground">Phone Number</label>
             <div className="relative">
               <div className="absolute left-2 md:left-3 top-1/2 -translate-y-1/2 flex items-center gap-1 md:gap-2 z-10">
-                <span className="text-sm md:text-lg">🇬🇧</span>
-                <span className="text-xs md:text-sm text-muted-foreground">+44</span>
+                <span className="text-xs md:text-sm text-muted-foreground">UK Number Only</span>
               </div>
               <Input 
-                placeholder="UK Number Only" 
+                 
                 inputMode="tel" 
                 className="h-10 md:h-12 bg-secondary/60 pl-12 md:pl-16 pr-8 md:pr-10 text-xs md:text-sm placeholder:text-xs md:placeholder:text-sm" 
                 value={data.phone ?? ""} 
