@@ -194,76 +194,34 @@ const BookingForm: React.FC = () => {
               <UserRound className="opacity-70 w-3 h-3 md:w-4 md:h-4" />
               {/* Mobile dropdown */}
               <div className="md:hidden">
-                <Popover open={openTravellers} onOpenChange={setOpenTravellers}>
-                  <PopoverTrigger asChild>
-                    <Button variant="ghost" className="h-auto p-1 text-xs">
+                <Select 
+                  value={`${data.adults + data.children + data.infants}`} 
+                  onValueChange={(v) => {
+                    const total = parseInt(v);
+                    // Simple logic: distribute travelers as adults first
+                    setData((d) => ({ 
+                      ...d, 
+                      adults: Math.max(1, total - d.children - d.infants),
+                      children: Math.min(d.children, total - 1),
+                      infants: Math.min(d.infants, total - 1)
+                    }));
+                  }}
+                >
+                  <SelectTrigger className="h-auto p-0 border-0 bg-transparent text-xs hover:bg-transparent focus:ring-0 shadow-none">
+                    <SelectValue className="opacity-70 text-xs">
                       <span className="whitespace-nowrap text-xs">
                         {data.adults + data.children + data.infants} Traveler{(data.adults + data.children + data.infants) > 1 ? "s" : ""}
                       </span>
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent align="end" className="w-72">
-                    {[
-                      { key: "adults", label: "Adults", caption: "12+", min: 1 },
-                      { key: "children", label: "Children", caption: "2-11", min: 0 },
-                      { key: "infants", label: "Infants", caption: "Under 2", min: 0 },
-                    ].map((row) => {
-                      const value = data[row.key as keyof FormState] as number;
-                      return (
-                        <div key={row.key} className="flex items-center justify-between py-2">
-                          <div>
-                            <div className="font-medium">{row.label}</div>
-                            <div className="text-xs text-muted-foreground">{row.caption}</div>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Button
-                              type="button"
-                              size="icon"
-                              variant="secondary"
-                              onClick={() =>
-                                setData((d) => {
-                                  const next = Math.max(row.min, value - 1);
-                                  const updated = { ...d, [row.key]: next } as FormState;
-                                  if (row.key === "adults" && updated.infants > next) {
-                                    updated.infants = next;
-                                  }
-                                  return updated;
-                                })
-                              }
-                              aria-label={`Decrease ${row.label}`}
-                            >
-                              <Minus className="h-4 w-4" />
-                            </Button>
-                            <span className="w-6 text-center">{value}</span>
-                            <Button
-                              type="button"
-                              size="icon"
-                              variant="secondary"
-                              onClick={() =>
-                                setData((d) => {
-                                  const cap = 9;
-                                  const total = d.adults + d.children + d.infants;
-                                  if (total >= cap) return d;
-                                  const updated = { ...d, [row.key]: value + 1 } as FormState;
-                                  if (row.key === "infants" && updated.infants > updated.adults) {
-                                    return d;
-                                  }
-                                  return updated;
-                                })
-                              }
-                              aria-label={`Increase ${row.label}`}
-                            >
-                              <Plus className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </div>
-                      );
-                    })}
-                    <div className="mt-3 flex justify-end">
-                      <Button type="button" onClick={() => setOpenTravellers(false)}>Done</Button>
-                    </div>
-                  </PopoverContent>
-                </Popover>
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent className="z-50">
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((count) => (
+                      <SelectItem key={count} value={count.toString()}>
+                        {count} Traveler{count > 1 ? "s" : ""}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
               {/* Desktop display */}
               <span className="hidden md:inline whitespace-nowrap text-xs md:text-sm">
