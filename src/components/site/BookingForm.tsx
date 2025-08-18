@@ -164,9 +164,9 @@ const BookingForm: React.FC = () => {
         {/* Top controls */}
         <div className="px-1">
           {/* Mobile: Single row layout, Desktop: horizontal layout */}
-          <div className="flex flex-wrap items-center justify-between gap-1 md:gap-4 text-xs md:text-sm text-muted-foreground">
+          <div className="flex items-center justify-between gap-1 md:gap-4 text-xs md:text-sm text-muted-foreground">
             {/* Trip type controls */}
-            <div className="flex items-center gap-1 md:gap-3">
+            <div className="flex items-center gap-1 md:gap-3 flex-shrink-0">
               <label className="inline-flex items-center gap-1 md:gap-2">
                 <input
                   type="radio"
@@ -190,7 +190,7 @@ const BookingForm: React.FC = () => {
             </div>
             
             {/* Traveler count - Mobile: Dropdown, Desktop: Display */}
-            <div className="inline-flex items-center gap-1 md:gap-2">
+            <div className="inline-flex items-center gap-1 md:gap-2 flex-shrink-0">
               <UserRound className="opacity-70 w-3 h-3 md:w-4 md:h-4" />
               {/* Mobile dropdown */}
               <div className="md:hidden">
@@ -207,7 +207,7 @@ const BookingForm: React.FC = () => {
                     }));
                   }}
                 >
-                  <SelectTrigger className="h-auto p-0 border-0 bg-transparent text-xs hover:bg-transparent focus:ring-0 shadow-none">
+                  <SelectTrigger className="h-auto p-0 border-0 bg-transparent text-xs hover:bg-transparent focus:ring-0 shadow-none w-auto min-w-0">
                     <SelectValue className="opacity-70 text-xs">
                       <span className="whitespace-nowrap text-xs">
                         {data.adults + data.children + data.infants} Traveler{(data.adults + data.children + data.infants) > 1 ? "s" : ""}
@@ -230,7 +230,7 @@ const BookingForm: React.FC = () => {
             </div>
             
             {/* Cabin class - Mobile: Dropdown, Desktop: Display */}
-            <div>
+            <div className="flex-shrink-0">
               {/* Mobile dropdown */}
               <div className="md:hidden">
                 <Select value={data.cabin} onValueChange={(v) => setData((d) => ({ ...d, cabin: v as FormState["cabin"] }))}>
