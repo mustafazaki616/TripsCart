@@ -51,8 +51,8 @@ const HotelsBookingForm: React.FC = () => {
     <>
       {/* Mobile Compact Layout */}
       <div className="block md:hidden space-y-4 p-4 rounded-2xl bg-card/90 backdrop-blur border shadow-soft">
-        <div className="grid grid-cols-1 gap-3">
-          {/* Destination */}
+        <div className="space-y-3">
+          {/* Destination - Full Width */}
           <div className="space-y-2">
             <Label htmlFor="destination" className="text-sm font-medium text-gray-700 flex items-center gap-2">
               <MapPinIcon className="h-4 w-4" />
@@ -68,60 +68,60 @@ const HotelsBookingForm: React.FC = () => {
             />
           </div>
 
-          {/* Check-in Date */}
-          <div className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700">Check-in Date</Label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={cn(
-                    "w-full h-10 justify-start text-left font-normal bg-secondary/60",
-                    !data.checkIn && "text-muted-foreground"
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {data.checkIn ? format(data.checkIn, "PPP") : "Select check-in date"}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  mode="single"
-                  selected={data.checkIn}
-                  onSelect={(date) => setData((d) => ({ ...d, checkIn: date }))}
-                  disabled={(date) => date < new Date()}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
-          </div>
-
-          {/* Check-out Date */}
-          <div className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700">Check-out Date</Label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={cn(
-                    "w-full h-10 justify-start text-left font-normal bg-secondary/60",
-                    !data.checkOut && "text-muted-foreground"
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {data.checkOut ? format(data.checkOut, "PPP") : "Select check-out date"}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  mode="single"
-                  selected={data.checkOut}
-                  onSelect={(date) => setData((d) => ({ ...d, checkOut: date }))}
-                  disabled={(date) => date < new Date() || (data.checkIn && date <= data.checkIn)}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
+          {/* Check-in & Check-out Dates */}
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-gray-700">Check-in Date</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full h-10 justify-start text-left font-normal bg-secondary/60",
+                      !data.checkIn && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {data.checkIn ? format(data.checkIn, "dd/MM/yyyy") : "dd/mm/yyyy"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={data.checkIn}
+                    onSelect={(date) => setData((d) => ({ ...d, checkIn: date }))}
+                    disabled={(date) => date < new Date()}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-gray-700">Check-out Date</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full h-10 justify-start text-left font-normal bg-secondary/60",
+                      !data.checkOut && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {data.checkOut ? format(data.checkOut, "dd/MM/yyyy") : "dd/mm/yyyy"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={data.checkOut}
+                    onSelect={(date) => setData((d) => ({ ...d, checkOut: date }))}
+                    disabled={(date) => date < new Date() || (data.checkIn && date <= data.checkIn)}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
           </div>
 
           {/* Guests & Rooms */}
@@ -175,27 +175,29 @@ const HotelsBookingForm: React.FC = () => {
                 className="h-10 bg-secondary/60"
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="phone" className="text-sm font-medium text-gray-700">Phone Number</Label>
-              <Input
-                id="phone"
-                type="tel"
-                placeholder="Enter phone number"
-                value={data.phone || ""}
-                onChange={(e) => setData((d) => ({ ...d, phone: e.target.value }))}
-                className="h-10 bg-secondary/60"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-medium text-gray-700">Email Address</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="Enter email address"
-                value={data.email || ""}
-                onChange={(e) => setData((d) => ({ ...d, email: e.target.value }))}
-                className="h-10 bg-secondary/60"
-              />
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-2">
+                <Label htmlFor="phone" className="text-sm font-medium text-gray-700">Phone Number</Label>
+                <Input
+                  id="phone"
+                  type="tel"
+                  placeholder="UK Numbers Only"
+                  value={data.phone || ""}
+                  onChange={(e) => setData((d) => ({ ...d, phone: e.target.value }))}
+                  className="h-10 bg-secondary/60"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-sm font-medium text-gray-700">Email Address</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="Email (Optional)"
+                  value={data.email || ""}
+                  onChange={(e) => setData((d) => ({ ...d, email: e.target.value }))}
+                  className="h-10 bg-secondary/60"
+                />
+              </div>
             </div>
           </div>
         </div>

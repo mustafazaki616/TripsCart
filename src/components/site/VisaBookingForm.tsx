@@ -93,11 +93,11 @@ const VisaBookingForm: React.FC = () => {
     <>
       <form onSubmit={onSubmit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-4 md:p-6">
         {/* Main Fields */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-3">
           <div>
             <label className="mb-1 block text-sm text-muted-foreground">Visa Type</label>
             <Select value={data.visaType} onValueChange={(v) => setField("visaType", v)}>
-              <SelectTrigger className="h-12 bg-secondary/60">
+              <SelectTrigger className="h-10 bg-secondary/60">
                 <SelectValue placeholder="Select visa type" />
               </SelectTrigger>
               <SelectContent>
@@ -117,9 +117,9 @@ const VisaBookingForm: React.FC = () => {
                 value={data.destination}
                 onChange={(e) => setField("destination", e.target.value)}
                 placeholder="Enter destination country..."
-                className="h-12 bg-secondary/60 pr-10"
+                className="h-10 bg-secondary/60 pr-10"
               />
-              <MapPin className="absolute right-3 top-3.5 opacity-70" />
+              <MapPin className="absolute right-3 top-2.5 opacity-70" />
             </div>
             {errors.destination && <p className="mt-1 text-xs text-destructive">{errors.destination}</p>}
           </div>
@@ -130,9 +130,9 @@ const VisaBookingForm: React.FC = () => {
                 type="date"
                 value={data.travelDate}
                 onChange={(e) => setField("travelDate", e.target.value)}
-                className="h-12 bg-secondary/60 pr-10"
+                className="h-10 bg-secondary/60 pr-10"
               />
-              <Calendar className="absolute right-3 top-3.5 opacity-70" />
+              <Calendar className="absolute right-3 top-2.5 opacity-70" />
             </div>
             {errors.travelDate && <p className="mt-1 text-xs text-destructive">{errors.travelDate}</p>}
           </div>
@@ -143,9 +143,9 @@ const VisaBookingForm: React.FC = () => {
                 type="date"
                 value={data.returnDate}
                 onChange={(e) => setField("returnDate", e.target.value)}
-                className="h-12 bg-secondary/60 pr-10"
+                className="h-10 bg-secondary/60 pr-10"
               />
-              <Calendar className="absolute right-3 top-3.5 opacity-70" />
+              <Calendar className="absolute right-3 top-2.5 opacity-70" />
             </div>
             {errors.returnDate && <p className="mt-1 text-xs text-destructive">{errors.returnDate}</p>}
           </div>
@@ -156,9 +156,9 @@ const VisaBookingForm: React.FC = () => {
                 value={data.firstName}
                 onChange={(e) => setField("firstName", e.target.value)}
                 placeholder="Enter first name"
-                className="h-12 bg-secondary/60 pr-10"
+                className="h-10 bg-secondary/60 pr-10"
               />
-              <User className="absolute right-3 top-3.5 opacity-70" />
+              <User className="absolute right-3 top-2.5 opacity-70" />
             </div>
             {errors.firstName && <p className="mt-1 text-xs text-destructive">{errors.firstName}</p>}
           </div>
@@ -169,9 +169,9 @@ const VisaBookingForm: React.FC = () => {
                 value={data.lastName}
                 onChange={(e) => setField("lastName", e.target.value)}
                 placeholder="Enter last name"
-                className="h-12 bg-secondary/60 pr-10"
+                className="h-10 bg-secondary/60 pr-10"
               />
-              <User className="absolute right-3 top-3.5 opacity-70" />
+              <User className="absolute right-3 top-2.5 opacity-70" />
             </div>
             {errors.lastName && <p className="mt-1 text-xs text-destructive">{errors.lastName}</p>}
           </div>
@@ -182,9 +182,9 @@ const VisaBookingForm: React.FC = () => {
                 value={data.passportNumber}
                 onChange={(e) => setField("passportNumber", e.target.value)}
                 placeholder="Enter passport number"
-                className="h-12 bg-secondary/60 pr-10"
+                className="h-10 bg-secondary/60 pr-10"
               />
-              <FileText className="absolute right-3 top-3.5 opacity-70" />
+              <FileText className="absolute right-3 top-2.5 opacity-70" />
             </div>
             {errors.passportNumber && <p className="mt-1 text-xs text-destructive">{errors.passportNumber}</p>}
           </div>
@@ -196,9 +196,9 @@ const VisaBookingForm: React.FC = () => {
                 value={data.phone}
                 onChange={(e) => setField("phone", e.target.value)}
                 placeholder="UK Numbers Only"
-                className="h-12 bg-secondary/60 pr-10"
+                className="h-10 bg-secondary/60 pr-10"
               />
-              <Phone className="absolute right-3 top-3.5 opacity-70" />
+              <Phone className="absolute right-3 top-2.5 opacity-70" />
             </div>
             {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
           </div>
@@ -210,22 +210,22 @@ const VisaBookingForm: React.FC = () => {
                 value={data.email}
                 onChange={(e) => setField("email", e.target.value)}
                 placeholder="Email (Optional)"
-                className="h-12 bg-secondary/60 pr-10"
+                className="h-10 bg-secondary/60 pr-10"
               />
-              <Mail className="absolute right-3 top-3.5 opacity-70" />
+              <Mail className="absolute right-3 top-2.5 opacity-70" />
             </div>
             {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
           </div>
-          <div className="md:col-span-2">
+          <div className="col-span-2">
             <label className="mb-1 block text-sm text-muted-foreground">Purpose of Travel</label>
             <div className="relative">
               <Input
                 value={data.purpose}
                 onChange={(e) => setField("purpose", e.target.value)}
                 placeholder="Brief description of travel purpose..."
-                className="h-12 bg-secondary/60 pr-10"
+                className="h-10 bg-secondary/60 pr-10"
               />
-              <FileText className="absolute right-3 top-3.5 opacity-70" />
+              <FileText className="absolute right-3 top-2.5 opacity-70" />
             </div>
             {errors.purpose && <p className="mt-1 text-xs text-destructive">{errors.purpose}</p>}
           </div>

@@ -113,112 +113,127 @@ const CarHireBookingForm: React.FC = () => {
         </div>
 
         {/* Main Fields */}
-        <div className="space-y-4 md:grid md:grid-cols-3 md:gap-4 md:space-y-0">
-          <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Pick-up Location</label>
-            <div className="relative">
-              <Input
-                value={data.pickUpLocation}
-                onChange={(e) => setField("pickUpLocation", e.target.value)}
-                placeholder="Enter Pick-up location..."
-                className="h-11 bg-secondary/60 pr-10 text-sm"
-              />
-              <MapPin className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+        <div className="space-y-4">
+          {/* Pick-up & Drop-off Locations */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="mb-2 block text-sm text-muted-foreground font-medium">Pick-up Location</label>
+              <div className="relative">
+                <Input
+                  value={data.pickUpLocation}
+                  onChange={(e) => setField("pickUpLocation", e.target.value)}
+                  placeholder="Enter Pick-up location..."
+                  className="h-11 bg-secondary/60 pr-10 text-sm"
+                />
+                <MapPin className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+              </div>
+              {errors.pickUpLocation && <p className="mt-1 text-xs text-destructive">{errors.pickUpLocation}</p>}
             </div>
-            {errors.pickUpLocation && <p className="mt-1 text-xs text-destructive">{errors.pickUpLocation}</p>}
+            <div>
+              <label className="mb-2 block text-sm text-muted-foreground font-medium">Drop-off Location</label>
+              <div className="relative">
+                <Input
+                  value={data.dropOffLocation}
+                  onChange={(e) => setField("dropOffLocation", e.target.value)}
+                  placeholder="Enter Drop-off Location..."
+                  className="h-11 bg-secondary/60 pr-10 text-sm"
+                />
+                <MapPin className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+              </div>
+              {errors.dropOffLocation && <p className="mt-1 text-xs text-destructive">{errors.dropOffLocation}</p>}
+            </div>
           </div>
-          <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Pick-up Date</label>
-            <div className="relative">
-              <Input
-                type="date"
-                value={data.pickUpDate}
-                onChange={(e) => setField("pickUpDate", e.target.value)}
-                className="h-11 bg-secondary/60 pr-10 text-sm"
-              />
-              <Calendar className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+
+          {/* Pick-up & Drop-off Dates */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="mb-2 block text-sm text-muted-foreground font-medium">Pick-up Date</label>
+              <div className="relative">
+                <Input
+                  type="date"
+                  value={data.pickUpDate}
+                  onChange={(e) => setField("pickUpDate", e.target.value)}
+                  className="h-11 bg-secondary/60 pr-10 text-sm"
+                />
+                <Calendar className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+              </div>
+              {errors.pickUpDate && <p className="mt-1 text-xs text-destructive">{errors.pickUpDate}</p>}
             </div>
-            {errors.pickUpDate && <p className="mt-1 text-xs text-destructive">{errors.pickUpDate}</p>}
+            <div>
+              <label className="mb-2 block text-sm text-muted-foreground font-medium">Drop-off Date</label>
+              <div className="relative">
+                <Input
+                  type="date"
+                  value={data.dropOffDate}
+                  onChange={(e) => setField("dropOffDate", e.target.value)}
+                  className="h-11 bg-secondary/60 pr-10 text-sm"
+                />
+                <Calendar className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+              </div>
+              {errors.dropOffDate && <p className="mt-1 text-xs text-destructive">{errors.dropOffDate}</p>}
+            </div>
           </div>
-          <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Pick-up Time</label>
-            <div className="relative">
-              <Input
-                type="time"
-                value={data.pickUpTime}
-                onChange={(e) => setField("pickUpTime", e.target.value)}
-                className="h-11 bg-secondary/60 pr-10 text-sm"
-              />
-              <Clock className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+
+          {/* Pick-up & Drop-off Times */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="mb-2 block text-sm text-muted-foreground font-medium">Pick-up Time</label>
+              <div className="relative">
+                <Input
+                  type="time"
+                  value={data.pickUpTime}
+                  onChange={(e) => setField("pickUpTime", e.target.value)}
+                  className="h-11 bg-secondary/60 pr-10 text-sm"
+                />
+                <Clock className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+              </div>
+              {errors.pickUpTime && <p className="mt-1 text-xs text-destructive">{errors.pickUpTime}</p>}
             </div>
-            {errors.pickUpTime && <p className="mt-1 text-xs text-destructive">{errors.pickUpTime}</p>}
+            <div>
+              <label className="mb-2 block text-sm text-muted-foreground font-medium">Drop-off Time</label>
+              <div className="relative">
+                <Input
+                  type="time"
+                  value={data.dropOffTime}
+                  onChange={(e) => setField("dropOffTime", e.target.value)}
+                  className="h-11 bg-secondary/60 pr-10 text-sm"
+                />
+                <Clock className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+              </div>
+              {errors.dropOffTime && <p className="mt-1 text-xs text-destructive">{errors.dropOffTime}</p>}
+            </div>
           </div>
-          <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Drop-off Location</label>
-            <div className="relative">
-              <Input
-                value={data.dropOffLocation}
-                onChange={(e) => setField("dropOffLocation", e.target.value)}
-                placeholder="Enter Drop-off Location..."
-                className="h-11 bg-secondary/60 pr-10 text-sm"
-              />
-              <MapPin className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+
+          {/* Phone & Email */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="mb-2 block text-sm text-muted-foreground font-medium">Phone Number</label>
+              <div className="relative">
+                <Input
+                  type="tel"
+                  value={data.phone}
+                  onChange={(e) => setField("phone", e.target.value)}
+                  placeholder="UK Numbers Only"
+                  className="h-11 bg-secondary/60 pr-10 text-sm"
+                />
+                <Phone className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+              </div>
+              {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
             </div>
-            {errors.dropOffLocation && <p className="mt-1 text-xs text-destructive">{errors.dropOffLocation}</p>}
-          </div>
-          <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Drop-off Date</label>
-            <div className="relative">
-              <Input
-                type="date"
-                value={data.dropOffDate}
-                onChange={(e) => setField("dropOffDate", e.target.value)}
-                className="h-11 bg-secondary/60 pr-10 text-sm"
-              />
-              <Calendar className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+            <div>
+              <label className="mb-2 block text-sm text-muted-foreground font-medium">Email Address</label>
+              <div className="relative">
+                <Input
+                  type="email"
+                  value={data.email}
+                  onChange={(e) => setField("email", e.target.value)}
+                  placeholder="Email (Optional)"
+                  className="h-11 bg-secondary/60 pr-10 text-sm"
+                />
+                <Mail className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+              </div>
+              {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
             </div>
-            {errors.dropOffDate && <p className="mt-1 text-xs text-destructive">{errors.dropOffDate}</p>}
-          </div>
-          <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Drop-off Time</label>
-            <div className="relative">
-              <Input
-                type="time"
-                value={data.dropOffTime}
-                onChange={(e) => setField("dropOffTime", e.target.value)}
-                className="h-11 bg-secondary/60 pr-10 text-sm"
-              />
-              <Clock className="absolute right-3 top-3 opacity-70 w-4 h-4" />
-            </div>
-            {errors.dropOffTime && <p className="mt-1 text-xs text-destructive">{errors.dropOffTime}</p>}
-          </div>
-          <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Phone Number</label>
-            <div className="relative">
-              <Input
-                type="tel"
-                value={data.phone}
-                onChange={(e) => setField("phone", e.target.value)}
-                placeholder="UK Numbers Only"
-                className="h-11 bg-secondary/60 pr-10 text-sm"
-              />
-              <Phone className="absolute right-3 top-3 opacity-70 w-4 h-4" />
-            </div>
-            {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
-          </div>
-          <div className="md:col-span-2">
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Email Address</label>
-            <div className="relative">
-              <Input
-                type="email"
-                value={data.email}
-                onChange={(e) => setField("email", e.target.value)}
-                placeholder="Email (Optional)"
-                className="h-11 bg-secondary/60 pr-10 text-sm"
-              />
-              <Mail className="absolute right-3 top-3 opacity-70 w-4 h-4" />
-            </div>
-            {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
           </div>
         </div>
 

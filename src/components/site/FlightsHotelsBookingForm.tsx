@@ -114,162 +114,162 @@ const FlightsHotelsBookingForm: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-3">
-          {/* Origin */}
-          <div className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-              <PlaneIcon className="h-4 w-4" />
-              From
-            </Label>
-            <Select value={data.origin} onValueChange={(value) => setData(prev => ({ ...prev, origin: value }))}>
-              <SelectTrigger className="h-10 bg-secondary/60">
-                <SelectValue placeholder="Select origin city" />
-              </SelectTrigger>
-              <SelectContent>
-                {popularAirports.map((airport) => (
-                  <SelectItem key={airport.code} value={airport.code}>
-                    {airport.city}, {airport.country} ({airport.code})
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Destination */}
-          <div className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-              <PlaneIcon className="h-4 w-4" />
-              To
-            </Label>
-            <Select value={data.destination} onValueChange={(value) => setData(prev => ({ ...prev, destination: value }))}>
-              <SelectTrigger className="h-10 bg-secondary/60">
-                <SelectValue placeholder="Select destination city" />
-              </SelectTrigger>
-              <SelectContent>
-                {popularAirports.map((airport) => (
-                  <SelectItem key={airport.code} value={airport.code}>
-                    {airport.city}, {airport.country} ({airport.code})
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Departure Date */}
-          <div className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700">Departure Date</Label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={cn(
-                    "w-full h-10 justify-start text-left font-normal bg-secondary/60",
-                    !data.departDate && "text-muted-foreground"
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {data.departDate ? format(data.departDate, "PPP") : "Select departure date"}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  mode="single"
-                  selected={data.departDate}
-                  onSelect={(date) => setData(prev => ({ ...prev, departDate: date }))}
-                  disabled={(date) => date < new Date()}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
-          </div>
-
-          {/* Return Date */}
-          {data.tripType === 'round' && (
+        <div className="space-y-3">
+          {/* Origin & Destination */}
+          <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700">Return Date</Label>
+              <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                <PlaneIcon className="h-4 w-4" />
+                From
+              </Label>
+              <Select value={data.origin} onValueChange={(value) => setData(prev => ({ ...prev, origin: value }))}>
+                <SelectTrigger className="h-10 bg-secondary/60">
+                  <SelectValue placeholder="Select origin city" />
+                </SelectTrigger>
+                <SelectContent>
+                  {popularAirports.map((airport) => (
+                    <SelectItem key={airport.code} value={airport.code}>
+                      {airport.city}, {airport.country} ({airport.code})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                <PlaneIcon className="h-4 w-4" />
+                To
+              </Label>
+              <Select value={data.destination} onValueChange={(value) => setData(prev => ({ ...prev, destination: value }))}>
+                <SelectTrigger className="h-10 bg-secondary/60">
+                  <SelectValue placeholder="Select destination city" />
+                </SelectTrigger>
+                <SelectContent>
+                  {popularAirports.map((airport) => (
+                    <SelectItem key={airport.code} value={airport.code}>
+                      {airport.city}, {airport.country} ({airport.code})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          {/* Flight Dates */}
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-gray-700">Departure Date</Label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
                     className={cn(
                       "w-full h-10 justify-start text-left font-normal bg-secondary/60",
-                      !data.returnDate && "text-muted-foreground"
+                      !data.departDate && "text-muted-foreground"
                     )}
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
-                    {data.returnDate ? format(data.returnDate, "PPP") : "Select return date"}
+                    {data.departDate ? format(data.departDate, "PPP") : "Select departure date"}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
-                    selected={data.returnDate}
-                    onSelect={(date) => setData(prev => ({ ...prev, returnDate: date }))}
-                    disabled={(date) => date < new Date() || (data.departDate && date <= data.departDate)}
+                    selected={data.departDate}
+                    onSelect={(date) => setData(prev => ({ ...prev, departDate: date }))}
+                    disabled={(date) => date < new Date()}
                     initialFocus
                   />
                 </PopoverContent>
               </Popover>
             </div>
-          )}
-
-          {/* Check-in Date */}
-          <div className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-              <HotelIcon className="h-4 w-4" />
-              Check-in Date
-            </Label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={cn(
-                    "w-full h-10 justify-start text-left font-normal bg-secondary/60",
-                    !data.checkIn && "text-muted-foreground"
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {data.checkIn ? format(data.checkIn, "PPP") : "Select check-in date"}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  mode="single"
-                  selected={data.checkIn}
-                  onSelect={(date) => setData(prev => ({ ...prev, checkIn: date }))}
-                  disabled={(date) => date < new Date()}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
+            {data.tripType === 'round' && (
+              <div className="space-y-2">
+                <Label className="text-sm font-medium text-gray-700">Return Date</Label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "w-full h-10 justify-start text-left font-normal bg-secondary/60",
+                        !data.returnDate && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {data.returnDate ? format(data.returnDate, "PPP") : "Select return date"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={data.returnDate}
+                      onSelect={(date) => setData(prev => ({ ...prev, returnDate: date }))}
+                      disabled={(date) => date < new Date() || (data.departDate && date <= data.departDate)}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+            )}
           </div>
 
-          {/* Check-out Date */}
-          <div className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700">Check-out Date</Label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={cn(
-                    "w-full h-10 justify-start text-left font-normal bg-secondary/60",
-                    !data.checkOut && "text-muted-foreground"
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {data.checkOut ? format(data.checkOut, "PPP") : "Select check-out date"}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  mode="single"
-                  selected={data.checkOut}
-                  onSelect={(date) => setData(prev => ({ ...prev, checkOut: date }))}
-                  disabled={(date) => date < new Date() || (data.checkIn && date <= data.checkIn)}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
+          {/* Hotel Dates */}
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                <HotelIcon className="h-4 w-4" />
+                Check-in Date
+              </Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full h-10 justify-start text-left font-normal bg-secondary/60",
+                      !data.checkIn && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {data.checkIn ? format(data.checkIn, "PPP") : "Select check-in date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={data.checkIn}
+                    onSelect={(date) => setData(prev => ({ ...prev, checkIn: date }))}
+                    disabled={(date) => date < new Date()}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-gray-700">Check-out Date</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full h-10 justify-start text-left font-normal bg-secondary/60",
+                      !data.checkOut && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {data.checkOut ? format(data.checkOut, "PPP") : "Select check-out date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={data.checkOut}
+                    onSelect={(date) => setData(prev => ({ ...prev, checkOut: date }))}
+                    disabled={(date) => date < new Date() || (data.checkIn && date <= data.checkIn)}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
           </div>
 
           {/* Passengers, Cabin & Rooms */}
