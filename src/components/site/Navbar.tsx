@@ -107,11 +107,12 @@ const Navbar = () => {
                   <span>FLIGHTS</span> <ChevronDown className="w-4 h-4" />
                 </CollapsibleTrigger>
                 <CollapsibleContent className="pl-4">
-                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan"> Flights to Lahore</a>
-                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan"> Flights to Islamabad</a>
-                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan"> Flights to Sialkot</a>
-                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan"> Flights to Karachi</a>
-                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan"> Flights to Peshawar</a>
+                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan"> Flights to Pakistan</a>
+                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan"> Flights to India</a>
+                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan"> Flights to Zimbabwe</a>
+                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan"> Flights to Turkey</a>
+                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan"> Flights to Thailand</a>
+                  <a className="block px-3 py-2 rounded hover:bg-accent" href="/flights/pakistan"> Flights to Dubai</a>
                 </CollapsibleContent>
               </Collapsible>
               <Collapsible>
