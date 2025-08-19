@@ -115,7 +115,7 @@ const CarHireBookingForm: React.FC = () => {
         {/* Main Fields */}
         <div className="space-y-4">
           {/* Pick-up & Drop-off Locations */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="mb-2 block text-sm text-muted-foreground font-medium">Pick-up Location</label>
               <div className="relative">
@@ -145,7 +145,7 @@ const CarHireBookingForm: React.FC = () => {
           </div>
 
           {/* Pick-up & Drop-off Dates */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="mb-2 block text-sm text-muted-foreground font-medium">Pick-up Date</label>
               <div className="relative">
@@ -175,7 +175,7 @@ const CarHireBookingForm: React.FC = () => {
           </div>
 
           {/* Pick-up & Drop-off Times */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="mb-2 block text-sm text-muted-foreground font-medium">Pick-up Time</label>
               <div className="relative">
@@ -205,7 +205,7 @@ const CarHireBookingForm: React.FC = () => {
           </div>
 
           {/* Phone & Email */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="mb-2 block text-sm text-muted-foreground font-medium">Phone Number</label>
               <div className="relative">

@@ -18,12 +18,9 @@ interface FlightsHotelsFormData {
   destination?: string;
   departDate?: Date;
   returnDate?: Date;
-  checkIn?: Date;
-  checkOut?: Date;
   passengers?: string;
   cabin?: string;
   rooms?: string;
-  name?: string;
   phone?: string;
   email?: string;
 }
@@ -213,64 +210,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
             )}
           </div>
 
-          {/* Hotel Dates */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                <HotelIcon className="h-4 w-4" />
-                Check-in Date
-              </Label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className={cn(
-                      "w-full h-10 justify-start text-left font-normal bg-secondary/60",
-                      !data.checkIn && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {data.checkIn ? format(data.checkIn, "PPP") : "Select check-in date"}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={data.checkIn}
-                    onSelect={(date) => setData(prev => ({ ...prev, checkIn: date }))}
-                    disabled={(date) => date < new Date()}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
-            <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700">Check-out Date</Label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className={cn(
-                      "w-full h-10 justify-start text-left font-normal bg-secondary/60",
-                      !data.checkOut && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {data.checkOut ? format(data.checkOut, "PPP") : "Select check-out date"}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={data.checkOut}
-                    onSelect={(date) => setData(prev => ({ ...prev, checkOut: date }))}
-                    disabled={(date) => date < new Date() || (data.checkIn && date <= data.checkIn)}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
-          </div>
+
 
           {/* Passengers, Cabin & Rooms */}
           <div className="grid grid-cols-3 gap-3">
@@ -325,24 +265,13 @@ const FlightsHotelsBookingForm: React.FC = () => {
           </div>
 
           {/* Contact Information */}
-          <div className="space-y-3 pt-2 border-t">
-            <div className="space-y-2">
-              <Label htmlFor="name" className="text-sm font-medium text-gray-700">Full Name</Label>
-              <Input
-                id="name"
-                type="text"
-                placeholder="Enter your full name"
-                value={data.name || ""}
-                onChange={(e) => setData(prev => ({ ...prev, name: e.target.value }))}
-                className="h-10 bg-secondary/60"
-              />
-            </div>
+          <div className="grid grid-cols-2 gap-3 pt-2 border-t">
             <div className="space-y-2">
               <Label htmlFor="phone" className="text-sm font-medium text-gray-700">Phone Number</Label>
               <Input
                 id="phone"
                 type="tel"
-                placeholder="Enter phone number"
+                placeholder="UK Numbers Only"
                 value={data.phone || ""}
                 onChange={(e) => setData(prev => ({ ...prev, phone: e.target.value }))}
                 className="h-10 bg-secondary/60"
@@ -353,7 +282,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
               <Input
                 id="email"
                 type="email"
-                placeholder="Enter email address"
+                placeholder="Email (Optional)"
                 value={data.email || ""}
                 onChange={(e) => setData(prev => ({ ...prev, email: e.target.value }))}
                 className="h-10 bg-secondary/60"
@@ -579,85 +508,17 @@ const FlightsHotelsBookingForm: React.FC = () => {
             </div>
           )}
 
-          {/* Check-in Date */}
-          <div className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-              <HotelIcon className="h-4 w-4" />
-              Check-in Date
-            </Label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={cn(
-                    "w-full h-12 justify-start text-left font-normal bg-secondary/60",
-                    !data.checkIn && "text-muted-foreground"
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {data.checkIn ? format(data.checkIn, "PPP") : "Select check-in date"}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  mode="single"
-                  selected={data.checkIn}
-                  onSelect={(date) => setData(prev => ({ ...prev, checkIn: date }))}
-                  disabled={(date) => date < new Date()}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
-          </div>
 
-          {/* Check-out Date */}
-          <div className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700">Check-out Date</Label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={cn(
-                    "w-full h-12 justify-start text-left font-normal bg-secondary/60",
-                    !data.checkOut && "text-muted-foreground"
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {data.checkOut ? format(data.checkOut, "PPP") : "Select check-out date"}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  mode="single"
-                  selected={data.checkOut}
-                  onSelect={(date) => setData(prev => ({ ...prev, checkOut: date }))}
-                  disabled={(date) => date < new Date() || (data.checkIn && date <= data.checkIn)}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
-          </div>
         </div>
 
         {/* Contact Information */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="name-desktop" className="text-sm font-medium text-gray-700">Full Name</Label>
-            <Input
-              id="name-desktop"
-              type="text"
-              placeholder="Enter your full name"
-              value={data.name || ""}
-              onChange={(e) => setData(prev => ({ ...prev, name: e.target.value }))}
-              className="h-12 bg-secondary/60"
-            />
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="phone-desktop" className="text-sm font-medium text-gray-700">Phone Number</Label>
             <Input
               id="phone-desktop"
               type="tel"
-              placeholder="Enter phone number"
+              placeholder="UK Numbers Only"
               value={data.phone || ""}
               onChange={(e) => setData(prev => ({ ...prev, phone: e.target.value }))}
               className="h-12 bg-secondary/60"
@@ -668,7 +529,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
             <Input
               id="email-desktop"
               type="email"
-              placeholder="Enter email address"
+              placeholder="Email (Optional)"
               value={data.email || ""}
               onChange={(e) => setData(prev => ({ ...prev, email: e.target.value }))}
               className="h-12 bg-secondary/60"
