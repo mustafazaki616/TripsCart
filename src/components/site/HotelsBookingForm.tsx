@@ -1,301 +1,385 @@
-import * as React from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { MapPin, Phone, Calendar, Mail, Users } from "lucide-react";
-import { sendAdminEmail } from "@/lib/email";
+import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { CalendarIcon, MapPinIcon, UsersIcon } from 'lucide-react';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
+import { sendAdminEmail } from '@/lib/email';
 
-type FormState = {
-  destination: string;
-  phone: string;
-  checkIn: string;
-  checkOut: string;
-  email: string;
-  passengers: number;
-  person1Age: string;
-  person2Age: string;
-  person3Age: string;
-  class: "Economy" | "Business" | "";
-  rooms: number;
-};
-
-type FormErrors = Partial<Record<keyof FormState, string>>;
+interface HotelsFormData {
+  destination?: string;
+  checkIn?: Date;
+  checkOut?: Date;
+  guests?: string;
+  rooms?: string;
+  name?: string;
+  phone?: string;
+  email?: string;
+}
 
 const HotelsBookingForm: React.FC = () => {
-  const [data, setData] = React.useState<FormState>({
-    destination: "",
-    phone: "",
-    checkIn: "",
-    checkOut: "",
-    email: "",
-    passengers: 1,
-    person1Age: "",
-    person2Age: "",
-    person3Age: "",
-    class: "",
-    rooms: 1,
-  });
-  const [errors, setErrors] = React.useState<FormErrors>({});
-  const [showModal, setShowModal] = React.useState(false);
+  const [data, setData] = useState<HotelsFormData>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-  const setField = <K extends keyof FormState>(key: K, value: FormState[K]) => {
-    setErrors((e) => ({ ...e, [key]: undefined }));
-    setData((d) => ({ ...d, [key]: value }));
-  };
-
-  const validate = (): boolean => {
-    const next: FormErrors = {};
-    if (!data.destination.trim()) next.destination = "Required";
-    if (!data.phone.trim()) next.phone = "Required";
-    if (!data.checkIn) next.checkIn = "Required";
-    if (!data.checkOut) next.checkOut = "Required";
-    if (!data.class) next.class = "Required";
-    if (!data.passengers || data.passengers < 1) next.passengers = "Min 1";
-    if (!data.person1Age.trim()) next.person1Age = "Required";
-    setErrors(next);
-    return Object.keys(next).length === 0;
-  };
-
-  const onSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate()) return;
+    setIsSubmitting(true);
     
     try {
       // Send email to admin with form details
       await sendAdminEmail(data, 'Hotel Booking');
-      // Show success modal
       setShowModal(true);
     } catch (error) {
       console.error('Error sending email:', error);
-      // Still show success modal to user even if email fails
       setShowModal(true);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  const clear = () => {
-    setData({
-      destination: "",
-      phone: "",
-      checkIn: "",
-      checkOut: "",
-      email: "",
-      passengers: 1,
-      person1Age: "",
-      person2Age: "",
-      person3Age: "",
-      class: "",
-      rooms: 1,
-    });
-    setErrors({});
+  const clearForm = () => {
+    setData({});
   };
 
   return (
     <>
-      <form onSubmit={onSubmit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-4 md:p-6">
-        {/* Class Selection */}
-        <div className="space-y-4 mb-6">
-          <div className="flex items-center gap-4 text-sm text-muted-foreground px-1">
-            <label className="inline-flex items-center gap-2 font-medium">
-              <input
-                type="radio"
-                name="class"
-                className="accent-[hsl(var(--primary))]"
-                checked={data.class === "Economy"}
-                onChange={() => setField("class", "Economy")}
-              />
-              Economy
-            </label>
-            <label className="inline-flex items-center gap-2 font-medium">
-              <input
-                type="radio"
-                name="class"
-                className="accent-[hsl(var(--primary))]"
-                checked={data.class === "Business"}
-                onChange={() => setField("class", "Business")}
-              />
-              Business
-            </label>
+      {/* Mobile Compact Layout */}
+      <div className="block md:hidden space-y-4 p-4 rounded-2xl bg-card/90 backdrop-blur border shadow-soft">
+        <div className="grid grid-cols-1 gap-3">
+          {/* Destination */}
+          <div className="space-y-2">
+            <Label htmlFor="destination" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+              <MapPinIcon className="h-4 w-4" />
+              Destination
+            </Label>
+            <Input
+              id="destination"
+              type="text"
+              placeholder="Enter destination"
+              value={data.destination || ""}
+              onChange={(e) => setData((d) => ({ ...d, destination: e.target.value }))}
+              className="h-10 bg-secondary/60"
+            />
           </div>
-          <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Rooms</label>
-            <Select value={data.rooms.toString()} onValueChange={(v) => setField("rooms", Number(v))}>
-              <SelectTrigger className="h-11 bg-secondary/60">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {[1, 2, 3, 4, 5].map((num) => (
-                  <SelectItem key={num} value={num.toString()}>
-                    {num} Room{num > 1 ? "s" : ""}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
 
-        {/* Main Fields */}
-        <div className="space-y-4 md:grid md:grid-cols-2 md:gap-4 md:space-y-0">
-          <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Destination</label>
-            <div className="relative">
-              <Input
-                value={data.destination}
-                onChange={(e) => setField("destination", e.target.value)}
-                placeholder="Enter City..."
-                className="h-11 bg-secondary/60 pr-10 text-sm"
-              />
-              <MapPin className="absolute right-3 top-3 opacity-70 w-4 h-4" />
-            </div>
-            {errors.destination && <p className="mt-1 text-xs text-destructive">{errors.destination}</p>}
+          {/* Check-in Date */}
+          <div className="space-y-2">
+            <Label className="text-sm font-medium text-gray-700">Check-in Date</Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "w-full h-10 justify-start text-left font-normal bg-secondary/60",
+                    !data.checkIn && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {data.checkIn ? format(data.checkIn, "PPP") : "Select check-in date"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={data.checkIn}
+                  onSelect={(date) => setData((d) => ({ ...d, checkIn: date }))}
+                  disabled={(date) => date < new Date()}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
           </div>
-          <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Check-in Date</label>
-            <div className="relative">
-              <Input
-                type="date"
-                value={data.checkIn}
-                onChange={(e) => setField("checkIn", e.target.value)}
-                className="h-11 bg-secondary/60 pr-10 text-sm"
-              />
-              <Calendar className="absolute right-3 top-3 opacity-70 w-4 h-4" />
-            </div>
-            {errors.checkIn && <p className="mt-1 text-xs text-destructive">{errors.checkIn}</p>}
+
+          {/* Check-out Date */}
+          <div className="space-y-2">
+            <Label className="text-sm font-medium text-gray-700">Check-out Date</Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "w-full h-10 justify-start text-left font-normal bg-secondary/60",
+                    !data.checkOut && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {data.checkOut ? format(data.checkOut, "PPP") : "Select check-out date"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={data.checkOut}
+                  onSelect={(date) => setData((d) => ({ ...d, checkOut: date }))}
+                  disabled={(date) => date < new Date() || (data.checkIn && date <= data.checkIn)}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
           </div>
-          <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Phone Number</label>
-            <div className="relative">
+
+          {/* Guests & Rooms */}
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                <UsersIcon className="h-4 w-4" />
+                Guests
+              </Label>
+              <Select value={data.guests} onValueChange={(value) => setData((d) => ({ ...d, guests: value }))}>
+                <SelectTrigger className="h-10 bg-secondary/60">
+                  <SelectValue placeholder="Guests" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1">1 Guest</SelectItem>
+                  <SelectItem value="2">2 Guests</SelectItem>
+                  <SelectItem value="3">3 Guests</SelectItem>
+                  <SelectItem value="4">4 Guests</SelectItem>
+                  <SelectItem value="5">5 Guests</SelectItem>
+                  <SelectItem value="6+">6+ Guests</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-gray-700">Rooms</Label>
+              <Select value={data.rooms} onValueChange={(value) => setData((d) => ({ ...d, rooms: value }))}>
+                <SelectTrigger className="h-10 bg-secondary/60">
+                  <SelectValue placeholder="Rooms" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1">1 Room</SelectItem>
+                  <SelectItem value="2">2 Rooms</SelectItem>
+                  <SelectItem value="3">3 Rooms</SelectItem>
+                  <SelectItem value="4">4 Rooms</SelectItem>
+                  <SelectItem value="5+">5+ Rooms</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          {/* Contact Information */}
+          <div className="space-y-3 pt-2 border-t">
+            <div className="space-y-2">
+              <Label htmlFor="name" className="text-sm font-medium text-gray-700">Full Name</Label>
               <Input
+                id="name"
+                type="text"
+                placeholder="Enter your full name"
+                value={data.name || ""}
+                onChange={(e) => setData((d) => ({ ...d, name: e.target.value }))}
+                className="h-10 bg-secondary/60"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="phone" className="text-sm font-medium text-gray-700">Phone Number</Label>
+              <Input
+                id="phone"
                 type="tel"
-                value={data.phone}
-                onChange={(e) => setField("phone", e.target.value)}
-                placeholder="UK Numbers Only"
-                className="h-11 bg-secondary/60 pr-10 text-sm"
+                placeholder="Enter phone number"
+                value={data.phone || ""}
+                onChange={(e) => setData((d) => ({ ...d, phone: e.target.value }))}
+                className="h-10 bg-secondary/60"
               />
-              <Phone className="absolute right-3 top-3 opacity-70 w-4 h-4" />
             </div>
-            {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
-          </div>
-          <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Check-out Date</label>
-            <div className="relative">
+            <div className="space-y-2">
+              <Label htmlFor="email" className="text-sm font-medium text-gray-700">Email Address</Label>
               <Input
-                type="date"
-                value={data.checkOut}
-                onChange={(e) => setField("checkOut", e.target.value)}
-                className="h-11 bg-secondary/60 pr-10 text-sm"
-              />
-              <Calendar className="absolute right-3 top-3 opacity-70 w-4 h-4" />
-            </div>
-            {errors.checkOut && <p className="mt-1 text-xs text-destructive">{errors.checkOut}</p>}
-          </div>
-          <div className="md:col-span-2">
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Email Address</label>
-            <div className="relative">
-              <Input
+                id="email"
                 type="email"
-                value={data.email}
-                onChange={(e) => setField("email", e.target.value)}
-                placeholder="Email (Optional)"
-                className="h-11 bg-secondary/60 pr-10 text-sm"
+                placeholder="Enter email address"
+                value={data.email || ""}
+                onChange={(e) => setData((d) => ({ ...d, email: e.target.value }))}
+                className="h-10 bg-secondary/60"
               />
-              <Mail className="absolute right-3 top-3 opacity-70 w-4 h-4" />
-            </div>
-            {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
-          </div>
-        </div>
-
-        {/* Room Details */}
-        <div className="mt-6">
-          <h3 className="text-lg font-semibold mb-4">Room 1</h3>
-          <div className="space-y-4 md:grid md:grid-cols-4 md:gap-4 md:space-y-0">
-            <div>
-              <label className="mb-2 block text-sm text-muted-foreground font-medium">No of Passengers</label>
-              <div className="relative">
-                <Select value={data.passengers.toString()} onValueChange={(v) => setField("passengers", Number(v))}>
-                  <SelectTrigger className="h-11 bg-secondary/60 pr-10">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {[1, 2, 3, 4, 5, 6].map((num) => (
-                      <SelectItem key={num} value={num.toString()}>
-                        {num}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <Users className="absolute right-3 top-3 opacity-70 w-4 h-4" />
-              </div>
-              {errors.passengers && <p className="mt-1 text-xs text-destructive">{errors.passengers}</p>}
-            </div>
-            <div>
-              <label className="mb-2 block text-sm text-muted-foreground font-medium">Person 1 Age</label>
-              <div className="relative">
-                <Input
-                  type="number"
-                  min="1"
-                  max="120"
-                  value={data.person1Age}
-                  onChange={(e) => setField("person1Age", e.target.value)}
-                  placeholder="Age..."
-                  className="h-11 bg-secondary/60 pr-10 text-sm"
-                />
-                <Calendar className="absolute right-3 top-3 opacity-70 w-4 h-4" />
-              </div>
-              {errors.person1Age && <p className="mt-1 text-xs text-destructive">{errors.person1Age}</p>}
-            </div>
-            <div>
-              <label className="mb-2 block text-sm text-muted-foreground font-medium">Person 2 Age</label>
-              <div className="relative">
-                <Input
-                  type="number"
-                  min="1"
-                  max="120"
-                  value={data.person2Age}
-                  onChange={(e) => setField("person2Age", e.target.value)}
-                  placeholder="Age..."
-                  className="h-11 bg-secondary/60 pr-10 text-sm"
-                />
-                <Calendar className="absolute right-3 top-3 opacity-70 w-4 h-4" />
-              </div>
-            </div>
-            <div>
-              <label className="mb-2 block text-sm text-muted-foreground font-medium">Person 3 Age</label>
-              <div className="relative">
-                <Input
-                  type="number"
-                  min="1"
-                  max="120"
-                  value={data.person3Age}
-                  onChange={(e) => setField("person3Age", e.target.value)}
-                  placeholder="Age..."
-                  className="h-11 bg-secondary/60 pr-10 text-sm"
-                />
-                <Calendar className="absolute right-3 top-3 opacity-70 w-4 h-4" />
-              </div>
             </div>
           </div>
         </div>
+        
+        {/* Search button - Mobile */}
+        <Button 
+          type="submit" 
+          disabled={isSubmitting} 
+          className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
+          onClick={handleSubmit}
+        >
+          {isSubmitting ? "Searching Hotels..." : "Search Hotels"}
+        </Button>
+      </div>
 
-        {/* Submit */}
-        <div className="mt-6 flex justify-center">
-          <Button type="submit" variant="hero" className="h-12 px-8 text-base group">
-            Search Hotel
-            <svg className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </Button>
+      {/* Desktop Layout */}
+      <div className="hidden md:block space-y-6 p-6 rounded-2xl bg-card/90 backdrop-blur border shadow-soft">
+        {/* Main booking fields */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          {/* Destination */}
+          <div className="space-y-2">
+            <Label htmlFor="destination-desktop" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+              <MapPinIcon className="h-4 w-4" />
+              Destination
+            </Label>
+            <Input
+              id="destination-desktop"
+              type="text"
+              placeholder="Enter destination"
+              value={data.destination || ""}
+              onChange={(e) => setData((d) => ({ ...d, destination: e.target.value }))}
+              className="h-12 bg-secondary/60"
+            />
+          </div>
+
+          {/* Check-in Date */}
+          <div className="space-y-2">
+            <Label className="text-sm font-medium text-gray-700">Check-in Date</Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "w-full h-12 justify-start text-left font-normal bg-secondary/60",
+                    !data.checkIn && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {data.checkIn ? format(data.checkIn, "PPP") : "Select check-in date"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={data.checkIn}
+                  onSelect={(date) => setData((d) => ({ ...d, checkIn: date }))}
+                  disabled={(date) => date < new Date()}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+
+          {/* Check-out Date */}
+          <div className="space-y-2">
+            <Label className="text-sm font-medium text-gray-700">Check-out Date</Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "w-full h-12 justify-start text-left font-normal bg-secondary/60",
+                    !data.checkOut && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {data.checkOut ? format(data.checkOut, "PPP") : "Select check-out date"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={data.checkOut}
+                  onSelect={(date) => setData((d) => ({ ...d, checkOut: date }))}
+                  disabled={(date) => date < new Date() || (data.checkIn && date <= data.checkIn)}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+
+          {/* Guests & Rooms */}
+          <div className="space-y-2">
+            <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+              <UsersIcon className="h-4 w-4" />
+              Guests & Rooms
+            </Label>
+            <div className="grid grid-cols-2 gap-2">
+              <Select value={data.guests} onValueChange={(value) => setData((d) => ({ ...d, guests: value }))}>
+                <SelectTrigger className="h-12 bg-secondary/60">
+                  <SelectValue placeholder="Guests" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1">1 Guest</SelectItem>
+                  <SelectItem value="2">2 Guests</SelectItem>
+                  <SelectItem value="3">3 Guests</SelectItem>
+                  <SelectItem value="4">4 Guests</SelectItem>
+                  <SelectItem value="5">5 Guests</SelectItem>
+                  <SelectItem value="6+">6+ Guests</SelectItem>
+                </SelectContent>
+              </Select>
+              <Select value={data.rooms} onValueChange={(value) => setData((d) => ({ ...d, rooms: value }))}>
+                <SelectTrigger className="h-12 bg-secondary/60">
+                  <SelectValue placeholder="Rooms" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1">1 Room</SelectItem>
+                  <SelectItem value="2">2 Rooms</SelectItem>
+                  <SelectItem value="3">3 Rooms</SelectItem>
+                  <SelectItem value="4">4 Rooms</SelectItem>
+                  <SelectItem value="5+">5+ Rooms</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
         </div>
-      </form>
 
-      <Dialog open={showModal} onOpenChange={(o) => { if (!o) { setShowModal(false); clear(); } }}>
+        {/* Contact Information */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="name-desktop" className="text-sm font-medium text-gray-700">Full Name</Label>
+            <Input
+              id="name-desktop"
+              type="text"
+              placeholder="Enter your full name"
+              value={data.name || ""}
+              onChange={(e) => setData((d) => ({ ...d, name: e.target.value }))}
+              className="h-12 bg-secondary/60"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="phone-desktop" className="text-sm font-medium text-gray-700">Phone Number</Label>
+            <Input
+              id="phone-desktop"
+              type="tel"
+              placeholder="Enter phone number"
+              value={data.phone || ""}
+              onChange={(e) => setData((d) => ({ ...d, phone: e.target.value }))}
+              className="h-12 bg-secondary/60"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="email-desktop" className="text-sm font-medium text-gray-700">Email Address</Label>
+            <Input
+              id="email-desktop"
+              type="email"
+              placeholder="Enter email address"
+              value={data.email || ""}
+              onChange={(e) => setData((d) => ({ ...d, email: e.target.value }))}
+              className="h-12 bg-secondary/60"
+            />
+          </div>
+        </div>
+        
+        {/* Search button - Desktop */}
+        <Button 
+          type="submit" 
+          disabled={isSubmitting} 
+          className="w-full h-14 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-base"
+          onClick={handleSubmit}
+        >
+          {isSubmitting ? "Searching Hotels..." : "Search Hotels"}
+        </Button>
+      </div>
+
+      {/* Success Modal */}
+      <Dialog open={showModal} onOpenChange={(open) => { if (!open) { setShowModal(false); clearForm(); } }}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Form submitted!</DialogTitle>
+            <DialogTitle>Hotel Booking Request Submitted!</DialogTitle>
           </DialogHeader>
-          <p className="text-sm text-muted-foreground">Our team will contact you soon.</p>
+          <p className="text-sm text-muted-foreground">Thank you for your hotel booking request. Our travel experts will review your requirements and contact you within 24 hours with personalized options and pricing.</p>
           <div className="mt-4 flex justify-end">
-            <Button onClick={() => { setShowModal(false); clear(); }}>Close</Button>
+            <Button onClick={() => { setShowModal(false); clearForm(); }}>Close</Button>
           </div>
         </DialogContent>
       </Dialog>
