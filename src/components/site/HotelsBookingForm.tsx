@@ -94,30 +94,33 @@ const HotelsBookingForm: React.FC = () => {
     <>
       <form onSubmit={onSubmit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-4 md:p-6">
         {/* Class Selection */}
-        <div className="flex items-center gap-4 text-sm text-muted-foreground px-1 mb-4">
-          <label className="inline-flex items-center gap-2">
-            <input
-              type="radio"
-              name="class"
-              className="accent-[hsl(var(--primary))]"
-              checked={data.class === "Economy"}
-              onChange={() => setField("class", "Economy")}
-            />
-            Economy
-          </label>
-          <label className="inline-flex items-center gap-2">
-            <input
-              type="radio"
-              name="class"
-              className="accent-[hsl(var(--primary))]"
-              checked={data.class === "Business"}
-              onChange={() => setField("class", "Business")}
-            />
-            Business
-          </label>
-          <div className="ml-auto">
+        <div className="space-y-4 mb-6">
+          <div className="flex items-center gap-4 text-sm text-muted-foreground px-1">
+            <label className="inline-flex items-center gap-2 font-medium">
+              <input
+                type="radio"
+                name="class"
+                className="accent-[hsl(var(--primary))]"
+                checked={data.class === "Economy"}
+                onChange={() => setField("class", "Economy")}
+              />
+              Economy
+            </label>
+            <label className="inline-flex items-center gap-2 font-medium">
+              <input
+                type="radio"
+                name="class"
+                className="accent-[hsl(var(--primary))]"
+                checked={data.class === "Business"}
+                onChange={() => setField("class", "Business")}
+              />
+              Business
+            </label>
+          </div>
+          <div>
+            <label className="mb-2 block text-sm text-muted-foreground font-medium">Rooms</label>
             <Select value={data.rooms.toString()} onValueChange={(v) => setField("rooms", Number(v))}>
-              <SelectTrigger className="w-24 h-8 bg-secondary/60">
+              <SelectTrigger className="h-11 bg-secondary/60">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -132,71 +135,71 @@ const HotelsBookingForm: React.FC = () => {
         </div>
 
         {/* Main Fields */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="space-y-4 md:grid md:grid-cols-2 md:gap-4 md:space-y-0">
           <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Destination</label>
+            <label className="mb-2 block text-sm text-muted-foreground font-medium">Destination</label>
             <div className="relative">
               <Input
                 value={data.destination}
                 onChange={(e) => setField("destination", e.target.value)}
                 placeholder="Enter City..."
-                className="h-12 bg-secondary/60 pr-10"
+                className="h-11 bg-secondary/60 pr-10 text-sm"
               />
-              <MapPin className="absolute right-3 top-3.5 opacity-70" />
+              <MapPin className="absolute right-3 top-3 opacity-70 w-4 h-4" />
             </div>
             {errors.destination && <p className="mt-1 text-xs text-destructive">{errors.destination}</p>}
           </div>
           <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Check-in Date</label>
+            <label className="mb-2 block text-sm text-muted-foreground font-medium">Check-in Date</label>
             <div className="relative">
               <Input
                 type="date"
                 value={data.checkIn}
                 onChange={(e) => setField("checkIn", e.target.value)}
-                className="h-12 bg-secondary/60 pr-10"
+                className="h-11 bg-secondary/60 pr-10 text-sm"
               />
-              <Calendar className="absolute right-3 top-3.5 opacity-70" />
+              <Calendar className="absolute right-3 top-3 opacity-70 w-4 h-4" />
             </div>
             {errors.checkIn && <p className="mt-1 text-xs text-destructive">{errors.checkIn}</p>}
           </div>
           <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Phone Number</label>
+            <label className="mb-2 block text-sm text-muted-foreground font-medium">Phone Number</label>
             <div className="relative">
               <Input
                 type="tel"
                 value={data.phone}
                 onChange={(e) => setField("phone", e.target.value)}
                 placeholder="UK Numbers Only"
-                className="h-12 bg-secondary/60 pr-10"
+                className="h-11 bg-secondary/60 pr-10 text-sm"
               />
-              <Phone className="absolute right-3 top-3.5 opacity-70" />
+              <Phone className="absolute right-3 top-3 opacity-70 w-4 h-4" />
             </div>
             {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
           </div>
           <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Check-out Date</label>
+            <label className="mb-2 block text-sm text-muted-foreground font-medium">Check-out Date</label>
             <div className="relative">
               <Input
                 type="date"
                 value={data.checkOut}
                 onChange={(e) => setField("checkOut", e.target.value)}
-                className="h-12 bg-secondary/60 pr-10"
+                className="h-11 bg-secondary/60 pr-10 text-sm"
               />
-              <Calendar className="absolute right-3 top-3.5 opacity-70" />
+              <Calendar className="absolute right-3 top-3 opacity-70 w-4 h-4" />
             </div>
             {errors.checkOut && <p className="mt-1 text-xs text-destructive">{errors.checkOut}</p>}
           </div>
           <div className="md:col-span-2">
-            <label className="mb-1 block text-sm text-muted-foreground">Email Address</label>
+            <label className="mb-2 block text-sm text-muted-foreground font-medium">Email Address</label>
             <div className="relative">
               <Input
                 type="email"
                 value={data.email}
                 onChange={(e) => setField("email", e.target.value)}
                 placeholder="Email (Optional)"
-                className="h-12 bg-secondary/60 pr-10"
+                className="h-11 bg-secondary/60 pr-10 text-sm"
               />
-              <Mail className="absolute right-3 top-3.5 opacity-70" />
+              <Mail className="absolute right-3 top-3 opacity-70 w-4 h-4" />
             </div>
             {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
           </div>
@@ -205,12 +208,12 @@ const HotelsBookingForm: React.FC = () => {
         {/* Room Details */}
         <div className="mt-6">
           <h3 className="text-lg font-semibold mb-4">Room 1</h3>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="space-y-4 md:grid md:grid-cols-4 md:gap-4 md:space-y-0">
             <div>
-              <label className="mb-1 block text-sm text-muted-foreground">No of Passengers</label>
+              <label className="mb-2 block text-sm text-muted-foreground font-medium">No of Passengers</label>
               <div className="relative">
                 <Select value={data.passengers.toString()} onValueChange={(v) => setField("passengers", Number(v))}>
-                  <SelectTrigger className="h-12 bg-secondary/60 pr-10">
+                  <SelectTrigger className="h-11 bg-secondary/60 pr-10">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -221,12 +224,12 @@ const HotelsBookingForm: React.FC = () => {
                     ))}
                   </SelectContent>
                 </Select>
-                <Users className="absolute right-3 top-3.5 opacity-70" />
+                <Users className="absolute right-3 top-3 opacity-70 w-4 h-4" />
               </div>
               {errors.passengers && <p className="mt-1 text-xs text-destructive">{errors.passengers}</p>}
             </div>
             <div>
-              <label className="mb-1 block text-sm text-muted-foreground">Person 1 Age</label>
+              <label className="mb-2 block text-sm text-muted-foreground font-medium">Person 1 Age</label>
               <div className="relative">
                 <Input
                   type="number"
@@ -235,14 +238,14 @@ const HotelsBookingForm: React.FC = () => {
                   value={data.person1Age}
                   onChange={(e) => setField("person1Age", e.target.value)}
                   placeholder="Age..."
-                  className="h-12 bg-secondary/60 pr-10"
+                  className="h-11 bg-secondary/60 pr-10 text-sm"
                 />
-                <Calendar className="absolute right-3 top-3.5 opacity-70" />
+                <Calendar className="absolute right-3 top-3 opacity-70 w-4 h-4" />
               </div>
               {errors.person1Age && <p className="mt-1 text-xs text-destructive">{errors.person1Age}</p>}
             </div>
             <div>
-              <label className="mb-1 block text-sm text-muted-foreground">Person 2 Age</label>
+              <label className="mb-2 block text-sm text-muted-foreground font-medium">Person 2 Age</label>
               <div className="relative">
                 <Input
                   type="number"
@@ -251,13 +254,13 @@ const HotelsBookingForm: React.FC = () => {
                   value={data.person2Age}
                   onChange={(e) => setField("person2Age", e.target.value)}
                   placeholder="Age..."
-                  className="h-12 bg-secondary/60 pr-10"
+                  className="h-11 bg-secondary/60 pr-10 text-sm"
                 />
-                <Calendar className="absolute right-3 top-3.5 opacity-70" />
+                <Calendar className="absolute right-3 top-3 opacity-70 w-4 h-4" />
               </div>
             </div>
             <div>
-              <label className="mb-1 block text-sm text-muted-foreground">Person 3 Age</label>
+              <label className="mb-2 block text-sm text-muted-foreground font-medium">Person 3 Age</label>
               <div className="relative">
                 <Input
                   type="number"
@@ -266,9 +269,9 @@ const HotelsBookingForm: React.FC = () => {
                   value={data.person3Age}
                   onChange={(e) => setField("person3Age", e.target.value)}
                   placeholder="Age..."
-                  className="h-12 bg-secondary/60 pr-10"
+                  className="h-11 bg-secondary/60 pr-10 text-sm"
                 />
-                <Calendar className="absolute right-3 top-3.5 opacity-70" />
+                <Calendar className="absolute right-3 top-3 opacity-70 w-4 h-4" />
               </div>
             </div>
           </div>
@@ -276,7 +279,7 @@ const HotelsBookingForm: React.FC = () => {
 
         {/* Submit */}
         <div className="mt-6 flex justify-center">
-          <Button type="submit" variant="hero" className="h-12 px-8 group">
+          <Button type="submit" variant="hero" className="h-12 px-8 text-base group">
             Search Hotel
             <svg className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

@@ -89,8 +89,8 @@ const CarHireBookingForm: React.FC = () => {
     <>
       <form onSubmit={onSubmit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-4 md:p-6">
         {/* Class Selection */}
-        <div className="flex items-center gap-4 text-sm text-muted-foreground px-1 mb-4">
-          <label className="inline-flex items-center gap-2">
+        <div className="flex items-center gap-4 text-sm text-muted-foreground px-1 mb-6">
+          <label className="inline-flex items-center gap-2 font-medium">
             <input
               type="radio"
               name="class"
@@ -100,7 +100,7 @@ const CarHireBookingForm: React.FC = () => {
             />
             Economy
           </label>
-          <label className="inline-flex items-center gap-2">
+          <label className="inline-flex items-center gap-2 font-medium">
             <input
               type="radio"
               name="class"
@@ -113,110 +113,110 @@ const CarHireBookingForm: React.FC = () => {
         </div>
 
         {/* Main Fields */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="space-y-4 md:grid md:grid-cols-3 md:gap-4 md:space-y-0">
           <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Pick-up Location</label>
+            <label className="mb-2 block text-sm text-muted-foreground font-medium">Pick-up Location</label>
             <div className="relative">
               <Input
                 value={data.pickUpLocation}
                 onChange={(e) => setField("pickUpLocation", e.target.value)}
                 placeholder="Enter Pick-up location..."
-                className="h-12 bg-secondary/60 pr-10"
+                className="h-11 bg-secondary/60 pr-10 text-sm"
               />
-              <MapPin className="absolute right-3 top-3.5 opacity-70" />
+              <MapPin className="absolute right-3 top-3 opacity-70 w-4 h-4" />
             </div>
             {errors.pickUpLocation && <p className="mt-1 text-xs text-destructive">{errors.pickUpLocation}</p>}
           </div>
           <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Pick-up Date</label>
+            <label className="mb-2 block text-sm text-muted-foreground font-medium">Pick-up Date</label>
             <div className="relative">
               <Input
                 type="date"
                 value={data.pickUpDate}
                 onChange={(e) => setField("pickUpDate", e.target.value)}
-                className="h-12 bg-secondary/60 pr-10"
+                className="h-11 bg-secondary/60 pr-10 text-sm"
               />
-              <Calendar className="absolute right-3 top-3.5 opacity-70" />
+              <Calendar className="absolute right-3 top-3 opacity-70 w-4 h-4" />
             </div>
             {errors.pickUpDate && <p className="mt-1 text-xs text-destructive">{errors.pickUpDate}</p>}
           </div>
           <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Pick-up Time</label>
+            <label className="mb-2 block text-sm text-muted-foreground font-medium">Pick-up Time</label>
             <div className="relative">
               <Input
                 type="time"
                 value={data.pickUpTime}
                 onChange={(e) => setField("pickUpTime", e.target.value)}
-                className="h-12 bg-secondary/60 pr-10"
+                className="h-11 bg-secondary/60 pr-10 text-sm"
               />
-              <Clock className="absolute right-3 top-3.5 opacity-70" />
+              <Clock className="absolute right-3 top-3 opacity-70 w-4 h-4" />
             </div>
             {errors.pickUpTime && <p className="mt-1 text-xs text-destructive">{errors.pickUpTime}</p>}
           </div>
           <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Drop-off Location</label>
+            <label className="mb-2 block text-sm text-muted-foreground font-medium">Drop-off Location</label>
             <div className="relative">
               <Input
                 value={data.dropOffLocation}
                 onChange={(e) => setField("dropOffLocation", e.target.value)}
                 placeholder="Enter Drop-off Location..."
-                className="h-12 bg-secondary/60 pr-10"
+                className="h-11 bg-secondary/60 pr-10 text-sm"
               />
-              <MapPin className="absolute right-3 top-3.5 opacity-70" />
+              <MapPin className="absolute right-3 top-3 opacity-70 w-4 h-4" />
             </div>
             {errors.dropOffLocation && <p className="mt-1 text-xs text-destructive">{errors.dropOffLocation}</p>}
           </div>
           <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Drop-off Date</label>
+            <label className="mb-2 block text-sm text-muted-foreground font-medium">Drop-off Date</label>
             <div className="relative">
               <Input
                 type="date"
                 value={data.dropOffDate}
                 onChange={(e) => setField("dropOffDate", e.target.value)}
-                className="h-12 bg-secondary/60 pr-10"
+                className="h-11 bg-secondary/60 pr-10 text-sm"
               />
-              <Calendar className="absolute right-3 top-3.5 opacity-70" />
+              <Calendar className="absolute right-3 top-3 opacity-70 w-4 h-4" />
             </div>
             {errors.dropOffDate && <p className="mt-1 text-xs text-destructive">{errors.dropOffDate}</p>}
           </div>
           <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Drop-off Time</label>
+            <label className="mb-2 block text-sm text-muted-foreground font-medium">Drop-off Time</label>
             <div className="relative">
               <Input
                 type="time"
                 value={data.dropOffTime}
                 onChange={(e) => setField("dropOffTime", e.target.value)}
-                className="h-12 bg-secondary/60 pr-10"
+                className="h-11 bg-secondary/60 pr-10 text-sm"
               />
-              <Clock className="absolute right-3 top-3.5 opacity-70" />
+              <Clock className="absolute right-3 top-3 opacity-70 w-4 h-4" />
             </div>
             {errors.dropOffTime && <p className="mt-1 text-xs text-destructive">{errors.dropOffTime}</p>}
           </div>
           <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Phone Number</label>
+            <label className="mb-2 block text-sm text-muted-foreground font-medium">Phone Number</label>
             <div className="relative">
               <Input
                 type="tel"
                 value={data.phone}
                 onChange={(e) => setField("phone", e.target.value)}
                 placeholder="UK Numbers Only"
-                className="h-12 bg-secondary/60 pr-10"
+                className="h-11 bg-secondary/60 pr-10 text-sm"
               />
-              <Phone className="absolute right-3 top-3.5 opacity-70" />
+              <Phone className="absolute right-3 top-3 opacity-70 w-4 h-4" />
             </div>
             {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
           </div>
           <div className="md:col-span-2">
-            <label className="mb-1 block text-sm text-muted-foreground">Email Address</label>
+            <label className="mb-2 block text-sm text-muted-foreground font-medium">Email Address</label>
             <div className="relative">
               <Input
                 type="email"
                 value={data.email}
                 onChange={(e) => setField("email", e.target.value)}
                 placeholder="Email (Optional)"
-                className="h-12 bg-secondary/60 pr-10"
+                className="h-11 bg-secondary/60 pr-10 text-sm"
               />
-              <Mail className="absolute right-3 top-3.5 opacity-70" />
+              <Mail className="absolute right-3 top-3 opacity-70 w-4 h-4" />
             </div>
             {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
           </div>
@@ -224,7 +224,7 @@ const CarHireBookingForm: React.FC = () => {
 
         {/* Submit */}
         <div className="mt-6 flex justify-center">
-          <Button type="submit" variant="hero" className="h-12 px-8 group">
+          <Button type="submit" variant="hero" className="h-12 px-8 text-base group">
             Search Car
             <svg className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

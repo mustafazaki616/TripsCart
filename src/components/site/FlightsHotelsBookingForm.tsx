@@ -186,7 +186,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
     <>
       <form onSubmit={onSubmit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-4 md:p-6">
         {/* Trip Type and Booking Options */}
-        <div className="flex gap-2 text-sm mb-4">
+        <div className="space-y-3 md:flex md:gap-2 md:space-y-0 text-sm mb-4">
           {/* Trip Type */}
           <div className="flex-shrink-0">
             <div className="flex bg-secondary/60 rounded-lg p-1">
@@ -194,7 +194,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
                 type="button"
                 onClick={() => setField("tripType", "round")}
                 className={cn(
-                  "px-3 py-1 rounded-md text-sm font-medium transition-colors",
+                  "px-3 py-2 md:py-1 rounded-md text-sm font-medium transition-colors",
                   data.tripType === "round"
                     ? "bg-primary text-primary-foreground shadow-sm"
                     : "text-muted-foreground hover:text-foreground"
@@ -206,7 +206,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
                 type="button"
                 onClick={() => setField("tripType", "oneway")}
                 className={cn(
-                  "px-3 py-1 rounded-md text-sm font-medium transition-colors",
+                  "px-3 py-2 md:py-1 rounded-md text-sm font-medium transition-colors",
                   data.tripType === "oneway"
                     ? "bg-primary text-primary-foreground shadow-sm"
                     : "text-muted-foreground hover:text-foreground"
@@ -217,73 +217,76 @@ const FlightsHotelsBookingForm: React.FC = () => {
             </div>
           </div>
 
-          {/* Travelers */}
-          <div className="flex-shrink-0">
-            <Select
-              value={`${data.adults + data.children + data.infants}`}
-              onValueChange={(value) => {
-                const total = parseInt(value);
-                setField("adults", Math.max(1, total));
-                setField("children", 0);
-                setField("infants", 0);
-                updatePassengers(total);
-              }}
-            >
-              <SelectTrigger className="w-auto min-w-0 px-3 py-1 h-8 text-sm bg-secondary/60">
-                <UserRound className="w-4 h-4 mr-1" />
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
-                  <SelectItem key={num} value={num.toString()}>
-                    {num} {num === 1 ? "Traveler" : "Travelers"}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          {/* Mobile: Hidden travelers/cabin/rooms - shown on desktop only */}
+          <div className="hidden md:flex md:gap-2">
+            {/* Travelers */}
+            <div className="flex-shrink-0">
+              <Select
+                value={`${data.adults + data.children + data.infants}`}
+                onValueChange={(value) => {
+                  const total = parseInt(value);
+                  setField("adults", Math.max(1, total));
+                  setField("children", 0);
+                  setField("infants", 0);
+                  updatePassengers(total);
+                }}
+              >
+                <SelectTrigger className="w-auto min-w-0 px-3 py-1 h-9 text-sm bg-secondary/60 font-medium">
+                  <UserRound className="w-4 h-4 mr-2" />
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
+                    <SelectItem key={num} value={num.toString()}>
+                      {num} {num === 1 ? "Traveler" : "Travelers"}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
-          {/* Cabin Class */}
-          <div className="flex-shrink-0">
-            <Select value={data.cabin} onValueChange={(v) => setField("cabin", v as FormState["cabin"])}>
-              <SelectTrigger className="w-auto min-w-0 px-3 py-1 h-8 text-sm bg-secondary/60">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Economy">Economy</SelectItem>
-                <SelectItem value="Premium Economy">Premium Economy</SelectItem>
-                <SelectItem value="Business">Business</SelectItem>
-                <SelectItem value="First">First</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+            {/* Cabin Class */}
+            <div className="flex-shrink-0">
+              <Select value={data.cabin} onValueChange={(v) => setField("cabin", v as FormState["cabin"])}>
+                <SelectTrigger className="w-auto min-w-0 px-3 py-1 h-9 text-sm bg-secondary/60 font-medium">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Economy">Economy</SelectItem>
+                  <SelectItem value="Premium Economy">Premium Economy</SelectItem>
+                  <SelectItem value="Business">Business</SelectItem>
+                  <SelectItem value="First">First</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
 
-          {/* Rooms */}
-          <div className="flex-shrink-0">
-            <Select value={data.rooms.toString()} onValueChange={(v) => setField("rooms", Number(v))}>
-              <SelectTrigger className="w-auto min-w-0 px-3 py-1 h-8 text-sm bg-secondary/60">
-                <Hotel className="w-4 h-4 mr-1" />
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
-                  <SelectItem key={num} value={num.toString()}>
-                    {num} {num === 1 ? "Room" : "Rooms"}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            {/* Rooms */}
+            <div className="flex-shrink-0">
+              <Select value={data.rooms.toString()} onValueChange={(v) => setField("rooms", Number(v))}>
+                <SelectTrigger className="w-auto min-w-0 px-3 py-1 h-9 text-sm bg-secondary/60 font-medium">
+                  <Hotel className="w-4 h-4 mr-2" />
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
+                    <SelectItem key={num} value={num.toString()}>
+                      {num} {num === 1 ? "Room" : "Rooms"}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </div>
 
         {/* Flight Fields */}
         <div className="relative">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-3 md:grid md:grid-cols-2 md:gap-4 md:space-y-0">
             <div>
-              <label className="mb-1 block text-sm text-muted-foreground">Fly From</label>
+              <label className="mb-2 block text-sm text-muted-foreground font-medium">Fly From</label>
               <Popover open={openOrigin} onOpenChange={setOpenOrigin}>
                 <PopoverTrigger asChild>
-                  <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60">
+                  <Button variant="outline" className="w-full justify-start h-11 bg-secondary/60">
                     <Plane className="mr-2 h-4 w-4" />
                     <div className="flex flex-col items-start">
                       <span className="text-xs text-muted-foreground">From</span>
@@ -339,10 +342,10 @@ const FlightsHotelsBookingForm: React.FC = () => {
               {errors.origin && <p className="mt-1 text-xs text-destructive">{errors.origin}</p>}
             </div>
             <div>
-              <label className="mb-1 block text-sm text-muted-foreground">Fly To</label>
+              <label className="mb-2 block text-sm text-muted-foreground font-medium">Fly To</label>
               <Popover open={openDestination} onOpenChange={setOpenDestination}>
                 <PopoverTrigger asChild>
-                  <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60">
+                  <Button variant="outline" className="w-full justify-start h-11 bg-secondary/60">
                     <Plane className="mr-2 h-4 w-4" />
                     <div className="flex flex-col items-start">
                       <span className="text-xs text-muted-foreground">To</span>
@@ -417,12 +420,12 @@ const FlightsHotelsBookingForm: React.FC = () => {
         </div>
 
         {/* Date Fields */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+        <div className="space-y-3 md:grid md:grid-cols-4 md:gap-4 md:space-y-0 mt-4">
           {/* Departure Date */}
           <div>
             <Popover open={openDepart} onOpenChange={setOpenDepart}>
               <PopoverTrigger asChild>
-                <Button variant="outline" className="w-full justify-start h-12 px-4 bg-secondary/60">
+                <Button variant="outline" className="w-full justify-start h-11 px-3 bg-secondary/60">
                   <Calendar className="mr-2 h-4 w-4" />
                   <div className="flex flex-col items-start">
                     <span className="text-xs text-muted-foreground">Departure</span>
@@ -453,7 +456,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
             <div>
               <Popover open={openReturn} onOpenChange={setOpenReturn}>
                 <PopoverTrigger asChild>
-                  <Button variant="outline" className="w-full justify-start h-12 px-4 bg-secondary/60">
+                  <Button variant="outline" className="w-full justify-start h-11 px-3 bg-secondary/60">
                     <Calendar className="mr-2 h-4 w-4" />
                     <div className="flex flex-col items-start">
                       <span className="text-xs text-muted-foreground">Return</span>
@@ -484,7 +487,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
           <div>
             <Popover open={openCheckIn} onOpenChange={setOpenCheckIn}>
               <PopoverTrigger asChild>
-                <Button variant="outline" className="w-full justify-start h-12 px-4 bg-secondary/60">
+                <Button variant="outline" className="w-full justify-start h-11 px-3 bg-secondary/60">
                   <Calendar className="mr-2 h-4 w-4" />
                   <div className="flex flex-col items-start">
                     <span className="text-xs text-muted-foreground">Check-in</span>
@@ -514,7 +517,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
           <div>
             <Popover open={openCheckOut} onOpenChange={setOpenCheckOut}>
               <PopoverTrigger asChild>
-                <Button variant="outline" className="w-full justify-start h-12 px-4 bg-secondary/60">
+                <Button variant="outline" className="w-full justify-start h-11 px-3 bg-secondary/60">
                   <Calendar className="mr-2 h-4 w-4" />
                   <div className="flex flex-col items-start">
                     <span className="text-xs text-muted-foreground">Check-out</span>
@@ -542,13 +545,13 @@ const FlightsHotelsBookingForm: React.FC = () => {
         </div>
 
         {/* Contact Fields */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <div className="space-y-3 md:grid md:grid-cols-2 md:gap-4 md:space-y-0 mt-4">
           <div className="relative">
             <Input
               type="tel"
               value={data.phone || ""}
               onChange={(e) => setField("phone", e.target.value)}
-              className="h-12 pl-3 bg-secondary/60"
+              className="h-11 pl-3 bg-secondary/60 text-sm"
               placeholder="UK Number Only"
             />
             {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
@@ -558,7 +561,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
               type="email"
               value={data.email || ""}
               onChange={(e) => setField("email", e.target.value)}
-              className="h-12 pl-3 bg-secondary/60"
+              className="h-11 pl-3 bg-secondary/60 text-sm"
               placeholder="Enter your email"
             />
             {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
@@ -580,7 +583,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
                       newAges[index] = e.target.value;
                       setField("personAges", newAges);
                     }}
-                    className="h-10 bg-secondary/60"
+                    className="h-11 bg-secondary/60 text-sm"
                     placeholder={`Person ${index + 1}`}
                     min="1"
                     max="99"

@@ -75,36 +75,36 @@ const HajjBookingForm: React.FC = () => {
   return (
     <>
       <form onSubmit={onSubmit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-4 md:p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="space-y-4 md:grid md:grid-cols-2 md:gap-4 md:space-y-0">
           <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Name</label>
-            <Input value={data.name} onChange={(e)=> setField("name", e.target.value)} placeholder="Your full name" />
+            <label className="mb-2 block text-sm text-muted-foreground font-medium">Name</label>
+            <Input value={data.name} onChange={(e)=> setField("name", e.target.value)} placeholder="Your full name" className="h-11 bg-secondary/60 text-sm" />
             {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name}</p>}
           </div>
           <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Contact Number</label>
-            <Input type="tel" value={data.phone} onChange={(e)=> setField("phone", e.target.value)} placeholder="e.g., +44 20 1234 5678" />
+            <label className="mb-2 block text-sm text-muted-foreground font-medium">Contact Number</label>
+            <Input type="tel" value={data.phone} onChange={(e)=> setField("phone", e.target.value)} placeholder="e.g., +44 20 1234 5678" className="h-11 bg-secondary/60 text-sm" />
             {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
           </div>
           <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Passengers</label>
-            <Input type="number" min={1} value={data.passengers} onChange={(e)=> setField("passengers", Math.max(1, Number(e.target.value)))} />
+            <label className="mb-2 block text-sm text-muted-foreground font-medium">Passengers</label>
+            <Input type="number" min={1} value={data.passengers} onChange={(e)=> setField("passengers", Math.max(1, Number(e.target.value)))} className="h-11 bg-secondary/60 text-sm" />
             {errors.passengers && <p className="mt-1 text-xs text-destructive">{errors.passengers}</p>}
           </div>
           <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Departure</label>
-            <Input type="date" value={data.departure} onChange={(e)=> setField("departure", e.target.value)} />
+            <label className="mb-2 block text-sm text-muted-foreground font-medium">Departure</label>
+            <Input type="date" value={data.departure} onChange={(e)=> setField("departure", e.target.value)} className="h-11 bg-secondary/60 text-sm" />
             {errors.departure && <p className="mt-1 text-xs text-destructive">{errors.departure}</p>}
           </div>
           <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Days</label>
-            <Input type="number" min={1} value={data.days} onChange={(e)=> setField("days", Math.max(1, Number(e.target.value)))} />
+            <label className="mb-2 block text-sm text-muted-foreground font-medium">Days</label>
+            <Input type="number" min={1} value={data.days} onChange={(e)=> setField("days", Math.max(1, Number(e.target.value)))} className="h-11 bg-secondary/60 text-sm" />
             {errors.days && <p className="mt-1 text-xs text-destructive">{errors.days}</p>}
           </div>
           <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Visa</label>
+            <label className="mb-2 block text-sm text-muted-foreground font-medium">Visa</label>
             <Select value={data.visa} onValueChange={(v)=> setField("visa", v as FormState["visa"])}>
-              <SelectTrigger className="h-12 bg-secondary/60"><SelectValue placeholder="Select" /></SelectTrigger>
+              <SelectTrigger className="h-11 bg-secondary/60"><SelectValue placeholder="Select" /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="Yes">Yes</SelectItem>
                 <SelectItem value="No">No</SelectItem>
@@ -113,9 +113,9 @@ const HajjBookingForm: React.FC = () => {
             {errors.visa && <p className="mt-1 text-xs text-destructive">{errors.visa}</p>}
           </div>
           <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Hotels</label>
+            <label className="mb-2 block text-sm text-muted-foreground font-medium">Hotels</label>
             <Select value={data.hotel} onValueChange={(v)=> setField("hotel", v as FormState["hotel"])}>
-              <SelectTrigger className="h-12 bg-secondary/60"><SelectValue placeholder="Select" /></SelectTrigger>
+              <SelectTrigger className="h-11 bg-secondary/60"><SelectValue placeholder="Select" /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="Standard">Standard</SelectItem>
                 <SelectItem value="Economy">Economy</SelectItem>
@@ -127,9 +127,9 @@ const HajjBookingForm: React.FC = () => {
             {errors.hotel && <p className="mt-1 text-xs text-destructive">{errors.hotel}</p>}
           </div>
           <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Transport</label>
+            <label className="mb-2 block text-sm text-muted-foreground font-medium">Transport</label>
             <Select value={data.transport} onValueChange={(v)=> setField("transport", v as FormState["transport"])}>
-              <SelectTrigger className="h-12 bg-secondary/60"><SelectValue placeholder="Select" /></SelectTrigger>
+              <SelectTrigger className="h-11 bg-secondary/60"><SelectValue placeholder="Select" /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="Yes">Yes</SelectItem>
                 <SelectItem value="No">No</SelectItem>
@@ -137,8 +137,8 @@ const HajjBookingForm: React.FC = () => {
             </Select>
             {errors.transport && <p className="mt-1 text-xs text-destructive">{errors.transport}</p>}
           </div>
-          <div className="md:col-span-2 flex justify-end">
-            <Button type="submit" className="h-12">Book Hajj</Button>
+          <div className="md:col-span-2 flex justify-center md:justify-end mt-2">
+            <Button type="submit" className="h-12 px-8 text-base" variant="hero">Book Hajj</Button>
           </div>
         </div>
       </form>

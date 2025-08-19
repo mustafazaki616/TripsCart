@@ -22,7 +22,7 @@ const AccreditationDrawer: React.FC = () => {
       <div className="fixed right-0 top-1/2 z-50 -translate-y-1/2 pointer-events-none">
         {/* Panel */}
         <div
-          className={`relative h-[40vh] w-[22rem] max-w-[85vw] rounded-l-2xl bg-black text-white shadow-xl will-change-transform transform transition-transform duration-500 ease-in-out pointer-events-auto ${
+          className={`relative h-[70vh] w-[22rem] max-w-[85vw] rounded-l-2xl bg-black text-white shadow-xl will-change-transform transform transition-transform duration-500 ease-in-out pointer-events-auto ${
             open ? "translate-x-0" : "translate-x-full"
           }`}
           aria-hidden={!open}
@@ -67,18 +67,7 @@ const AccreditationDrawer: React.FC = () => {
           </button>
         </div>
 
-        {/* When closed, keep a slim tab visible at the viewport edge to open */}
-        {!open && (
-          <button
-            type="button"
-            onClick={toggleOpen}
-            aria-label="Open accreditation"
-            className="fixed right-0 top-1/2 z-50 -translate-y-1/2 rounded-l-xl bg-amber-500 px-2 py-3 text-[10px] font-semibold tracking-wide text-white shadow-lg hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-300 pointer-events-auto"
-            style={{ writingMode: "vertical-rl", textOrientation: "mixed" }}
-          >
-            ACCREDITATION
-          </button>
-        )}
+
       </div>
     </>
   );
