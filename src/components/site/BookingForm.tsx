@@ -253,7 +253,7 @@ const BookingForm: React.FC = () => {
             
             {/* Cabin Class */}
             <div className="col-span-1">
-              <Select value={data.cabin} onValueChange={(v)=> setData((d)=>({...d, cabin: v as FormState["cabin"]})))}>
+              <Select value={data.cabin} onValueChange={(v)=> setData((d)=>({...d, cabin: v as FormState["cabin"]}))}>
                 <SelectTrigger className="h-10 bg-secondary/60 text-xs font-medium px-2">
                   <SelectValue />
                 </SelectTrigger>
@@ -870,7 +870,7 @@ const BookingForm: React.FC = () => {
            {/* Cabin */}
            <div>
              <label className="mb-1 block text-xs md:text-sm text-muted-foreground">Class</label>
-             <Select value={data.cabin} onValueChange={(v)=> setData((d)=>({...d, cabin: v as FormState["cabin"]})))}>
+             <Select value={data.cabin} onValueChange={(v)=> setData((d)=>({...d, cabin: v as FormState["cabin"]}))}>
                <SelectTrigger className="h-10 md:h-12 bg-secondary/60 text-xs md:text-sm">
                  <SelectValue placeholder="Economy" />
                </SelectTrigger>
@@ -949,23 +949,24 @@ const BookingForm: React.FC = () => {
         <TabsContent value="visa">
           <VisaBookingForm />
         </TabsContent>
+        </TabsContent>
       </Tabs>
     </form>
 
-   {/* Success modal */}
-   <Dialog open={showModal} onOpenChange={(o)=>{ if(!o){ setShowModal(false); clearForm(); } }}>
-     <DialogContent className="sm:max-w-md">
-       <DialogHeader>
-         <DialogTitle>Form submitted!</DialogTitle>
-       </DialogHeader>
-       <p className="text-sm text-muted-foreground">Our team will contact you soon.</p>
-       <div className="mt-4 flex justify-end">
-         <Button onClick={()=>{ setShowModal(false); clearForm(); }}>Close</Button>
-       </div>
-     </DialogContent>
-   </Dialog>
-   </>
- );
+    {/* Success modal */}
+    <Dialog open={showModal} onOpenChange={(open) => { if (!open) { setShowModal(false); clearForm(); } }}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>Booking Request Submitted!</DialogTitle>
+        </DialogHeader>
+        <p className="text-sm text-muted-foreground">Thank you for your booking request. Our travel experts will review your requirements and contact you within 24 hours with personalized options and pricing.</p>
+        <div className="mt-4 flex justify-end">
+          <Button onClick={() => { setShowModal(false); clearForm(); }}>Close</Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+    </>
+  );
 };
 
 export default BookingForm;
