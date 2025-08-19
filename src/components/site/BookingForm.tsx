@@ -18,6 +18,24 @@ import { searchAirports, getAirportByCode, getPopularAirports, type Airport } fr
 
 const cabinClasses = ["Economy", "Premium Economy", "Business", "First"] as const;
 
+// Helper function to generate date options for the next 365 days
+const getDateOptions = (startDate?: Date) => {
+  const options = [];
+  const start = startDate || new Date();
+  
+  for (let i = 0; i < 365; i++) {
+    const date = new Date(start);
+    date.setDate(start.getDate() + i);
+    options.push({
+      value: date.toISOString(),
+      label: format(date, "EEE, dd MMM yyyy"),
+      shortLabel: format(date, "dd MMM")
+    });
+  }
+  
+  return options;
+};
+
 type FormState = {
   tripType: "round" | "oneway";
   origin?: string;
@@ -58,27 +76,8 @@ const BookingForm: React.FC = () => {
   const [showModal, setShowModal] = React.useState(false);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
-  // Popover states
-  const [openOrigin, setOpenOrigin] = React.useState(false);
-  const [openDestination, setOpenDestination] = React.useState(false);
-  const [openDepart, setOpenDepart] = React.useState(false);
-  const [openReturn, setOpenReturn] = React.useState(false);
+  // Popover state for travelers dropdown only
   const [openTravellers, setOpenTravellers] = React.useState(false);
-
-  // Search states
-  const [originFilter, setOriginFilter] = React.useState("");
-  const [destinationFilter, setDestinationFilter] = React.useState("");
-
-  // Airport search results
-  const originResults = React.useMemo(() => {
-    if (!originFilter.trim()) return getPopularAirports();
-    return searchAirports(originFilter);
-  }, [originFilter]);
-
-  const destinationResults = React.useMemo(() => {
-    if (!destinationFilter.trim()) return getPopularAirports();
-    return searchAirports(destinationFilter);
-  }, [destinationFilter]);
 
   const validate = (): boolean => {
     const newErrors: FormErrors = {};
@@ -232,131 +231,43 @@ const BookingForm: React.FC = () => {
           <div className="space-y-2">
             {/* From */}
             <div>
-              <Popover open={openOrigin} onOpenChange={setOpenOrigin}>
-                <PopoverTrigger asChild>
-                  <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60 text-sm">
-                    <Plane className="mr-3 w-4 h-4 opacity-70" />
-                    <div className="flex flex-col items-start">
-                      <span className="text-xs text-muted-foreground">From</span>
-                      <span className="font-medium truncate">
-                        {data.origin ? getAirportByCode(data.origin)?.city || data.origin : "Select departure"}
-                      </span>
-                    </div>
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent align="start" className="w-[var(--radix-popover-trigger-width)] p-0">
-                  <div className="p-3 border-b">
-                    <div className="flex items-center gap-2 rounded-md bg-secondary/60 px-2">
-                      <Search className="opacity-70" />
-                      <input
-                        className="h-9 flex-1 bg-transparent outline-none"
-                        placeholder="Search airports, cities, or codes"
-                        value={originFilter}
-                        onChange={(e) => setOriginFilter(e.target.value)}
-                        autoFocus
-                      />
-                      {originFilter && (
-                        <button
-                          type="button"
-                          className="opacity-60 hover:opacity-100"
-                          onClick={() => setOriginFilter("")}
-                        >
-                          <X className="h-4 w-4" />
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                  <div className="max-h-64 overflow-y-auto">
-                    {originResults.length > 0 ? (
-                      originResults.map((airport) => (
-                        <button
-                          key={airport.code}
-                          type="button"
-                          className="w-full px-3 py-2 text-left hover:bg-secondary/60 border-b last:border-0"
-                          onClick={() => {
-                            setData((d) => ({ ...d, origin: airport.code }));
-                            setOpenOrigin(false);
-                            setOriginFilter("");
-                          }}
-                        >
-                          <div className="flex flex-col">
-                            <div className="font-medium">{airport.city}, {airport.country}</div>
-                            <div className="text-sm text-muted-foreground">{airport.name} ({airport.code})</div>
-                          </div>
-                        </button>
-                      ))
-                    ) : (
-                      <div className="px-3 py-2 text-sm text-muted-foreground">No airports found</div>
-                    )}
-                  </div>
-                </PopoverContent>
-              </Popover>
+              <div className="flex items-center gap-2 mb-1">
+                <Plane className="w-4 h-4 opacity-70" />
+                <span className="text-xs text-muted-foreground">From</span>
+              </div>
+              <Select value={data.origin} onValueChange={(value) => setData((d) => ({ ...d, origin: value }))}>
+                <SelectTrigger className="h-12 bg-secondary/60">
+                  <SelectValue placeholder="Select departure city" />
+                </SelectTrigger>
+                <SelectContent>
+                  {getPopularAirports().map((airport) => (
+                    <SelectItem key={airport.code} value={airport.code}>
+                      {airport.city}, {airport.country} ({airport.code})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               {errors.origin && <p className="mt-1 text-xs text-destructive">{errors.origin}</p>}
             </div>
             
             {/* To */}
             <div>
-              <Popover open={openDestination} onOpenChange={setOpenDestination}>
-                <PopoverTrigger asChild>
-                  <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60 text-sm">
-                    <div className="mr-3 w-4 h-4 opacity-70 flex items-center justify-center">
-                      <ArrowLeftRight className="w-3 h-3" />
-                    </div>
-                    <div className="flex flex-col items-start">
-                      <span className="text-xs text-muted-foreground">To</span>
-                      <span className="font-medium truncate">
-                        {data.destination ? getAirportByCode(data.destination)?.city || data.destination : "Select destination"}
-                      </span>
-                    </div>
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent align="start" className="w-[var(--radix-popover-trigger-width)] p-0">
-                  <div className="p-3 border-b">
-                    <div className="flex items-center gap-2 rounded-md bg-secondary/60 px-2">
-                      <Search className="opacity-70" />
-                      <input
-                        className="h-9 flex-1 bg-transparent outline-none"
-                        placeholder="Search airports, cities, or codes"
-                        value={destinationFilter}
-                        onChange={(e) => setDestinationFilter(e.target.value)}
-                        autoFocus
-                      />
-                      {destinationFilter && (
-                        <button
-                          type="button"
-                          className="opacity-60 hover:opacity-100"
-                          onClick={() => setDestinationFilter("")}
-                        >
-                          <X className="h-4 w-4" />
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                  <div className="max-h-64 overflow-y-auto">
-                    {destinationResults.length > 0 ? (
-                      destinationResults.map((airport) => (
-                        <button
-                          key={airport.code}
-                          type="button"
-                          className="w-full px-3 py-2 text-left hover:bg-secondary/60 border-b last:border-0"
-                          onClick={() => {
-                            setData((d) => ({ ...d, destination: airport.code }));
-                            setOpenDestination(false);
-                            setDestinationFilter("");
-                          }}
-                        >
-                          <div className="flex flex-col">
-                            <div className="font-medium">{airport.city}, {airport.country}</div>
-                            <div className="text-sm text-muted-foreground">{airport.name} ({airport.code})</div>
-                          </div>
-                        </button>
-                      ))
-                    ) : (
-                      <div className="px-3 py-2 text-sm text-muted-foreground">No airports found</div>
-                    )}
-                  </div>
-                </PopoverContent>
-              </Popover>
+              <div className="flex items-center gap-2 mb-1">
+                <ArrowLeftRight className="w-4 h-4 opacity-70" />
+                <span className="text-xs text-muted-foreground">To</span>
+              </div>
+              <Select value={data.destination} onValueChange={(value) => setData((d) => ({ ...d, destination: value }))}>
+                <SelectTrigger className="h-12 bg-secondary/60">
+                  <SelectValue placeholder="Select destination city" />
+                </SelectTrigger>
+                <SelectContent>
+                  {getPopularAirports().map((airport) => (
+                    <SelectItem key={airport.code} value={airport.code}>
+                      {airport.city}, {airport.country} ({airport.code})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               {errors.destination && <p className="mt-1 text-xs text-destructive">{errors.destination}</p>}
             </div>
           </div>
@@ -365,66 +276,50 @@ const BookingForm: React.FC = () => {
           <div className="grid grid-cols-2 gap-2">
             {/* Departure Date */}
             <div>
-              <Popover open={openDepart} onOpenChange={setOpenDepart}>
-                <PopoverTrigger asChild>
-                  <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60 text-sm">
-                    <Calendar className="mr-2 w-4 h-4 opacity-70" />
-                    <div className="flex flex-col items-start">
-                      <span className="text-xs text-muted-foreground">Departure</span>
-                      <span className="font-medium text-xs">
-                        {data.departDate ? format(data.departDate, "dd MMM") : "Select"}
-                      </span>
-                    </div>
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="p-0" align="start">
-                  <CalendarWidget 
-                    mode="single" 
-                    selected={data.departDate} 
-                    onSelect={(d) => {
-                      setData((s) => ({ ...s, departDate: d ?? undefined }));
-                      setOpenDepart(false);
-                    }} 
-                    initialFocus 
-                    disabled={(date) => date < new Date()}
-                  />
-                </PopoverContent>
-              </Popover>
+              <div className="flex items-center gap-2 mb-1">
+                <Calendar className="w-4 h-4 opacity-70" />
+                <span className="text-xs text-muted-foreground">Departure</span>
+              </div>
+              <Select 
+                value={data.departDate?.toISOString()} 
+                onValueChange={(value) => setData((d) => ({ ...d, departDate: new Date(value) }))}
+              >
+                <SelectTrigger className="h-12 bg-secondary/60">
+                  <SelectValue placeholder="Select departure date" />
+                </SelectTrigger>
+                <SelectContent className="max-h-64">
+                  {getDateOptions().map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               {errors.departDate && <p className="mt-1 text-xs text-destructive">{errors.departDate}</p>}
             </div>
             
             {/* Return Date */}
             {data.tripType === "round" && (
               <div>
-                <Popover open={openReturn} onOpenChange={setOpenReturn}>
-                  <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-start h-12 bg-secondary/60 text-sm">
-                      <Calendar className="mr-2 w-4 h-4 opacity-70" />
-                      <div className="flex flex-col items-start">
-                        <span className="text-xs text-muted-foreground">Return</span>
-                        <span className="font-medium text-xs">
-                          {data.returnDate ? format(data.returnDate, "dd MMM") : "Select"}
-                        </span>
-                      </div>
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="p-0" align="start">
-                    <CalendarWidget 
-                      mode="single" 
-                      selected={data.returnDate} 
-                      onSelect={(d) => {
-                        setData((s) => ({ ...s, returnDate: d ?? undefined }));
-                        setOpenReturn(false);
-                      }} 
-                      initialFocus 
-                      disabled={(date) => {
-                        const today = new Date();
-                        const departDate = data.departDate || today;
-                        return date < Math.max(today.getTime(), departDate.getTime());
-                      }}
-                    />
-                  </PopoverContent>
-                </Popover>
+                <div className="flex items-center gap-2 mb-1">
+                  <Calendar className="w-4 h-4 opacity-70" />
+                  <span className="text-xs text-muted-foreground">Return</span>
+                </div>
+                <Select 
+                  value={data.returnDate?.toISOString()} 
+                  onValueChange={(value) => setData((d) => ({ ...d, returnDate: new Date(value) }))}
+                >
+                  <SelectTrigger className="h-12 bg-secondary/60">
+                    <SelectValue placeholder="Select return date" />
+                  </SelectTrigger>
+                  <SelectContent className="max-h-64">
+                    {getDateOptions(data.departDate).map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 {errors.returnDate && <p className="mt-1 text-xs text-destructive">{errors.returnDate}</p>}
               </div>
             )}
@@ -488,132 +383,42 @@ const BookingForm: React.FC = () => {
               {/* Origin */}
               <div>
                 <label className="mb-2 block text-sm font-medium text-foreground">From</label>
-                <Popover open={openOrigin} onOpenChange={setOpenOrigin}>
-                  <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-start h-11 md:h-12 bg-secondary/60 text-sm border-input hover:bg-secondary/80">
+                <Select value={data.origin} onValueChange={(value) => setData((d) => ({ ...d, origin: value }))}>
+                  <SelectTrigger className="h-11 md:h-12 bg-secondary/60">
+                    <div className="flex items-center">
                       <Plane className="mr-3 opacity-70 w-4 h-4" />
-                      <span className="font-medium truncate">
-                        {data.origin ? (
-                           `${getAirportByCode(data.origin)?.city} - ${getAirportByCode(data.origin)?.name} (${data.origin})`
-                        ) : (
-                          "Select departure city"
-                        )}
-                      </span>
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent align="start" className="w-[var(--radix-popover-trigger-width)] p-0">
-                    <div className="p-3 border-b">
-                      <div className="flex items-center gap-2 rounded-md bg-secondary/60 px-2">
-                        <Search className="opacity-70" />
-                        <input
-                          className="h-9 flex-1 bg-transparent outline-none"
-                          placeholder="Search airports, cities, or codes"
-                          value={originFilter}
-                          onChange={(e) => setOriginFilter(e.target.value)}
-                          autoFocus
-                        />
-                        {originFilter && (
-                          <button
-                            type="button"
-                            className="opacity-60 hover:opacity-100"
-                            onClick={() => setOriginFilter("")}
-                          >
-                            <X className="h-4 w-4" />
-                          </button>
-                        )}
-                      </div>
+                      <SelectValue placeholder="Select departure city" />
                     </div>
-                    <div className="max-h-64 overflow-y-auto">
-                      {originResults.length > 0 ? (
-                        originResults.map((airport) => (
-                          <button
-                            key={airport.code}
-                            type="button"
-                            className="w-full px-3 py-2 text-left hover:bg-secondary/60 border-b last:border-0"
-                            onClick={() => {
-                              setData((d) => ({ ...d, origin: airport.code }));
-                              setOpenOrigin(false);
-                              setOriginFilter("");
-                            }}
-                          >
-                            <div className="flex flex-col">
-                              <div className="font-medium">{airport.city}, {airport.country}</div>
-                              <div className="text-sm text-muted-foreground">{airport.name} ({airport.code})</div>
-                            </div>
-                          </button>
-                        ))
-                      ) : (
-                        <div className="px-3 py-2 text-sm text-muted-foreground">No airports found</div>
-                      )}
-                    </div>
-                  </PopoverContent>
-                </Popover>
+                  </SelectTrigger>
+                  <SelectContent className="max-h-64">
+                    {getPopularAirports().map((airport) => (
+                      <SelectItem key={airport.code} value={airport.code}>
+                        {airport.city}, {airport.country} ({airport.code})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 {errors.origin && <p className="mt-2 text-xs text-destructive">{errors.origin}</p>}
               </div>
 
               {/* Destination */}
               <div>
                 <label className="mb-2 block text-sm font-medium text-foreground">To</label>
-                <Popover open={openDestination} onOpenChange={setOpenDestination}>
-                  <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-start h-11 md:h-12 bg-secondary/60 text-sm border-input hover:bg-secondary/80">
+                <Select value={data.destination} onValueChange={(value) => setData((d) => ({ ...d, destination: value }))}>
+                  <SelectTrigger className="h-11 md:h-12 bg-secondary/60">
+                    <div className="flex items-center">
                       <ArrowLeftRight className="mr-3 opacity-70 w-4 h-4" />
-                      <span className="font-medium truncate">
-                        {data.destination ? (
-                          `${getAirportByCode(data.destination)?.city} - ${getAirportByCode(data.destination)?.name} (${data.destination})`
-                        ) : (
-                          "Select destination city"
-                        )}
-                      </span>
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent align="start" className="w-[var(--radix-popover-trigger-width)] p-0">
-                    <div className="p-3 border-b">
-                      <div className="flex items-center gap-2 rounded-md bg-secondary/60 px-2">
-                        <Search className="opacity-70" />
-                        <input
-                          className="h-9 flex-1 bg-transparent outline-none"
-                          placeholder="Search airports, cities, or codes"
-                          value={destinationFilter}
-                          onChange={(e) => setDestinationFilter(e.target.value)}
-                          autoFocus
-                        />
-                        {destinationFilter && (
-                          <button
-                            type="button"
-                            className="opacity-60 hover:opacity-100"
-                            onClick={() => setDestinationFilter("")}
-                          >
-                            <X className="h-4 w-4" />
-                          </button>
-                        )}
-                      </div>
+                      <SelectValue placeholder="Select destination city" />
                     </div>
-                    <div className="max-h-64 overflow-y-auto">
-                      {destinationResults.length > 0 ? (
-                        destinationResults.map((airport) => (
-                          <button
-                            key={airport.code}
-                            type="button"
-                            className="w-full px-3 py-2 text-left hover:bg-secondary/60 border-b last:border-0"
-                            onClick={() => {
-                              setData((d) => ({ ...d, destination: airport.code }));
-                              setOpenDestination(false);
-                              setDestinationFilter("");
-                            }}
-                          >
-                            <div className="flex flex-col">
-                              <div className="font-medium">{airport.city}, {airport.country}</div>
-                              <div className="text-sm text-muted-foreground">{airport.name} ({airport.code})</div>
-                            </div>
-                          </button>
-                        ))
-                      ) : (
-                        <div className="px-3 py-2 text-sm text-muted-foreground">No airports found</div>
-                      )}
-                    </div>
-                  </PopoverContent>
-                </Popover>
+                  </SelectTrigger>
+                  <SelectContent className="max-h-64">
+                    {getPopularAirports().map((airport) => (
+                      <SelectItem key={airport.code} value={airport.code}>
+                        {airport.city}, {airport.country} ({airport.code})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 {errors.destination && <p className="mt-2 text-xs text-destructive">{errors.destination}</p>}
               </div>
             </div>
@@ -625,28 +430,24 @@ const BookingForm: React.FC = () => {
               {/* Departure */}
               <div>
                 <label className="mb-2 block text-sm font-medium text-foreground">Departure Date</label>
-                <Popover open={openDepart} onOpenChange={setOpenDepart}>
-                  <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-start h-11 md:h-12 bg-secondary/60 text-sm border-input hover:bg-secondary/80">
-                      <Calendar className="mr-3 opacity-70 w-4 h-4" />
-                      <span className="font-medium">
-                        {data.departDate ? format(data.departDate, "dd MMM yyyy") : "Select departure date"}
-                      </span>
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="p-0" align="start">
-                    <CalendarWidget 
-                      mode="single" 
-                      selected={data.departDate} 
-                      onSelect={(d) => {
-                        setData((s) => ({ ...s, departDate: d ?? undefined }));
-                        setOpenDepart(false);
-                      }} 
-                      initialFocus 
-                      disabled={(date) => date < new Date()}
-                    />
-                  </PopoverContent>
-                </Popover>
+                <Select
+                  value={data.departDate ? format(data.departDate, "yyyy-MM-dd") : ""}
+                  onValueChange={(value) => {
+                    setData((s) => ({ ...s, departDate: new Date(value) }));
+                  }}
+                >
+                  <SelectTrigger className="w-full h-11 md:h-12 bg-secondary/60 text-sm border-input">
+                    <Calendar className="mr-3 opacity-70 w-4 h-4" />
+                    <SelectValue placeholder="Departure" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {getDateOptions().map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 {errors.departDate && <p className="mt-2 text-xs text-destructive">{errors.departDate}</p>}
               </div>
 
@@ -654,29 +455,24 @@ const BookingForm: React.FC = () => {
               {data.tripType === "round" && (
                 <div>
                   <label className="mb-2 block text-sm font-medium text-foreground">Return Date</label>
-                  <Popover open={openReturn} onOpenChange={setOpenReturn}>
-                    <PopoverTrigger asChild>
-                      <Button variant="outline" className="w-full justify-start h-11 md:h-12 bg-secondary/60 text-sm border-input hover:bg-secondary/80">
-                        <Calendar className="mr-3 opacity-70 w-4 h-4" />
-                        <span className="font-medium">
-                          {data.returnDate ? format(data.returnDate, "dd MMM yyyy") : "Select return date"}
-                        </span>
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="p-0" align="start">
-                      <CalendarWidget 
-                        mode="single" 
-                        selected={data.returnDate} 
-                        onSelect={(d) => setData((s) => ({ ...s, returnDate: d ?? undefined }))} 
-                        initialFocus 
-                        disabled={(date) => {
-                          const today = new Date(new Date().setHours(0, 0, 0, 0));
-                          const departDate = data.departDate ? new Date(data.departDate.setHours(0, 0, 0, 0)) : today;
-                          return date < Math.max(today.getTime(), departDate.getTime());
-                        }}
-                      />
-                    </PopoverContent>
-                  </Popover>
+                  <Select
+                    value={data.returnDate ? format(data.returnDate, "yyyy-MM-dd") : ""}
+                    onValueChange={(value) => {
+                      setData((s) => ({ ...s, returnDate: new Date(value) }));
+                    }}
+                  >
+                    <SelectTrigger className="w-full h-11 md:h-12 bg-secondary/60 text-sm border-input">
+                      <Calendar className="mr-3 opacity-70 w-4 h-4" />
+                      <SelectValue placeholder="Return" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {getDateOptions(data.departDate).map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   {errors.returnDate && <p className="mt-2 text-xs text-destructive">{errors.returnDate}</p>}
                 </div>
               )}

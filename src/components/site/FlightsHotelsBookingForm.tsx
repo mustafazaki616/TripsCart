@@ -166,7 +166,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
                     )}
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
-                    {data.departDate ? format(data.departDate, "PPP") : "Select departure date"}
+                    {data.departDate ? format(data.departDate, "PPP") : "Departure"}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
@@ -193,7 +193,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
                       )}
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
-                      {data.returnDate ? format(data.returnDate, "PPP") : "Select return date"}
+                      {data.returnDate ? format(data.returnDate, "PPP") : "Return"}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
@@ -463,7 +463,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
-                  {data.departDate ? format(data.departDate, "PPP") : "Select departure date"}
+                  {data.departDate ? format(data.departDate, "PPP") : "Departure"}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
@@ -492,7 +492,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
                     )}
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
-                    {data.returnDate ? format(data.returnDate, "PPP") : "Select return date"}
+                    {data.returnDate ? format(data.returnDate, "PPP") : "Return"}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
