@@ -48,11 +48,22 @@ const FlightsHotelsBookingForm: React.FC = () => {
       const originAirport = data.origin ? getAirportByCode(data.origin) : null;
       const destinationAirport = data.destination ? getAirportByCode(data.destination) : null;
       
-      await sendAdminEmail({
-        ...data,
-        originCity: originAirport?.city,
-        destinationCity: destinationAirport?.city
-      }, 'Flights & Hotels Booking');
+      const emailData = {
+        name: '', // Will be handled by the email template
+        email: data.email || '',
+        phone: data.phone || '',
+        departureDate: data.departDate,
+        returnDate: data.returnDate,
+        departureCity: originAirport ? `${originAirport.city}, ${originAirport.country} (${data.origin})` : data.origin || '',
+        destinationCity: destinationAirport ? `${destinationAirport.city}, ${destinationAirport.country} (${data.destination})` : data.destination || '',
+        adults: data.adults,
+        children: data.children,
+        infants: data.infants,
+        class: data.cabin,
+        message: `Trip Type: ${data.tripType}, Rooms: ${data.rooms}`
+      };
+      
+      await sendAdminEmail(emailData, 'Flights & Hotels Booking');
       setShowModal(true);
     } catch (error) {
       console.error('Error sending email:', error);
@@ -66,7 +77,9 @@ const FlightsHotelsBookingForm: React.FC = () => {
     setData({
       tripType: 'round',
       cabin: 'Economy',
-      passengers: '1',
+      adults: 1,
+      children: 0,
+      infants: 0,
       rooms: '1'
     });
   };

@@ -104,25 +104,21 @@ const BookingForm: React.FC = () => {
       const destinationAirport = getAirportByCode(data.destination!);
       
       const emailData = {
-        type: 'flight',
-        tripType: data.tripType,
-        origin: `${originAirport?.city}, ${originAirport?.country} (${data.origin})`,
-        destination: `${destinationAirport?.city}, ${destinationAirport?.country} (${data.destination})`,
-        departDate: data.departDate ? format(data.departDate, 'PPP') : '',
-        returnDate: data.returnDate ? format(data.returnDate, 'PPP') : '',
-        passengers: {
-          adults: data.adults,
-          children: data.children,
-          infants: data.infants
-        },
-        cabin: data.cabin,
-        contact: {
-          phone: data.phone || '',
-          email: data.email || ''
-        }
+        name: '', // Will be handled by the email template
+        email: data.email || '',
+        phone: data.phone || '',
+        departureDate: data.departDate,
+        returnDate: data.returnDate,
+        departureCity: `${originAirport?.city}, ${originAirport?.country} (${data.origin})`,
+        destinationCity: `${destinationAirport?.city}, ${destinationAirport?.country} (${data.destination})`,
+        adults: data.adults,
+        children: data.children,
+        infants: data.infants,
+        class: data.cabin,
+        message: `Trip Type: ${data.tripType}`
       };
 
-      await sendAdminEmail(emailData);
+      await sendAdminEmail(emailData, 'Flight Booking');
       setShowModal(true);
     } catch (error) {
       console.error('Failed to send booking request:', error);

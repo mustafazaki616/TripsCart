@@ -67,7 +67,18 @@ const HajjBookingForm: React.FC = () => {
     
     try {
       // Send email to admin with form details
-      await sendAdminEmail(data, 'Hajj Booking');
+      const emailData = {
+        name: data.name,
+        email: data.email || '',
+        phone: data.phone,
+        departureDate: data.departDate,
+        adults: data.adults,
+        children: data.children,
+        infants: data.infants,
+        message: `Departure: ${data.departure}, Days: ${data.days}, Visa: ${data.visa}, Hotel: ${data.hotel}, Transport: ${data.transport}`
+      };
+      
+      await sendAdminEmail(emailData, 'Hajj Booking');
       // Show success modal
       setShowModal(true);
     } catch (error) {
@@ -78,7 +89,7 @@ const HajjBookingForm: React.FC = () => {
   };
 
   const clear = () => {
-    setData({ name: "", passengers: 1, departure: "", days: 10, visa: "", hotel: "", transport: "", phone: "" });
+    setData({ name: "", adults: 1, children: 0, infants: 0, departure: "", days: 10, visa: "", hotel: "", transport: "", phone: "", email: "" });
     setErrors({});
   };
 
