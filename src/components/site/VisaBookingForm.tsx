@@ -92,153 +92,319 @@ const VisaBookingForm: React.FC = () => {
   return (
     <>
       <form onSubmit={onSubmit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-2 md:p-6">
-        {/* Main Fields */}
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Visa Type</label>
-            <Select value={data.visaType} onValueChange={(v) => setField("visaType", v)}>
-              <SelectTrigger className="h-10 bg-secondary/60">
-                <SelectValue placeholder="Select visa type" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Tourist">Tourist Visa</SelectItem>
-                <SelectItem value="Business">Business Visa</SelectItem>
-                <SelectItem value="Student">Student Visa</SelectItem>
-                <SelectItem value="Work">Work Visa</SelectItem>
-                <SelectItem value="Transit">Transit Visa</SelectItem>
-              </SelectContent>
-            </Select>
-            {errors.visaType && <p className="mt-1 text-xs text-destructive">{errors.visaType}</p>}
-          </div>
-          <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Destination</label>
-            <div className="relative">
-              <Input
-                value={data.destination}
-                onChange={(e) => setField("destination", e.target.value)}
-                placeholder="Enter destination country..."
-                className="h-10 bg-secondary/60 pr-10 placeholder:text-xs"
-              />
-              <MapPin className="absolute right-3 top-2.5 opacity-70" />
+        {/* Mobile Compact Layout */}
+        <div className="block md:hidden space-y-3">
+          {/* Visa Type + Destination - Two Column Grid */}
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="text-xs text-gray-500 mb-1 block">Visa Type</label>
+              <Select value={data.visaType} onValueChange={(v) => setField("visaType", v)}>
+                <SelectTrigger className="h-12 bg-secondary/60 text-sm">
+                  <SelectValue placeholder="Select visa type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Tourist">Tourist Visa</SelectItem>
+                  <SelectItem value="Business">Business Visa</SelectItem>
+                  <SelectItem value="Student">Student Visa</SelectItem>
+                  <SelectItem value="Work">Work Visa</SelectItem>
+                  <SelectItem value="Transit">Transit Visa</SelectItem>
+                </SelectContent>
+              </Select>
+              {errors.visaType && <p className="mt-1 text-xs text-destructive">{errors.visaType}</p>}
             </div>
-            {errors.destination && <p className="mt-1 text-xs text-destructive">{errors.destination}</p>}
-          </div>
-          <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Travel Date</label>
-            <div className="relative">
-              <Input
-                type="date"
-                value={data.travelDate}
-                onChange={(e) => setField("travelDate", e.target.value)}
-                className="h-10 bg-secondary/60 pr-10"
-              />
-              <Calendar className="absolute right-3 top-2.5 opacity-70" />
+            <div>
+              <label className="text-xs text-gray-500 mb-1 block">Destination</label>
+              <div className="relative">
+                <Input
+                  value={data.destination}
+                  onChange={(e) => setField("destination", e.target.value)}
+                  placeholder="Enter destination country..."
+                  className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10 placeholder:text-xs"
+                />
+                <MapPin className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+              </div>
+              {errors.destination && <p className="mt-1 text-xs text-destructive">{errors.destination}</p>}
             </div>
-            {errors.travelDate && <p className="mt-1 text-xs text-destructive">{errors.travelDate}</p>}
           </div>
-          <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Return Date</label>
-            <div className="relative">
-              <Input
-                type="date"
-                value={data.returnDate}
-                onChange={(e) => setField("returnDate", e.target.value)}
-                className="h-10 bg-secondary/60 pr-10"
-              />
-              <Calendar className="absolute right-3 top-2.5 opacity-70" />
+
+          {/* Travel + Return Dates - Two Column Grid */}
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="text-xs text-gray-500 mb-1 block">Travel Date</label>
+              <div className="relative">
+                <Input
+                  type="date"
+                  value={data.travelDate}
+                  onChange={(e) => setField("travelDate", e.target.value)}
+                  className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10"
+                />
+                <Calendar className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+              </div>
+              {errors.travelDate && <p className="mt-1 text-xs text-destructive">{errors.travelDate}</p>}
             </div>
-            {errors.returnDate && <p className="mt-1 text-xs text-destructive">{errors.returnDate}</p>}
-          </div>
-          <div>
-            <label className="mb-1 block text-sm text-muted-foreground">First Name</label>
-            <div className="relative">
-              <Input
-                value={data.firstName}
-                onChange={(e) => setField("firstName", e.target.value)}
-                placeholder="Enter first name"
-                className="h-10 bg-secondary/60 pr-10 placeholder:text-xs"
-              />
-              <User className="absolute right-3 top-2.5 opacity-70" />
+            <div>
+              <label className="text-xs text-gray-500 mb-1 block">Return Date</label>
+              <div className="relative">
+                <Input
+                  type="date"
+                  value={data.returnDate}
+                  onChange={(e) => setField("returnDate", e.target.value)}
+                  className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10"
+                />
+                <Calendar className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+              </div>
+              {errors.returnDate && <p className="mt-1 text-xs text-destructive">{errors.returnDate}</p>}
             </div>
-            {errors.firstName && <p className="mt-1 text-xs text-destructive">{errors.firstName}</p>}
           </div>
-          <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Last Name</label>
-            <div className="relative">
-              <Input
-                value={data.lastName}
-                onChange={(e) => setField("lastName", e.target.value)}
-                placeholder="Enter last name"
-                className="h-10 bg-secondary/60 pr-10 placeholder:text-xs"
-              />
-              <User className="absolute right-3 top-2.5 opacity-70" />
+
+          {/* First + Last Name - Two Column Grid */}
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="text-xs text-gray-500 mb-1 block">First Name</label>
+              <div className="relative">
+                <Input
+                  value={data.firstName}
+                  onChange={(e) => setField("firstName", e.target.value)}
+                  placeholder="Enter first name"
+                  className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10 placeholder:text-xs"
+                />
+                <User className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+              </div>
+              {errors.firstName && <p className="mt-1 text-xs text-destructive">{errors.firstName}</p>}
             </div>
-            {errors.lastName && <p className="mt-1 text-xs text-destructive">{errors.lastName}</p>}
+            <div>
+              <label className="text-xs text-gray-500 mb-1 block">Last Name</label>
+              <div className="relative">
+                <Input
+                  value={data.lastName}
+                  onChange={(e) => setField("lastName", e.target.value)}
+                  placeholder="Enter last name"
+                  className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10 placeholder:text-xs"
+                />
+                <User className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+              </div>
+              {errors.lastName && <p className="mt-1 text-xs text-destructive">{errors.lastName}</p>}
+            </div>
           </div>
+
+          {/* Passport Number - Full Width */}
           <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Passport Number</label>
+            <label className="text-xs text-gray-500 mb-1 block">Passport Number</label>
             <div className="relative">
               <Input
                 value={data.passportNumber}
                 onChange={(e) => setField("passportNumber", e.target.value)}
                 placeholder="Enter passport number"
-                className="h-10 bg-secondary/60 pr-10 placeholder:text-xs"
+                className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10 placeholder:text-xs"
               />
-              <FileText className="absolute right-3 top-2.5 opacity-70" />
+              <FileText className="absolute right-3 top-3 opacity-70 w-4 h-4" />
             </div>
             {errors.passportNumber && <p className="mt-1 text-xs text-destructive">{errors.passportNumber}</p>}
           </div>
-          <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Phone Number</label>
-            <div className="relative">
-              <Input
-                type="tel"
-                value={data.phone}
-                onChange={(e) => setField("phone", e.target.value)}
-                placeholder="UK Numbers Only"
-                className="h-10 bg-secondary/60 pr-10 placeholder:text-xs"
-              />
-              <Phone className="absolute right-3 top-2.5 opacity-70" />
+
+          {/* Phone + Email - Two Column Grid */}
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="text-xs text-gray-500 mb-1 block">Phone Number</label>
+              <div className="relative">
+                <Input
+                  type="tel"
+                  value={data.phone}
+                  onChange={(e) => setField("phone", e.target.value)}
+                  placeholder="UK Numbers Only"
+                  className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10 placeholder:text-xs"
+                />
+                <Phone className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+              </div>
+              {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
             </div>
-            {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
-          </div>
-          <div>
-            <label className="mb-1 block text-sm text-muted-foreground">Email Address</label>
-            <div className="relative">
-              <Input
-                type="email"
-                value={data.email}
-                onChange={(e) => setField("email", e.target.value)}
-                placeholder="Email (Optional)"
-                className="h-10 bg-secondary/60 pr-10 placeholder:text-xs"
-              />
-              <Mail className="absolute right-3 top-2.5 opacity-70" />
+            <div>
+              <label className="text-xs text-gray-500 mb-1 block">Email Address</label>
+              <div className="relative">
+                <Input
+                  type="email"
+                  value={data.email}
+                  onChange={(e) => setField("email", e.target.value)}
+                  placeholder="Email (Optional)"
+                  className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10 placeholder:text-xs"
+                />
+                <Mail className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+              </div>
+              {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
             </div>
-            {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
           </div>
-          <div className="col-span-2">
-            <label className="mb-1 block text-sm text-muted-foreground">Purpose of Travel</label>
+
+          {/* Purpose of Travel - Full Width */}
+          <div>
+            <label className="text-xs text-gray-500 mb-1 block">Purpose of Travel</label>
             <div className="relative">
               <Input
                 value={data.purpose}
                 onChange={(e) => setField("purpose", e.target.value)}
                 placeholder="Brief description of travel purpose..."
-                className="h-10 bg-secondary/60 pr-10 placeholder:text-xs"
+                className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10 placeholder:text-xs"
               />
-              <FileText className="absolute right-3 top-2.5 opacity-70" />
+              <FileText className="absolute right-3 top-3 opacity-70 w-4 h-4" />
             </div>
             {errors.purpose && <p className="mt-1 text-xs text-destructive">{errors.purpose}</p>}
           </div>
+
+          {/* Search Button - Full Width */}
+          <Button type="submit" className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground text-base font-semibold">
+            Apply for Visa
+          </Button>
         </div>
 
-        {/* Submit */}
-        <div className="mt-6 flex justify-center">
-          <Button type="submit" variant="hero" className="h-12 px-8 group">
-            Apply for Visa
-            <svg className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </Button>
+        {/* Desktop Layout */}
+        <div className="hidden md:block">
+          {/* Main Fields */}
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="mb-1 block text-sm text-muted-foreground">Visa Type</label>
+              <Select value={data.visaType} onValueChange={(v) => setField("visaType", v)}>
+                <SelectTrigger className="h-10 bg-secondary/60">
+                  <SelectValue placeholder="Select visa type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Tourist">Tourist Visa</SelectItem>
+                  <SelectItem value="Business">Business Visa</SelectItem>
+                  <SelectItem value="Student">Student Visa</SelectItem>
+                  <SelectItem value="Work">Work Visa</SelectItem>
+                  <SelectItem value="Transit">Transit Visa</SelectItem>
+                </SelectContent>
+              </Select>
+              {errors.visaType && <p className="mt-1 text-xs text-destructive">{errors.visaType}</p>}
+            </div>
+            <div>
+              <label className="mb-1 block text-sm text-muted-foreground">Destination</label>
+              <div className="relative">
+                <Input
+                  value={data.destination}
+                  onChange={(e) => setField("destination", e.target.value)}
+                  placeholder="Enter destination country..."
+                  className="h-10 bg-secondary/60 pr-10 placeholder:text-xs"
+                />
+                <MapPin className="absolute right-3 top-2.5 opacity-70" />
+              </div>
+              {errors.destination && <p className="mt-1 text-xs text-destructive">{errors.destination}</p>}
+            </div>
+            <div>
+              <label className="mb-1 block text-sm text-muted-foreground">Travel Date</label>
+              <div className="relative">
+                <Input
+                  type="date"
+                  value={data.travelDate}
+                  onChange={(e) => setField("travelDate", e.target.value)}
+                  className="h-10 bg-secondary/60 pr-10"
+                />
+                <Calendar className="absolute right-3 top-2.5 opacity-70" />
+              </div>
+              {errors.travelDate && <p className="mt-1 text-xs text-destructive">{errors.travelDate}</p>}
+            </div>
+            <div>
+              <label className="mb-1 block text-sm text-muted-foreground">Return Date</label>
+              <div className="relative">
+                <Input
+                  type="date"
+                  value={data.returnDate}
+                  onChange={(e) => setField("returnDate", e.target.value)}
+                  className="h-10 bg-secondary/60 pr-10"
+                />
+                <Calendar className="absolute right-3 top-2.5 opacity-70" />
+              </div>
+              {errors.returnDate && <p className="mt-1 text-xs text-destructive">{errors.returnDate}</p>}
+            </div>
+            <div>
+              <label className="mb-1 block text-sm text-muted-foreground">First Name</label>
+              <div className="relative">
+                <Input
+                  value={data.firstName}
+                  onChange={(e) => setField("firstName", e.target.value)}
+                  placeholder="Enter first name"
+                  className="h-10 bg-secondary/60 pr-10 placeholder:text-xs"
+                />
+                <User className="absolute right-3 top-2.5 opacity-70" />
+              </div>
+              {errors.firstName && <p className="mt-1 text-xs text-destructive">{errors.firstName}</p>}
+            </div>
+            <div>
+              <label className="mb-1 block text-sm text-muted-foreground">Last Name</label>
+              <div className="relative">
+                <Input
+                  value={data.lastName}
+                  onChange={(e) => setField("lastName", e.target.value)}
+                  placeholder="Enter last name"
+                  className="h-10 bg-secondary/60 pr-10 placeholder:text-xs"
+                />
+                <User className="absolute right-3 top-2.5 opacity-70" />
+              </div>
+              {errors.lastName && <p className="mt-1 text-xs text-destructive">{errors.lastName}</p>}
+            </div>
+            <div>
+              <label className="mb-1 block text-sm text-muted-foreground">Passport Number</label>
+              <div className="relative">
+                <Input
+                  value={data.passportNumber}
+                  onChange={(e) => setField("passportNumber", e.target.value)}
+                  placeholder="Enter passport number"
+                  className="h-10 bg-secondary/60 pr-10 placeholder:text-xs"
+                />
+                <FileText className="absolute right-3 top-2.5 opacity-70" />
+              </div>
+              {errors.passportNumber && <p className="mt-1 text-xs text-destructive">{errors.passportNumber}</p>}
+            </div>
+            <div>
+              <label className="mb-1 block text-sm text-muted-foreground">Phone Number</label>
+              <div className="relative">
+                <Input
+                  type="tel"
+                  value={data.phone}
+                  onChange={(e) => setField("phone", e.target.value)}
+                  placeholder="UK Numbers Only"
+                  className="h-10 bg-secondary/60 pr-10 placeholder:text-xs"
+                />
+                <Phone className="absolute right-3 top-2.5 opacity-70" />
+              </div>
+              {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
+            </div>
+            <div>
+              <label className="mb-1 block text-sm text-muted-foreground">Email Address</label>
+              <div className="relative">
+                <Input
+                  type="email"
+                  value={data.email}
+                  onChange={(e) => setField("email", e.target.value)}
+                  placeholder="Email (Optional)"
+                  className="h-10 bg-secondary/60 pr-10 placeholder:text-xs"
+                />
+                <Mail className="absolute right-3 top-2.5 opacity-70" />
+              </div>
+              {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
+            </div>
+            <div className="col-span-2">
+              <label className="mb-1 block text-sm text-muted-foreground">Purpose of Travel</label>
+              <div className="relative">
+                <Input
+                  value={data.purpose}
+                  onChange={(e) => setField("purpose", e.target.value)}
+                  placeholder="Brief description of travel purpose..."
+                  className="h-10 bg-secondary/60 pr-10 placeholder:text-xs"
+                />
+                <FileText className="absolute right-3 top-2.5 opacity-70" />
+              </div>
+              {errors.purpose && <p className="mt-1 text-xs text-destructive">{errors.purpose}</p>}
+            </div>
+          </div>
+
+          {/* Submit */}
+          <div className="mt-6 flex justify-center">
+            <Button type="submit" variant="hero" className="h-12 px-8 group">
+              Apply for Visa
+              <svg className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Button>
+          </div>
         </div>
       </form>
 

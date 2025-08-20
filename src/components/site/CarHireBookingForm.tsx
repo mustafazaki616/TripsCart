@@ -88,32 +88,190 @@ const CarHireBookingForm: React.FC = () => {
   return (
     <>
       <form onSubmit={onSubmit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-2 md:p-6">
-        {/* Class Selection */}
-        <div className="flex items-center gap-4 text-sm text-muted-foreground px-1 mb-6">
-          <label className="inline-flex items-center gap-2 font-medium">
-            <input
-              type="radio"
-              name="class"
-              className="accent-[hsl(var(--primary))]"
-              checked={data.class === "Economy"}
-              onChange={() => setField("class", "Economy")}
-            />
-            Economy
-          </label>
-          <label className="inline-flex items-center gap-2 font-medium">
-            <input
-              type="radio"
-              name="class"
-              className="accent-[hsl(var(--primary))]"
-              checked={data.class === "Business"}
-              onChange={() => setField("class", "Business")}
-            />
-            Business
-          </label>
+        {/* Mobile Compact Layout */}
+        <div className="block md:hidden space-y-3">
+          {/* Car Class - Full Width */}
+          <div>
+            <label className="text-xs text-gray-500 mb-1 block">Car Class</label>
+            <div className="flex bg-secondary/60 rounded-md p-1 h-12">
+              <label className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors cursor-pointer">
+                <input
+                  type="radio"
+                  name="class"
+                  className="accent-[hsl(var(--primary))]"
+                  checked={data.class === "Economy"}
+                  onChange={() => setField("class", "Economy")}
+                />
+                Economy
+              </label>
+              <label className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors cursor-pointer">
+                <input
+                  type="radio"
+                  name="class"
+                  className="accent-[hsl(var(--primary))]"
+                  checked={data.class === "Business"}
+                  onChange={() => setField("class", "Business")}
+                />
+                Business
+              </label>
+            </div>
+            {errors.class && <p className="mt-1 text-xs text-destructive">{errors.class}</p>}
+          </div>
+
+          {/* Pick-up + Drop-off Locations - Two Column Grid */}
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="text-xs text-gray-500 mb-1 block">Pick-up Location</label>
+              <div className="relative">
+                <Input
+                  value={data.pickUpLocation}
+                  onChange={(e) => setField("pickUpLocation", e.target.value)}
+                  placeholder="Enter Pick-up location..."
+                  className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10 placeholder:text-xs"
+                />
+                <MapPin className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+              </div>
+              {errors.pickUpLocation && <p className="mt-1 text-xs text-destructive">{errors.pickUpLocation}</p>}
+            </div>
+            <div>
+              <label className="text-xs text-gray-500 mb-1 block">Drop-off Location</label>
+              <div className="relative">
+                <Input
+                  value={data.dropOffLocation}
+                  onChange={(e) => setField("dropOffLocation", e.target.value)}
+                  placeholder="Enter Drop-off Location..."
+                  className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10 placeholder:text-xs"
+                />
+                <MapPin className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+              </div>
+              {errors.dropOffLocation && <p className="mt-1 text-xs text-destructive">{errors.dropOffLocation}</p>}
+            </div>
+          </div>
+
+          {/* Pick-up + Drop-off Dates - Two Column Grid */}
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="text-xs text-gray-500 mb-1 block">Pick-up Date</label>
+              <div className="relative">
+                <Input
+                  type="date"
+                  value={data.pickUpDate}
+                  onChange={(e) => setField("pickUpDate", e.target.value)}
+                  className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10"
+                />
+                <Calendar className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+              </div>
+              {errors.pickUpDate && <p className="mt-1 text-xs text-destructive">{errors.pickUpDate}</p>}
+            </div>
+            <div>
+              <label className="text-xs text-gray-500 mb-1 block">Drop-off Date</label>
+              <div className="relative">
+                <Input
+                  type="date"
+                  value={data.dropOffDate}
+                  onChange={(e) => setField("dropOffDate", e.target.value)}
+                  className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10"
+                />
+                <Calendar className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+              </div>
+              {errors.dropOffDate && <p className="mt-1 text-xs text-destructive">{errors.dropOffDate}</p>}
+            </div>
+          </div>
+
+          {/* Pick-up + Drop-off Times - Two Column Grid */}
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="text-xs text-gray-500 mb-1 block">Pick-up Time</label>
+              <div className="relative">
+                <Input
+                  type="time"
+                  value={data.pickUpTime}
+                  onChange={(e) => setField("pickUpTime", e.target.value)}
+                  className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10"
+                />
+                <Clock className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+              </div>
+              {errors.pickUpTime && <p className="mt-1 text-xs text-destructive">{errors.pickUpTime}</p>}
+            </div>
+            <div>
+              <label className="text-xs text-gray-500 mb-1 block">Drop-off Time</label>
+              <div className="relative">
+                <Input
+                  type="time"
+                  value={data.dropOffTime}
+                  onChange={(e) => setField("dropOffTime", e.target.value)}
+                  className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10"
+                />
+                <Clock className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+              </div>
+              {errors.dropOffTime && <p className="mt-1 text-xs text-destructive">{errors.dropOffTime}</p>}
+            </div>
+          </div>
+
+          {/* Phone + Email - Two Column Grid */}
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="text-xs text-gray-500 mb-1 block">Phone Number</label>
+              <div className="relative">
+                <Input
+                  type="tel"
+                  value={data.phone}
+                  onChange={(e) => setField("phone", e.target.value)}
+                  placeholder="UK Numbers Only"
+                  className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10 placeholder:text-xs"
+                />
+                <Phone className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+              </div>
+              {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
+            </div>
+            <div>
+              <label className="text-xs text-gray-500 mb-1 block">Email Address</label>
+              <div className="relative">
+                <Input
+                  type="email"
+                  value={data.email}
+                  onChange={(e) => setField("email", e.target.value)}
+                  placeholder="Email (Optional)"
+                  className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10 placeholder:text-xs"
+                />
+                <Mail className="absolute right-3 top-3 opacity-70 w-4 h-4" />
+              </div>
+              {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
+            </div>
+          </div>
+
+          {/* Search Button - Full Width */}
+          <Button type="submit" className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground text-base font-semibold">
+            Search Car
+          </Button>
         </div>
 
-        {/* Main Fields */}
-        <div className="space-y-4">
+        {/* Desktop Layout */}
+        <div className="hidden md:block space-y-4">
+          {/* Class Selection */}
+          <div className="flex items-center gap-4 text-sm text-muted-foreground px-1 mb-6">
+            <label className="inline-flex items-center gap-2 font-medium">
+              <input
+                type="radio"
+                name="class"
+                className="accent-[hsl(var(--primary))]"
+                checked={data.class === "Economy"}
+                onChange={() => setField("class", "Economy")}
+              />
+              Economy
+            </label>
+            <label className="inline-flex items-center gap-2 font-medium">
+              <input
+                type="radio"
+                name="class"
+                className="accent-[hsl(var(--primary))]"
+                checked={data.class === "Business"}
+                onChange={() => setField("class", "Business")}
+              />
+              Business
+            </label>
+          </div>
+
           {/* Pick-up & Drop-off Locations */}
           <div className="grid grid-cols-2 gap-3">
             <div>
@@ -235,16 +393,16 @@ const CarHireBookingForm: React.FC = () => {
               {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
             </div>
           </div>
-        </div>
 
-        {/* Submit */}
-        <div className="mt-6 flex justify-center">
-          <Button type="submit" variant="hero" className="h-12 px-8 text-base group">
-            Search Car
-            <svg className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </Button>
+          {/* Submit */}
+          <div className="mt-6 flex justify-center">
+            <Button type="submit" variant="hero" className="h-12 px-8 text-base group">
+              Search Car
+              <svg className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Button>
+          </div>
         </div>
       </form>
 

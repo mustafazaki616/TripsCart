@@ -165,23 +165,108 @@ const BookingForm: React.FC = () => {
         <TabsContent value="flight">
         {/* Mobile Compact Layout */}
         <div className="md:hidden space-y-3 mb-4">
-          {/* Trip Type + Travelers + Class Row */}
-          <div className="grid grid-cols-3 gap-2">
-            {/* Trip Type */}
-            <div className="col-span-1">
-              <Select value={data.tripType} onValueChange={(v) => setData((d) => ({ ...d, tripType: v as FormState["tripType"] }))}>
-                <SelectTrigger className="h-10 bg-secondary/60 text-xs font-medium">
-                  <SelectValue />
+          {/* Trip Type - Full Width */}
+          <div>
+            <label className="text-xs text-gray-500 mb-1 block">Trip Type</label>
+            <Select value={data.tripType} onValueChange={(v) => setData((d) => ({ ...d, tripType: v as FormState["tripType"] }))}>
+              <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="round">Round-trip</SelectItem>
+                <SelectItem value="oneway">One Way</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          
+          {/* From + To - Two Column Grid */}
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="text-xs text-gray-500 mb-1 block">From</label>
+              <Select value={data.origin} onValueChange={(value) => setData((d) => ({ ...d, origin: value }))}>
+                <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
+                  <SelectValue placeholder="Select departure city" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="round">Round-trip</SelectItem>
-                  <SelectItem value="oneway">One Way</SelectItem>
+                  {getPopularAirports().map((airport) => (
+                    <SelectItem key={airport.code} value={airport.code}>
+                      {airport.city}, {airport.country} ({airport.code})
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
+              {errors.origin && <p className="mt-1 text-xs text-destructive">{errors.origin}</p>}
             </div>
             
-            {/* Travelers */}
-            <div className="col-span-1">
+            <div>
+              <label className="text-xs text-gray-500 mb-1 block">To</label>
+              <Select value={data.destination} onValueChange={(value) => setData((d) => ({ ...d, destination: value }))}>
+                <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
+                  <SelectValue placeholder="Select destination city" />
+                </SelectTrigger>
+                <SelectContent>
+                  {getPopularAirports().map((airport) => (
+                    <SelectItem key={airport.code} value={airport.code}>
+                      {airport.city}, {airport.country} ({airport.code})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {errors.destination && <p className="mt-1 text-xs text-destructive">{errors.destination}</p>}
+            </div>
+          </div>
+          
+          {/* Departure Date + Return Date - Two Column Grid */}
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="text-xs text-gray-500 mb-1 block">Departure Date</label>
+              <Select 
+                value={data.departDate?.toISOString()} 
+                onValueChange={(value) => setData((d) => ({ ...d, departDate: new Date(value) }))}
+              >
+                <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
+                  <SelectValue placeholder="Select departure date" />
+                </SelectTrigger>
+                <SelectContent className="max-h-64">
+                  {getDateOptions().map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {errors.departDate && <p className="mt-1 text-xs text-destructive">{errors.departDate}</p>}
+            </div>
+            
+            {data.tripType === "round" ? (
+              <div>
+                <label className="text-xs text-gray-500 mb-1 block">Return Date</label>
+                <Select 
+                  value={data.returnDate?.toISOString()} 
+                  onValueChange={(value) => setData((d) => ({ ...d, returnDate: new Date(value) }))}
+                >
+                  <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
+                    <SelectValue placeholder="Select return date" />
+                  </SelectTrigger>
+                  <SelectContent className="max-h-64">
+                    {getDateOptions(data.departDate).map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {errors.returnDate && <p className="mt-1 text-xs text-destructive">{errors.returnDate}</p>}
+              </div>
+            ) : (
+              <div></div>
+            )}
+          </div>
+          
+          {/* Passengers + Cabin Class - Two Column Grid */}
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="text-xs text-gray-500 mb-1 block">Passengers</label>
               <Select 
                 value={`${data.adults}-${data.children}-${data.infants}`} 
                 onValueChange={(value) => {
@@ -189,11 +274,10 @@ const BookingForm: React.FC = () => {
                   setData(d => ({ ...d, adults, children, infants }));
                 }}
               >
-                <SelectTrigger className="h-10 bg-secondary/60 text-xs font-medium px-2">
-                  <UserRound className="mr-1 w-3 h-3" />
+                <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
                   <SelectValue>
                     <span className="truncate">
-                      {data.adults + data.children + data.infants}
+                      {data.adults + data.children + data.infants} Passenger{data.adults + data.children + data.infants !== 1 ? 's' : ''}
                     </span>
                   </SelectValue>
                 </SelectTrigger>
@@ -212,10 +296,10 @@ const BookingForm: React.FC = () => {
               </Select>
             </div>
             
-            {/* Cabin Class */}
-            <div className="col-span-1">
+            <div>
+              <label className="text-xs text-gray-500 mb-1 block">Cabin Class</label>
               <Select value={data.cabin} onValueChange={(v) => setData((d) => ({ ...d, cabin: v as FormState["cabin"] }))}>
-                <SelectTrigger className="h-10 bg-secondary/60 text-xs font-medium px-2">
+                <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -227,128 +311,32 @@ const BookingForm: React.FC = () => {
             </div>
           </div>
           
-          {/* Origin and Destination */}
-          <div className="space-y-2">
-            {/* From */}
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <Plane className="w-4 h-4 opacity-70" />
-                <span className="text-xs text-muted-foreground">From</span>
-              </div>
-              <Select value={data.origin} onValueChange={(value) => setData((d) => ({ ...d, origin: value }))}>
-                <SelectTrigger className="h-12 bg-secondary/60">
-                  <SelectValue placeholder="Select departure city" />
-                </SelectTrigger>
-                <SelectContent>
-                  {getPopularAirports().map((airport) => (
-                    <SelectItem key={airport.code} value={airport.code}>
-                      {airport.city}, {airport.country} ({airport.code})
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {errors.origin && <p className="mt-1 text-xs text-destructive">{errors.origin}</p>}
-            </div>
-            
-            {/* To */}
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <ArrowLeftRight className="w-4 h-4 opacity-70" />
-                <span className="text-xs text-muted-foreground">To</span>
-              </div>
-              <Select value={data.destination} onValueChange={(value) => setData((d) => ({ ...d, destination: value }))}>
-                <SelectTrigger className="h-12 bg-secondary/60">
-                  <SelectValue placeholder="Select destination city" />
-                </SelectTrigger>
-                <SelectContent>
-                  {getPopularAirports().map((airport) => (
-                    <SelectItem key={airport.code} value={airport.code}>
-                      {airport.city}, {airport.country} ({airport.code})
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {errors.destination && <p className="mt-1 text-xs text-destructive">{errors.destination}</p>}
-            </div>
+          {/* Phone Number - Full Width */}
+          <div>
+            <label className="text-xs text-gray-500 mb-1 block">Phone Number</label>
+            <Input
+              type="tel"
+              placeholder="Phone number"
+              value={data.phone || ""}
+              onChange={(e) => setData((d) => ({ ...d, phone: e.target.value }))}
+              className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60"
+            />
           </div>
           
-          {/* Dates Row */}
-          <div className="grid grid-cols-2 gap-2">
-            {/* Departure Date */}
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <Calendar className="w-4 h-4 opacity-70" />
-                <span className="text-xs text-muted-foreground">Departure</span>
-              </div>
-              <Select 
-                value={data.departDate?.toISOString()} 
-                onValueChange={(value) => setData((d) => ({ ...d, departDate: new Date(value) }))}
-              >
-                <SelectTrigger className="h-12 bg-secondary/60">
-                  <SelectValue placeholder="Select departure date" />
-                </SelectTrigger>
-                <SelectContent className="max-h-64">
-                  {getDateOptions().map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {errors.departDate && <p className="mt-1 text-xs text-destructive">{errors.departDate}</p>}
-            </div>
-            
-            {/* Return Date */}
-            {data.tripType === "round" && (
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <Calendar className="w-4 h-4 opacity-70" />
-                  <span className="text-xs text-muted-foreground">Return</span>
-                </div>
-                <Select 
-                  value={data.returnDate?.toISOString()} 
-                  onValueChange={(value) => setData((d) => ({ ...d, returnDate: new Date(value) }))}
-                >
-                  <SelectTrigger className="h-12 bg-secondary/60">
-                    <SelectValue placeholder="Select return date" />
-                  </SelectTrigger>
-                  <SelectContent className="max-h-64">
-                    {getDateOptions(data.departDate).map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                {errors.returnDate && <p className="mt-1 text-xs text-destructive">{errors.returnDate}</p>}
-              </div>
-            )}
+          {/* Email Address - Full Width */}
+          <div>
+            <label className="text-xs text-gray-500 mb-1 block">Email Address</label>
+            <Input
+              type="email"
+              placeholder="Email address"
+              value={data.email || ""}
+              onChange={(e) => setData((d) => ({ ...d, email: e.target.value }))}
+              className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60"
+            />
           </div>
           
-          {/* Contact Information */}
-          <div className="grid grid-cols-2 gap-2">
-            <div>
-              <Input
-                type="tel"
-                placeholder="Phone number"
-                value={data.phone || ""}
-                onChange={(e) => setData((d) => ({ ...d, phone: e.target.value }))}
-                className="h-10 bg-secondary/60 text-xs"
-              />
-            </div>
-            <div>
-              <Input
-                type="email"
-                placeholder="Email address"
-                value={data.email || ""}
-                onChange={(e) => setData((d) => ({ ...d, email: e.target.value }))}
-                className="h-10 bg-secondary/60 text-xs"
-              />
-            </div>
-          </div>
-          
-          {/* Search Button */}
-          <Button type="submit" disabled={isSubmitting} className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
+          {/* Search Button - Full Width */}
+          <Button type="submit" disabled={isSubmitting} className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground text-base font-semibold">
             {isSubmitting ? "Searching..." : "Search Flights"}
           </Button>
         </div>

@@ -75,7 +75,131 @@ const UmrahBookingForm: React.FC = () => {
   return (
     <>
       <form onSubmit={onSubmit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-2 md:p-6">
-        <div className="space-y-4 md:grid md:grid-cols-2 md:gap-4 md:space-y-0">
+        {/* Mobile Compact Layout */}
+        <div className="space-y-3 md:hidden">
+          {/* Full Width - Name */}
+          <div>
+            <label className="text-xs text-gray-500 mb-1 block">Name</label>
+            <Input 
+              value={data.name} 
+              onChange={(e)=> setField("name", e.target.value)} 
+              placeholder="Your full name" 
+              className="h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200 placeholder:text-xs" 
+            />
+            {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name}</p>}
+          </div>
+
+          {/* Two Column - Passengers/Days */}
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="text-xs text-gray-500 mb-1 block">Passengers</label>
+              <Input 
+                type="number" 
+                min={1} 
+                value={data.passengers} 
+                onChange={(e)=> setField("passengers", Math.max(1, Number(e.target.value)))} 
+                className="h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200" 
+              />
+              {errors.passengers && <p className="mt-1 text-xs text-destructive">{errors.passengers}</p>}
+            </div>
+            <div>
+              <label className="text-xs text-gray-500 mb-1 block">Days</label>
+              <Input 
+                type="number" 
+                min={1} 
+                value={data.days} 
+                onChange={(e)=> setField("days", Math.max(1, Number(e.target.value)))} 
+                className="h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200" 
+              />
+              {errors.days && <p className="mt-1 text-xs text-destructive">{errors.days}</p>}
+            </div>
+          </div>
+
+          {/* Full Width - Departure Date */}
+          <div>
+            <label className="text-xs text-gray-500 mb-1 block">Departure Date</label>
+            <Input 
+              type="date" 
+              value={data.departure} 
+              onChange={(e)=> setField("departure", e.target.value)} 
+              className="h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200" 
+            />
+            {errors.departure && <p className="mt-1 text-xs text-destructive">{errors.departure}</p>}
+          </div>
+
+          {/* Two Column - Visa/Transport */}
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="text-xs text-gray-500 mb-1 block">Visa</label>
+              <Select value={data.visa} onValueChange={(v)=> setField("visa", v as FormState["visa"])}>
+                <SelectTrigger className="h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200">
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Yes">Yes</SelectItem>
+                  <SelectItem value="No">No</SelectItem>
+                </SelectContent>
+              </Select>
+              {errors.visa && <p className="mt-1 text-xs text-destructive">{errors.visa}</p>}
+            </div>
+            <div>
+              <label className="text-xs text-gray-500 mb-1 block">Transport</label>
+              <Select value={data.transport} onValueChange={(v)=> setField("transport", v as FormState["transport"])}>
+                <SelectTrigger className="h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200">
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Yes">Yes</SelectItem>
+                  <SelectItem value="No">No</SelectItem>
+                </SelectContent>
+              </Select>
+              {errors.transport && <p className="mt-1 text-xs text-destructive">{errors.transport}</p>}
+            </div>
+          </div>
+
+          {/* Full Width - Hotel */}
+          <div>
+            <label className="text-xs text-gray-500 mb-1 block">Hotel Category</label>
+            <Select value={data.hotel} onValueChange={(v)=> setField("hotel", v as FormState["hotel"])}>
+              <SelectTrigger className="h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200">
+                <SelectValue placeholder="Select hotel category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Standard">Standard</SelectItem>
+                <SelectItem value="Economy">Economy</SelectItem>
+                <SelectItem value="3 Star">3 Star</SelectItem>
+                <SelectItem value="4 Star">4 Star</SelectItem>
+                <SelectItem value="5 Star">5 Star</SelectItem>
+              </SelectContent>
+            </Select>
+            {errors.hotel && <p className="mt-1 text-xs text-destructive">{errors.hotel}</p>}
+          </div>
+
+          {/* Full Width - Phone */}
+          <div>
+            <label className="text-xs text-gray-500 mb-1 block">Contact Number</label>
+            <Input 
+              type="tel" 
+              value={data.phone} 
+              onChange={(e)=> setField("phone", e.target.value)} 
+              placeholder="e.g., +44 20 1234 5678" 
+              className="h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200 placeholder:text-xs" 
+            />
+            {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
+          </div>
+
+          {/* Full Width - Search Button */}
+          <Button 
+            type="submit" 
+            className="h-12 w-full text-base font-bold rounded-lg" 
+            variant="hero"
+          >
+            Book Umrah
+          </Button>
+        </div>
+
+        {/* Desktop Layout */}
+        <div className="hidden md:grid md:grid-cols-2 md:gap-4 md:space-y-0">
           <div>
             <label className="mb-2 block text-sm text-muted-foreground font-medium">Name</label>
             <Input value={data.name} onChange={(e)=> setField("name", e.target.value)} placeholder="Your full name" className="h-11 bg-secondary/60 text-sm placeholder:text-xs" />

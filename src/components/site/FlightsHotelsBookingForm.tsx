@@ -79,11 +79,11 @@ const FlightsHotelsBookingForm: React.FC = () => {
   return (
     <>
       {/* Mobile Compact Layout */}
-      <div className="block md:hidden space-y-4 p-2 rounded-2xl bg-card/90 backdrop-blur border shadow-soft">
-        {/* Trip Type */}
-        <div className="space-y-2">
-          <Label className="text-sm font-medium text-gray-700">Trip Type</Label>
-          <div className="flex bg-secondary/60 rounded-lg p-1">
+      <div className="block md:hidden space-y-3 p-2 rounded-2xl bg-card/90 backdrop-blur border shadow-soft">
+        {/* Trip Type - Full Width */}
+        <div>
+          <label className="text-xs text-gray-500 mb-1 block">Trip Type</label>
+          <div className="flex bg-secondary/60 rounded-md p-1 h-12">
             <button
               type="button"
               onClick={() => setData(prev => ({ ...prev, tripType: 'round' }))}
@@ -111,191 +111,182 @@ const FlightsHotelsBookingForm: React.FC = () => {
           </div>
         </div>
 
-        <div className="space-y-3">
-          {/* Origin & Destination */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                <PlaneIcon className="h-4 w-4" />
-                From
-              </Label>
-              <Select value={data.origin} onValueChange={(value) => setData(prev => ({ ...prev, origin: value }))}>
-                <SelectTrigger className="h-10 bg-secondary/60">
-                  <SelectValue placeholder="Select origin city" />
-                </SelectTrigger>
-                <SelectContent>
-                  {popularAirports.map((airport) => (
-                    <SelectItem key={airport.code} value={airport.code}>
-                      {airport.city}, {airport.country} ({airport.code})
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                <PlaneIcon className="h-4 w-4" />
-                To
-              </Label>
-              <Select value={data.destination} onValueChange={(value) => setData(prev => ({ ...prev, destination: value }))}>
-                <SelectTrigger className="h-10 bg-secondary/60">
-                  <SelectValue placeholder="Select destination city" />
-                </SelectTrigger>
-                <SelectContent>
-                  {popularAirports.map((airport) => (
-                    <SelectItem key={airport.code} value={airport.code}>
-                      {airport.city}, {airport.country} ({airport.code})
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+        {/* From + To - Two Column Grid */}
+        <div className="grid grid-cols-2 gap-2">
+          <div>
+            <label className="text-xs text-gray-500 mb-1 block">From</label>
+            <Select value={data.origin} onValueChange={(value) => setData(prev => ({ ...prev, origin: value }))}>
+              <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
+                <SelectValue placeholder="Select origin city" />
+              </SelectTrigger>
+              <SelectContent>
+                {popularAirports.map((airport) => (
+                  <SelectItem key={airport.code} value={airport.code}>
+                    {airport.city}, {airport.country} ({airport.code})
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
-
-          {/* Flight Dates */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700">Departure Date</Label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className={cn(
-                      "w-full h-10 justify-start text-left font-normal bg-secondary/60",
-                      !data.departDate && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {data.departDate ? format(data.departDate, "PPP") : "Departure"}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={data.departDate}
-                    onSelect={(date) => setData(prev => ({ ...prev, departDate: date }))}
-                    disabled={(date) => date < new Date()}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
-            {data.tripType === 'round' && (
-              <div className="space-y-2">
-                <Label className="text-sm font-medium text-gray-700">Return Date</Label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className={cn(
-                        "w-full h-10 justify-start text-left font-normal bg-secondary/60",
-                        !data.returnDate && "text-muted-foreground"
-                      )}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {data.returnDate ? format(data.returnDate, "PPP") : "Return"}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={data.returnDate}
-                      onSelect={(date) => setData(prev => ({ ...prev, returnDate: date }))}
-                      disabled={(date) => date < new Date() || (data.departDate && date <= data.departDate)}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-              </div>
-            )}
+          <div>
+            <label className="text-xs text-gray-500 mb-1 block">To</label>
+            <Select value={data.destination} onValueChange={(value) => setData(prev => ({ ...prev, destination: value }))}>
+              <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
+                <SelectValue placeholder="Select destination city" />
+              </SelectTrigger>
+              <SelectContent>
+                {popularAirports.map((airport) => (
+                  <SelectItem key={airport.code} value={airport.code}>
+                    {airport.city}, {airport.country} ({airport.code})
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
+        </div>
 
-
-
-          {/* Passengers, Cabin & Rooms */}
-          <div className="grid grid-cols-3 gap-3">
-            <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                <UsersIcon className="h-4 w-4" />
-                Passengers
-              </Label>
-              <Select value={data.passengers} onValueChange={(value) => setData(prev => ({ ...prev, passengers: value }))}>
-                <SelectTrigger className="h-10 bg-secondary/60">
-                  <SelectValue placeholder="1" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="1">1</SelectItem>
-                  <SelectItem value="2">2</SelectItem>
-                  <SelectItem value="3">3</SelectItem>
-                  <SelectItem value="4">4</SelectItem>
-                  <SelectItem value="5">5</SelectItem>
-                  <SelectItem value="6+">6+</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700">Cabin</Label>
-              <Select value={data.cabin} onValueChange={(value) => setData(prev => ({ ...prev, cabin: value }))}>
-                <SelectTrigger className="h-10 bg-secondary/60">
-                  <SelectValue placeholder="Economy" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Economy">Economy</SelectItem>
-                  <SelectItem value="Premium Economy">Premium</SelectItem>
-                  <SelectItem value="Business">Business</SelectItem>
-                  <SelectItem value="First">First</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700">Rooms</Label>
-              <Select value={data.rooms} onValueChange={(value) => setData(prev => ({ ...prev, rooms: value }))}>
-                <SelectTrigger className="h-10 bg-secondary/60">
-                  <SelectValue placeholder="1" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="1">1</SelectItem>
-                  <SelectItem value="2">2</SelectItem>
-                  <SelectItem value="3">3</SelectItem>
-                  <SelectItem value="4">4</SelectItem>
-                  <SelectItem value="5+">5+</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+        {/* Departure + Return Date - Two Column Grid */}
+        <div className="grid grid-cols-2 gap-2">
+          <div>
+            <label className="text-xs text-gray-500 mb-1 block">Departure Date</label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal",
+                    !data.departDate && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {data.departDate ? format(data.departDate, "dd/MM/yyyy") : "dd/mm/yyyy"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={data.departDate}
+                  onSelect={(date) => setData(prev => ({ ...prev, departDate: date }))}
+                  disabled={(date) => date < new Date()}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
           </div>
+          <div>
+            <label className="text-xs text-gray-500 mb-1 block">
+              {data.tripType === 'round' ? 'Return Date' : 'Return Date (Optional)'}
+            </label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal",
+                    !data.returnDate && "text-muted-foreground",
+                    data.tripType === 'oneway' && "opacity-50"
+                  )}
+                  disabled={data.tripType === 'oneway'}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {data.returnDate ? format(data.returnDate, "dd/MM/yyyy") : "dd/mm/yyyy"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={data.returnDate}
+                  onSelect={(date) => setData(prev => ({ ...prev, returnDate: date }))}
+                  disabled={(date) => date < new Date() || (data.departDate && date <= data.departDate)}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+        </div>
 
-          {/* Contact Information */}
-          <div className="grid grid-cols-2 gap-3 pt-2 border-t">
-            <div className="space-y-2">
-              <Label htmlFor="phone" className="text-sm font-medium text-gray-700">Phone Number</Label>
-              <Input
-                id="phone"
-                type="tel"
-                placeholder="UK Numbers Only"
-                value={data.phone || ""}
-                onChange={(e) => setData(prev => ({ ...prev, phone: e.target.value }))}
-                className="h-10 bg-secondary/60 placeholder:text-xs"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-medium text-gray-700">Email Address</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="Email (Optional)"
-                value={data.email || ""}
-                onChange={(e) => setData(prev => ({ ...prev, email: e.target.value }))}
-                className="h-10 bg-secondary/60 placeholder:text-xs"
-              />
-            </div>
+        {/* Passengers + Cabin Class - Two Column Grid */}
+        <div className="grid grid-cols-2 gap-2">
+          <div>
+            <label className="text-xs text-gray-500 mb-1 block">Passengers</label>
+            <Select value={data.passengers} onValueChange={(value) => setData(prev => ({ ...prev, passengers: value }))}>
+              <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
+                <SelectValue placeholder="1" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="1">1 Passenger</SelectItem>
+                <SelectItem value="2">2 Passengers</SelectItem>
+                <SelectItem value="3">3 Passengers</SelectItem>
+                <SelectItem value="4">4 Passengers</SelectItem>
+                <SelectItem value="5">5 Passengers</SelectItem>
+                <SelectItem value="6+">6+ Passengers</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <label className="text-xs text-gray-500 mb-1 block">Cabin Class</label>
+            <Select value={data.cabin} onValueChange={(value) => setData(prev => ({ ...prev, cabin: value }))}>
+              <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
+                <SelectValue placeholder="Economy" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Economy">Economy</SelectItem>
+                <SelectItem value="Premium Economy">Premium</SelectItem>
+                <SelectItem value="Business">Business</SelectItem>
+                <SelectItem value="First">First</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        {/* Rooms - Full Width */}
+        <div>
+          <label className="text-xs text-gray-500 mb-1 block">Rooms</label>
+          <Select value={data.rooms} onValueChange={(value) => setData(prev => ({ ...prev, rooms: value }))}>
+            <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
+              <SelectValue placeholder="1" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="1">1 Room</SelectItem>
+              <SelectItem value="2">2 Rooms</SelectItem>
+              <SelectItem value="3">3 Rooms</SelectItem>
+              <SelectItem value="4">4 Rooms</SelectItem>
+              <SelectItem value="5+">5+ Rooms</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Phone + Email - Two Column Grid */}
+        <div className="grid grid-cols-2 gap-2">
+          <div>
+            <label className="text-xs text-gray-500 mb-1 block">Phone Number</label>
+            <Input
+              id="phone"
+              type="tel"
+              placeholder="UK Numbers Only"
+              value={data.phone || ""}
+              onChange={(e) => setData(prev => ({ ...prev, phone: e.target.value }))}
+              className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 placeholder:text-xs"
+            />
+          </div>
+          <div>
+            <label className="text-xs text-gray-500 mb-1 block">Email Address</label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="Email (Optional)"
+              value={data.email || ""}
+              onChange={(e) => setData(prev => ({ ...prev, email: e.target.value }))}
+              className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 placeholder:text-xs"
+            />
           </div>
         </div>
         
-        {/* Search button - Mobile */}
+        {/* Search Button - Full Width */}
         <Button 
           type="submit" 
           disabled={isSubmitting} 
-          className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
+          className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground text-base font-semibold"
           onClick={handleSubmit}
         >
           {isSubmitting ? "Searching Flights & Hotels..." : "Search Flights & Hotels"}
