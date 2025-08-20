@@ -3,14 +3,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { MapPin, Phone, Calendar, Mail, User, FileText } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar as CalendarWidget } from "@/components/ui/calendar";
+import { MapPin, Phone, Calendar, Mail, User, FileText, Calendar as CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 import { sendAdminEmail } from "@/lib/email";
 
 type FormState = {
   visaType: string;
   destination: string;
-  travelDate: string;
-  returnDate: string;
+  travelDate: Date | undefined;
+  returnDate: Date | undefined;
   firstName: string;
   lastName: string;
   passportNumber: string;
@@ -25,8 +29,8 @@ const VisaBookingForm: React.FC = () => {
   const [data, setData] = React.useState<FormState>({
     visaType: "",
     destination: "",
-    travelDate: "",
-    returnDate: "",
+    travelDate: undefined,
+    returnDate: undefined,
     firstName: "",
     lastName: "",
     passportNumber: "",
@@ -93,11 +97,11 @@ const VisaBookingForm: React.FC = () => {
     <>
       <form onSubmit={onSubmit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-2 md:p-6">
         {/* Mobile Compact Layout */}
-        <div className="block md:hidden space-y-3">
+        <div className="block md:hidden space-y-2">
           {/* Visa Type + Destination - Two Column Grid */}
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Visa Type</label>
+              <label className="text-xs text-gray-500 mb-0.5 block">Visa Type</label>
               <Select value={data.visaType} onValueChange={(v) => setField("visaType", v)}>
                 <SelectTrigger className="h-12 bg-secondary/60 text-sm">
                   <SelectValue placeholder="Select visa type" />
@@ -113,7 +117,7 @@ const VisaBookingForm: React.FC = () => {
               {errors.visaType && <p className="mt-1 text-xs text-destructive">{errors.visaType}</p>}
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Destination</label>
+              <label className="text-xs text-gray-500 mb-0.5 block">Destination</label>
               <div className="relative">
                 <Input
                   value={data.destination}
@@ -130,29 +134,57 @@ const VisaBookingForm: React.FC = () => {
           {/* Travel + Return Dates - Two Column Grid */}
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Travel Date</label>
-              <div className="relative">
-                <Input
-                  type="date"
-                  value={data.travelDate}
-                  onChange={(e) => setField("travelDate", e.target.value)}
-                  className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10"
-                />
-                <Calendar className="absolute right-3 top-3 opacity-70 w-4 h-4" />
-              </div>
+              <label className="text-xs text-gray-500 mb-0.5 block">Travel Date</label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal",
+                      !data.travelDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {data.travelDate ? format(data.travelDate, "dd/MM/yyyy") : "Travel Date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <CalendarWidget
+                    mode="single"
+                    selected={data.travelDate}
+                    onSelect={(date) => setField("travelDate", date)}
+                    disabled={(date) => date < new Date()}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
               {errors.travelDate && <p className="mt-1 text-xs text-destructive">{errors.travelDate}</p>}
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Return Date</label>
-              <div className="relative">
-                <Input
-                  type="date"
-                  value={data.returnDate}
-                  onChange={(e) => setField("returnDate", e.target.value)}
-                  className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10"
-                />
-                <Calendar className="absolute right-3 top-3 opacity-70 w-4 h-4" />
-              </div>
+              <label className="text-xs text-gray-500 mb-0.5 block">Return Date</label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal",
+                      !data.returnDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {data.returnDate ? format(data.returnDate, "dd/MM/yyyy") : "Return Date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <CalendarWidget
+                    mode="single"
+                    selected={data.returnDate}
+                    onSelect={(date) => setField("returnDate", date)}
+                    disabled={(date) => date < new Date() || (data.travelDate && date < data.travelDate)}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
               {errors.returnDate && <p className="mt-1 text-xs text-destructive">{errors.returnDate}</p>}
             </div>
           </div>
@@ -160,7 +192,7 @@ const VisaBookingForm: React.FC = () => {
           {/* First + Last Name - Two Column Grid */}
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">First Name</label>
+              <label className="text-xs text-gray-500 mb-0.5 block">First Name</label>
               <div className="relative">
                 <Input
                   value={data.firstName}
@@ -173,7 +205,7 @@ const VisaBookingForm: React.FC = () => {
               {errors.firstName && <p className="mt-1 text-xs text-destructive">{errors.firstName}</p>}
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Last Name</label>
+              <label className="text-xs text-gray-500 mb-0.5 block">Last Name</label>
               <div className="relative">
                 <Input
                   value={data.lastName}
@@ -189,7 +221,7 @@ const VisaBookingForm: React.FC = () => {
 
           {/* Passport Number - Full Width */}
           <div>
-            <label className="text-xs text-gray-500 mb-1 block">Passport Number</label>
+            <label className="text-xs text-gray-500 mb-0.5 block">Passport Number</label>
             <div className="relative">
               <Input
                 value={data.passportNumber}
@@ -205,7 +237,7 @@ const VisaBookingForm: React.FC = () => {
           {/* Phone + Email - Two Column Grid */}
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Phone Number</label>
+              <label className="text-xs text-gray-500 mb-0.5 block">Phone Number</label>
               <div className="relative">
                 <Input
                   type="tel"
@@ -219,7 +251,7 @@ const VisaBookingForm: React.FC = () => {
               {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Email Address</label>
+              <label className="text-xs text-gray-500 mb-0.5 block">Email Address</label>
               <div className="relative">
                 <Input
                   type="email"
@@ -236,7 +268,7 @@ const VisaBookingForm: React.FC = () => {
 
           {/* Purpose of Travel - Full Width */}
           <div>
-            <label className="text-xs text-gray-500 mb-1 block">Purpose of Travel</label>
+            <label className="text-xs text-gray-500 mb-0.5 block">Purpose of Travel</label>
             <div className="relative">
               <Input
                 value={data.purpose}
@@ -290,28 +322,56 @@ const VisaBookingForm: React.FC = () => {
             </div>
             <div>
               <label className="mb-1 block text-sm text-muted-foreground">Travel Date</label>
-              <div className="relative">
-                <Input
-                  type="date"
-                  value={data.travelDate}
-                  onChange={(e) => setField("travelDate", e.target.value)}
-                  className="h-10 bg-secondary/60 pr-10"
-                />
-                <Calendar className="absolute right-3 top-2.5 opacity-70" />
-              </div>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "h-10 w-full bg-secondary/60 justify-start text-left font-normal",
+                      !data.travelDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {data.travelDate ? format(data.travelDate, "dd/MM/yyyy") : "Travel Date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <CalendarWidget
+                    mode="single"
+                    selected={data.travelDate}
+                    onSelect={(date) => setField("travelDate", date)}
+                    disabled={(date) => date < new Date()}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
               {errors.travelDate && <p className="mt-1 text-xs text-destructive">{errors.travelDate}</p>}
             </div>
             <div>
               <label className="mb-1 block text-sm text-muted-foreground">Return Date</label>
-              <div className="relative">
-                <Input
-                  type="date"
-                  value={data.returnDate}
-                  onChange={(e) => setField("returnDate", e.target.value)}
-                  className="h-10 bg-secondary/60 pr-10"
-                />
-                <Calendar className="absolute right-3 top-2.5 opacity-70" />
-              </div>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "h-10 w-full bg-secondary/60 justify-start text-left font-normal",
+                      !data.returnDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {data.returnDate ? format(data.returnDate, "dd/MM/yyyy") : "Return Date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <CalendarWidget
+                    mode="single"
+                    selected={data.returnDate}
+                    onSelect={(date) => setField("returnDate", date)}
+                    disabled={(date) => date < new Date() || (data.travelDate && date < data.travelDate)}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
               {errors.returnDate && <p className="mt-1 text-xs text-destructive">{errors.returnDate}</p>}
             </div>
             <div>

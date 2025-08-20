@@ -11,6 +11,7 @@ import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { sendAdminEmail } from '@/lib/email';
 import { searchAirports, getAirportByCode, getPopularAirports } from '@/data/airports';
+import { PassengerModal, type PassengerCounts } from './PassengerModal';
 
 interface FlightsHotelsFormData {
   tripType?: 'round' | 'oneway';
@@ -18,7 +19,9 @@ interface FlightsHotelsFormData {
   destination?: string;
   departDate?: Date;
   returnDate?: Date;
-  passengers?: string;
+  adults: number;
+  children: number;
+  infants: number;
   cabin?: string;
   rooms?: string;
   phone?: string;
@@ -29,7 +32,9 @@ const FlightsHotelsBookingForm: React.FC = () => {
   const [data, setData] = useState<FlightsHotelsFormData>({
     tripType: 'round',
     cabin: 'Economy',
-    passengers: '1',
+    adults: 1,
+    children: 0,
+    infants: 0,
     rooms: '1'
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -79,10 +84,10 @@ const FlightsHotelsBookingForm: React.FC = () => {
   return (
     <>
       {/* Mobile Compact Layout */}
-      <div className="block md:hidden space-y-3 p-2 rounded-2xl bg-card/90 backdrop-blur border shadow-soft">
+      <div className="block md:hidden space-y-2 p-2 rounded-2xl bg-card/90 backdrop-blur border shadow-soft">
         {/* Trip Type - Full Width */}
         <div>
-          <label className="text-xs text-gray-500 mb-1 block">Trip Type</label>
+          <label className="text-xs text-gray-500 mb-0.5 block">Trip Type</label>
           <div className="flex bg-secondary/60 rounded-md p-1 h-12">
             <button
               type="button"
@@ -114,7 +119,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
         {/* From + To - Two Column Grid */}
         <div className="grid grid-cols-2 gap-2">
           <div>
-            <label className="text-xs text-gray-500 mb-1 block">From</label>
+            <label className="text-xs text-gray-500 mb-0.5 block">From</label>
             <Select value={data.origin} onValueChange={(value) => setData(prev => ({ ...prev, origin: value }))}>
               <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
                 <SelectValue placeholder="Select origin city" />
@@ -129,7 +134,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
             </Select>
           </div>
           <div>
-            <label className="text-xs text-gray-500 mb-1 block">To</label>
+            <label className="text-xs text-gray-500 mb-0.5 block">To</label>
             <Select value={data.destination} onValueChange={(value) => setData(prev => ({ ...prev, destination: value }))}>
               <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
                 <SelectValue placeholder="Select destination city" />
@@ -148,7 +153,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
         {/* Departure + Return Date - Two Column Grid */}
         <div className="grid grid-cols-2 gap-2">
           <div>
-            <label className="text-xs text-gray-500 mb-1 block">Departure Date</label>
+            <label className="text-xs text-gray-500 mb-0.5 block">Departure Date</label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
@@ -174,7 +179,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
             </Popover>
           </div>
           <div>
-            <label className="text-xs text-gray-500 mb-1 block">
+            <label className="text-xs text-gray-500 mb-0.5 block">
               {data.tripType === 'round' ? 'Return Date' : 'Return Date (Optional)'}
             </label>
             <Popover>
@@ -208,23 +213,21 @@ const FlightsHotelsBookingForm: React.FC = () => {
         {/* Passengers + Cabin Class - Two Column Grid */}
         <div className="grid grid-cols-2 gap-2">
           <div>
-            <label className="text-xs text-gray-500 mb-1 block">Passengers</label>
-            <Select value={data.passengers} onValueChange={(value) => setData(prev => ({ ...prev, passengers: value }))}>
-              <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
-                <SelectValue placeholder="1" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="1">1 Passenger</SelectItem>
-                <SelectItem value="2">2 Passengers</SelectItem>
-                <SelectItem value="3">3 Passengers</SelectItem>
-                <SelectItem value="4">4 Passengers</SelectItem>
-                <SelectItem value="5">5 Passengers</SelectItem>
-                <SelectItem value="6+">6+ Passengers</SelectItem>
-              </SelectContent>
-            </Select>
+            <label className="text-xs text-gray-500 mb-0.5 block">Passengers</label>
+            <PassengerModal
+              passengers={{
+                adults: data.adults,
+                children: data.children,
+                infants: data.infants
+              }}
+              onPassengersChange={(passengers: PassengerCounts) => {
+                setData(prev => ({ ...prev, ...passengers }));
+              }}
+              className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60"
+            />
           </div>
           <div>
-            <label className="text-xs text-gray-500 mb-1 block">Cabin Class</label>
+            <label className="text-xs text-gray-500 mb-0.5 block">Cabin Class</label>
             <Select value={data.cabin} onValueChange={(value) => setData(prev => ({ ...prev, cabin: value }))}>
               <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
                 <SelectValue placeholder="Economy" />
@@ -241,7 +244,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
 
         {/* Rooms - Full Width */}
         <div>
-          <label className="text-xs text-gray-500 mb-1 block">Rooms</label>
+          <label className="text-xs text-gray-500 mb-0.5 block">Rooms</label>
           <Select value={data.rooms} onValueChange={(value) => setData(prev => ({ ...prev, rooms: value }))}>
             <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
               <SelectValue placeholder="1" />
@@ -259,7 +262,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
         {/* Phone + Email - Two Column Grid */}
         <div className="grid grid-cols-2 gap-2">
           <div>
-            <label className="text-xs text-gray-500 mb-1 block">Phone Number</label>
+            <label className="text-xs text-gray-500 mb-0.5 block">Phone Number</label>
             <Input
               id="phone"
               type="tel"
@@ -270,7 +273,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
             />
           </div>
           <div>
-            <label className="text-xs text-gray-500 mb-1 block">Email Address</label>
+            <label className="text-xs text-gray-500 mb-0.5 block">Email Address</label>
             <Input
               id="email"
               type="email"

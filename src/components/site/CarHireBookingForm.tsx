@@ -3,15 +3,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { MapPin, Phone, Calendar, Mail, Clock } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar as CalendarWidget } from "@/components/ui/calendar";
+import { MapPin, Phone, Calendar, CalendarIcon, Mail, Clock } from "lucide-react";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 import { sendAdminEmail } from "@/lib/email";
 
 type FormState = {
   pickUpLocation: string;
-  pickUpDate: string;
+  pickUpDate: Date | undefined;
   pickUpTime: string;
   dropOffLocation: string;
-  dropOffDate: string;
+  dropOffDate: Date | undefined;
   dropOffTime: string;
   phone: string;
   email: string;
@@ -23,10 +27,10 @@ type FormErrors = Partial<Record<keyof FormState, string>>;
 const CarHireBookingForm: React.FC = () => {
   const [data, setData] = React.useState<FormState>({
     pickUpLocation: "",
-    pickUpDate: "",
+    pickUpDate: undefined,
     pickUpTime: "",
     dropOffLocation: "",
-    dropOffDate: "",
+    dropOffDate: undefined,
     dropOffTime: "",
     phone: "",
     email: "",
@@ -89,10 +93,10 @@ const CarHireBookingForm: React.FC = () => {
     <>
       <form onSubmit={onSubmit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-2 md:p-6">
         {/* Mobile Compact Layout */}
-        <div className="block md:hidden space-y-3">
+        <div className="block md:hidden space-y-2">
           {/* Car Class - Full Width */}
           <div>
-            <label className="text-xs text-gray-500 mb-1 block">Car Class</label>
+            <label className="text-xs text-gray-500 mb-0.5 block">Car Class</label>
             <div className="flex bg-secondary/60 rounded-md p-1 h-12">
               <label className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors cursor-pointer">
                 <input
@@ -121,7 +125,7 @@ const CarHireBookingForm: React.FC = () => {
           {/* Pick-up + Drop-off Locations - Two Column Grid */}
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Pick-up Location</label>
+              <label className="text-xs text-gray-500 mb-0.5 block">Pick-up Location</label>
               <div className="relative">
                 <Input
                   value={data.pickUpLocation}
@@ -134,7 +138,7 @@ const CarHireBookingForm: React.FC = () => {
               {errors.pickUpLocation && <p className="mt-1 text-xs text-destructive">{errors.pickUpLocation}</p>}
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Drop-off Location</label>
+              <label className="text-xs text-gray-500 mb-0.5 block">Drop-off Location</label>
               <div className="relative">
                 <Input
                   value={data.dropOffLocation}
@@ -151,29 +155,57 @@ const CarHireBookingForm: React.FC = () => {
           {/* Pick-up + Drop-off Dates - Two Column Grid */}
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Pick-up Date</label>
-              <div className="relative">
-                <Input
-                  type="date"
-                  value={data.pickUpDate}
-                  onChange={(e) => setField("pickUpDate", e.target.value)}
-                  className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10"
-                />
-                <Calendar className="absolute right-3 top-3 opacity-70 w-4 h-4" />
-              </div>
+              <label className="text-xs text-gray-500 mb-0.5 block">Pick-up Date</label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal",
+                      !data.pickUpDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {data.pickUpDate ? format(data.pickUpDate, "dd/MM/yyyy") : "dd/mm/yyyy"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <CalendarWidget
+                    mode="single"
+                    selected={data.pickUpDate}
+                    onSelect={(date) => setField("pickUpDate", date)}
+                    disabled={(date) => date < new Date()}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
               {errors.pickUpDate && <p className="mt-1 text-xs text-destructive">{errors.pickUpDate}</p>}
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Drop-off Date</label>
-              <div className="relative">
-                <Input
-                  type="date"
-                  value={data.dropOffDate}
-                  onChange={(e) => setField("dropOffDate", e.target.value)}
-                  className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10"
-                />
-                <Calendar className="absolute right-3 top-3 opacity-70 w-4 h-4" />
-              </div>
+              <label className="text-xs text-gray-500 mb-0.5 block">Drop-off Date</label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal",
+                      !data.dropOffDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {data.dropOffDate ? format(data.dropOffDate, "dd/MM/yyyy") : "dd/mm/yyyy"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <CalendarWidget
+                    mode="single"
+                    selected={data.dropOffDate}
+                    onSelect={(date) => setField("dropOffDate", date)}
+                    disabled={(date) => date < new Date() || (data.pickUpDate && date < data.pickUpDate)}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
               {errors.dropOffDate && <p className="mt-1 text-xs text-destructive">{errors.dropOffDate}</p>}
             </div>
           </div>
@@ -181,7 +213,7 @@ const CarHireBookingForm: React.FC = () => {
           {/* Pick-up + Drop-off Times - Two Column Grid */}
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Pick-up Time</label>
+              <label className="text-xs text-gray-500 mb-0.5 block">Pick-up Time</label>
               <div className="relative">
                 <Input
                   type="time"
@@ -194,7 +226,7 @@ const CarHireBookingForm: React.FC = () => {
               {errors.pickUpTime && <p className="mt-1 text-xs text-destructive">{errors.pickUpTime}</p>}
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Drop-off Time</label>
+              <label className="text-xs text-gray-500 mb-0.5 block">Drop-off Time</label>
               <div className="relative">
                 <Input
                   type="time"
@@ -211,7 +243,7 @@ const CarHireBookingForm: React.FC = () => {
           {/* Phone + Email - Two Column Grid */}
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Phone Number</label>
+              <label className="text-xs text-gray-500 mb-0.5 block">Phone Number</label>
               <div className="relative">
                 <Input
                   type="tel"
@@ -225,7 +257,7 @@ const CarHireBookingForm: React.FC = () => {
               {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Email Address</label>
+              <label className="text-xs text-gray-500 mb-0.5 block">Email Address</label>
               <div className="relative">
                 <Input
                   type="email"
@@ -306,28 +338,56 @@ const CarHireBookingForm: React.FC = () => {
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="mb-2 block text-sm text-muted-foreground font-medium">Pick-up Date</label>
-              <div className="relative">
-                <Input
-                  type="date"
-                  value={data.pickUpDate}
-                  onChange={(e) => setField("pickUpDate", e.target.value)}
-                  className="h-11 bg-secondary/60 pr-10 text-sm"
-                />
-                <Calendar className="absolute right-3 top-3 opacity-70 w-4 h-4" />
-              </div>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "h-11 w-full bg-secondary/60 text-sm justify-start text-left font-normal",
+                      !data.pickUpDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {data.pickUpDate ? format(data.pickUpDate, "dd/MM/yyyy") : "Pick-up Date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <CalendarWidget
+                    mode="single"
+                    selected={data.pickUpDate}
+                    onSelect={(date) => setField("pickUpDate", date)}
+                    disabled={(date) => date < new Date()}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
               {errors.pickUpDate && <p className="mt-1 text-xs text-destructive">{errors.pickUpDate}</p>}
             </div>
             <div>
               <label className="mb-2 block text-sm text-muted-foreground font-medium">Drop-off Date</label>
-              <div className="relative">
-                <Input
-                  type="date"
-                  value={data.dropOffDate}
-                  onChange={(e) => setField("dropOffDate", e.target.value)}
-                  className="h-11 bg-secondary/60 pr-10 text-sm"
-                />
-                <Calendar className="absolute right-3 top-3 opacity-70 w-4 h-4" />
-              </div>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "h-11 w-full bg-secondary/60 text-sm justify-start text-left font-normal",
+                      !data.dropOffDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {data.dropOffDate ? format(data.dropOffDate, "dd/MM/yyyy") : "Drop-off Date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <CalendarWidget
+                    mode="single"
+                    selected={data.dropOffDate}
+                    onSelect={(date) => setField("dropOffDate", date)}
+                    disabled={(date) => date < new Date() || (data.pickUpDate && date < data.pickUpDate)}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
               {errors.dropOffDate && <p className="mt-1 text-xs text-destructive">{errors.dropOffDate}</p>}
             </div>
           </div>

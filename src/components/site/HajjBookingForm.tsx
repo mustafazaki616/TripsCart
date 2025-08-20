@@ -3,12 +3,20 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar as CalendarWidget } from "@/components/ui/calendar";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 import { sendAdminEmail } from "@/lib/email";
+import { PassengerModal, type PassengerCounts } from "./PassengerModal";
 
 type FormState = {
   name: string;
-  passengers: number;
-  departure: string;
+  adults: number;
+  children: number;
+  infants: number;
+  departure: Date | undefined;
   days: number;
   visa: "Yes" | "No" | "";
   hotel: "Standard" | "Economy" | "3 Star" | "4 Star" | "5 Star" | "";
@@ -21,8 +29,10 @@ type FormErrors = Partial<Record<keyof FormState, string>>;
 const HajjBookingForm: React.FC = () => {
   const [data, setData] = React.useState<FormState>({
     name: "",
-    passengers: 1,
-    departure: "",
+    adults: 1,
+    children: 0,
+    infants: 0,
+    departure: undefined,
     days: 10,
     visa: "",
     hotel: "",
@@ -76,10 +86,10 @@ const HajjBookingForm: React.FC = () => {
     <>
       <form onSubmit={onSubmit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-2 md:p-6">
         {/* Mobile Compact Layout */}
-        <div className="space-y-3 md:hidden">
+        <div className="space-y-2 md:hidden">
           {/* Full Width - Name */}
           <div>
-            <label className="text-xs text-gray-500 mb-1 block">Name</label>
+            <label className="text-xs text-gray-500 mb-0.5 block">Name</label>
             <Input 
               value={data.name} 
               onChange={(e)=> setField("name", e.target.value)} 
@@ -92,18 +102,21 @@ const HajjBookingForm: React.FC = () => {
           {/* Two Column - Passengers/Days */}
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Passengers</label>
-              <Input 
-                type="number" 
-                min={1} 
-                value={data.passengers} 
-                onChange={(e)=> setField("passengers", Math.max(1, Number(e.target.value)))} 
-                className="h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200" 
+              <label className="text-xs text-gray-500 mb-0.5 block">Passengers</label>
+              <PassengerModal
+                passengers={{
+                  adults: data.adults,
+                  children: data.children,
+                  infants: data.infants
+                }}
+                onPassengersChange={(passengers: PassengerCounts) => {
+                  setData(prev => ({ ...prev, ...passengers }));
+                }}
+                className="h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200"
               />
-              {errors.passengers && <p className="mt-1 text-xs text-destructive">{errors.passengers}</p>}
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Days</label>
+              <label className="text-xs text-gray-500 mb-0.5 block">Days</label>
               <Input 
                 type="number" 
                 min={1} 
@@ -117,20 +130,37 @@ const HajjBookingForm: React.FC = () => {
 
           {/* Full Width - Departure Date */}
           <div>
-            <label className="text-xs text-gray-500 mb-1 block">Departure Date</label>
-            <Input 
-              type="date" 
-              value={data.departure} 
-              onChange={(e)=> setField("departure", e.target.value)} 
-              className="h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200" 
-            />
+            <label className="text-xs text-gray-500 mb-0.5 block">Departure Date</label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200 justify-start text-left font-normal",
+                    !data.departure && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {data.departure ? format(data.departure, "dd/MM/yyyy") : "Departure Date"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <CalendarWidget
+                  mode="single"
+                  selected={data.departure}
+                  onSelect={(date) => setField("departure", date)}
+                  disabled={(date) => date < new Date()}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
             {errors.departure && <p className="mt-1 text-xs text-destructive">{errors.departure}</p>}
           </div>
 
           {/* Two Column - Visa/Transport */}
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Visa</label>
+              <label className="text-xs text-gray-500 mb-0.5 block">Visa</label>
               <Select value={data.visa} onValueChange={(v)=> setField("visa", v as FormState["visa"])}>
                 <SelectTrigger className="h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200">
                   <SelectValue placeholder="Select" />
@@ -143,7 +173,7 @@ const HajjBookingForm: React.FC = () => {
               {errors.visa && <p className="mt-1 text-xs text-destructive">{errors.visa}</p>}
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Transport</label>
+              <label className="text-xs text-gray-500 mb-0.5 block">Transport</label>
               <Select value={data.transport} onValueChange={(v)=> setField("transport", v as FormState["transport"])}>
                 <SelectTrigger className="h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200">
                   <SelectValue placeholder="Select" />
@@ -159,7 +189,7 @@ const HajjBookingForm: React.FC = () => {
 
           {/* Full Width - Hotel */}
           <div>
-            <label className="text-xs text-gray-500 mb-1 block">Hotel Category</label>
+            <label className="text-xs text-gray-500 mb-0.5 block">Hotel Category</label>
             <Select value={data.hotel} onValueChange={(v)=> setField("hotel", v as FormState["hotel"])}>
               <SelectTrigger className="h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200">
                 <SelectValue placeholder="Select hotel category" />
@@ -177,7 +207,7 @@ const HajjBookingForm: React.FC = () => {
 
           {/* Full Width - Phone */}
           <div>
-            <label className="text-xs text-gray-500 mb-1 block">Contact Number</label>
+            <label className="text-xs text-gray-500 mb-0.5 block">Contact Number</label>
             <Input 
               type="tel" 
               value={data.phone} 
@@ -217,7 +247,29 @@ const HajjBookingForm: React.FC = () => {
           </div>
           <div>
             <label className="mb-2 block text-sm text-muted-foreground font-medium">Departure</label>
-            <Input type="date" value={data.departure} onChange={(e)=> setField("departure", e.target.value)} className="h-11 bg-secondary/60 text-sm" />
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "h-11 w-full bg-secondary/60 text-sm justify-start text-left font-normal",
+                    !data.departure && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {data.departure ? format(data.departure, "dd/MM/yyyy") : "Departure Date"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <CalendarWidget
+                  mode="single"
+                  selected={data.departure}
+                  onSelect={(date) => setField("departure", date)}
+                  disabled={(date) => date < new Date()}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
             {errors.departure && <p className="mt-1 text-xs text-destructive">{errors.departure}</p>}
           </div>
           <div>

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { format } from "date-fns";
-import { ArrowLeftRight, Calendar, Mail, Phone, Plane, UserRound, Search, Minus, Plus, X } from "lucide-react";
+import { ArrowLeftRight, Calendar, CalendarIcon, Mail, Phone, Plane, UserRound, Search, Minus, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -15,6 +15,7 @@ import CarHireBookingForm from "./CarHireBookingForm";
 import VisaBookingForm from "./VisaBookingForm";
 import { sendAdminEmail } from "@/lib/email";
 import { searchAirports, getAirportByCode, getPopularAirports, type Airport } from "@/data/airports";
+import { PassengerModal, type PassengerCounts } from "./PassengerModal";
 
 const cabinClasses = ["Economy", "Premium Economy", "Business", "First"] as const;
 
@@ -164,10 +165,10 @@ const BookingForm: React.FC = () => {
         {/* Flight Form */}
         <TabsContent value="flight">
         {/* Mobile Compact Layout */}
-        <div className="md:hidden space-y-3 mb-4">
+        <div className="md:hidden space-y-2 mb-3">
           {/* Trip Type - Full Width */}
           <div>
-            <label className="text-xs text-gray-500 mb-1 block">Trip Type</label>
+            <label className="text-xs text-gray-500 mb-0.5 block">Trip Type</label>
             <Select value={data.tripType} onValueChange={(v) => setData((d) => ({ ...d, tripType: v as FormState["tripType"] }))}>
               <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
                 <SelectValue />
@@ -182,7 +183,7 @@ const BookingForm: React.FC = () => {
           {/* From + To - Two Column Grid */}
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">From</label>
+              <label className="text-xs text-gray-500 mb-0.5 block">From</label>
               <Select value={data.origin} onValueChange={(value) => setData((d) => ({ ...d, origin: value }))}>
                 <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
                   <SelectValue placeholder="Select departure city" />
@@ -199,7 +200,7 @@ const BookingForm: React.FC = () => {
             </div>
             
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">To</label>
+              <label className="text-xs text-gray-500 mb-0.5 block">To</label>
               <Select value={data.destination} onValueChange={(value) => setData((d) => ({ ...d, destination: value }))}>
                 <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
                   <SelectValue placeholder="Select destination city" />
@@ -219,43 +220,59 @@ const BookingForm: React.FC = () => {
           {/* Departure Date + Return Date - Two Column Grid */}
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Departure Date</label>
-              <Select 
-                value={data.departDate?.toISOString()} 
-                onValueChange={(value) => setData((d) => ({ ...d, departDate: new Date(value) }))}
-              >
-                <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
-                  <SelectValue placeholder="Select departure date" />
-                </SelectTrigger>
-                <SelectContent className="max-h-64">
-                  {getDateOptions().map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <label className="text-xs text-gray-500 mb-0.5 block">Departure Date</label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal",
+                      !data.departDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {data.departDate ? format(data.departDate, "dd/MM/yyyy") : "dd/mm/yyyy"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <CalendarWidget
+                    mode="single"
+                    selected={data.departDate}
+                    onSelect={(date) => setData((d) => ({ ...d, departDate: date }))}
+                    disabled={(date) => date < new Date()}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
               {errors.departDate && <p className="mt-1 text-xs text-destructive">{errors.departDate}</p>}
             </div>
             
             {data.tripType === "round" ? (
               <div>
-                <label className="text-xs text-gray-500 mb-1 block">Return Date</label>
-                <Select 
-                  value={data.returnDate?.toISOString()} 
-                  onValueChange={(value) => setData((d) => ({ ...d, returnDate: new Date(value) }))}
-                >
-                  <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
-                    <SelectValue placeholder="Select return date" />
-                  </SelectTrigger>
-                  <SelectContent className="max-h-64">
-                    {getDateOptions(data.departDate).map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <label className="text-xs text-gray-500 mb-0.5 block">Return Date</label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal",
+                        !data.returnDate && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {data.returnDate ? format(data.returnDate, "dd/MM/yyyy") : "dd/mm/yyyy"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <CalendarWidget
+                      mode="single"
+                      selected={data.returnDate}
+                      onSelect={(date) => setData((d) => ({ ...d, returnDate: date }))}
+                      disabled={(date) => date < new Date() || (data.departDate && date <= data.departDate)}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
                 {errors.returnDate && <p className="mt-1 text-xs text-destructive">{errors.returnDate}</p>}
               </div>
             ) : (
@@ -266,38 +283,22 @@ const BookingForm: React.FC = () => {
           {/* Passengers + Cabin Class - Two Column Grid */}
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Passengers</label>
-              <Select 
-                value={`${data.adults}-${data.children}-${data.infants}`} 
-                onValueChange={(value) => {
-                  const [adults, children, infants] = value.split('-').map(Number);
-                  setData(d => ({ ...d, adults, children, infants }));
+              <label className="text-xs text-gray-500 mb-0.5 block">Passengers</label>
+              <PassengerModal
+                passengers={{
+                  adults: data.adults,
+                  children: data.children,
+                  infants: data.infants
                 }}
-              >
-                <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
-                  <SelectValue>
-                    <span className="truncate">
-                      {data.adults + data.children + data.infants} Passenger{data.adults + data.children + data.infants !== 1 ? 's' : ''}
-                    </span>
-                  </SelectValue>
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="1-0-0">1 Adult</SelectItem>
-                  <SelectItem value="2-0-0">2 Adults</SelectItem>
-                  <SelectItem value="3-0-0">3 Adults</SelectItem>
-                  <SelectItem value="4-0-0">4 Adults</SelectItem>
-                  <SelectItem value="1-1-0">1 Adult, 1 Child</SelectItem>
-                  <SelectItem value="2-1-0">2 Adults, 1 Child</SelectItem>
-                  <SelectItem value="2-2-0">2 Adults, 2 Children</SelectItem>
-                  <SelectItem value="1-0-1">1 Adult, 1 Infant</SelectItem>
-                  <SelectItem value="2-0-1">2 Adults, 1 Infant</SelectItem>
-                  <SelectItem value="2-1-1">2 Adults, 1 Child, 1 Infant</SelectItem>
-                </SelectContent>
-              </Select>
+                onPassengersChange={(passengers: PassengerCounts) => {
+                  setData(d => ({ ...d, ...passengers }));
+                }}
+                className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60"
+              />
             </div>
             
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Cabin Class</label>
+              <label className="text-xs text-gray-500 mb-0.5 block">Cabin Class</label>
               <Select value={data.cabin} onValueChange={(v) => setData((d) => ({ ...d, cabin: v as FormState["cabin"] }))}>
                 <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
                   <SelectValue />
@@ -313,7 +314,7 @@ const BookingForm: React.FC = () => {
           
           {/* Phone Number - Full Width */}
           <div>
-            <label className="text-xs text-gray-500 mb-1 block">Phone Number</label>
+            <label className="text-xs text-gray-500 mb-0.5 block">Phone Number</label>
             <Input
               type="tel"
               placeholder="Phone number"
@@ -325,7 +326,7 @@ const BookingForm: React.FC = () => {
           
           {/* Email Address - Full Width */}
           <div>
-            <label className="text-xs text-gray-500 mb-1 block">Email Address</label>
+            <label className="text-xs text-gray-500 mb-0.5 block">Email Address</label>
             <Input
               type="email"
               placeholder="Email address"
@@ -342,7 +343,7 @@ const BookingForm: React.FC = () => {
         </div>
 
         {/* Desktop Layout */}
-        <div className="hidden md:block space-y-4">
+        <div className="hidden md:block space-y-3">
           {/* Trip type selector */}
           <div className="flex gap-2">
             <Button
@@ -366,11 +367,11 @@ const BookingForm: React.FC = () => {
           </div>
 
           {/* Origin and Destination fields */}
-          <div className="space-y-3 md:space-y-0">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+          <div className="space-y-2 md:space-y-0">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
               {/* Origin */}
               <div>
-                <label className="mb-2 block text-sm font-medium text-foreground">From</label>
+                <label className="mb-1.5 block text-sm font-medium text-foreground">From</label>
                 <Select value={data.origin} onValueChange={(value) => setData((d) => ({ ...d, origin: value }))}>
                   <SelectTrigger className="h-11 md:h-12 bg-secondary/60">
                     <div className="flex items-center">
@@ -391,7 +392,7 @@ const BookingForm: React.FC = () => {
 
               {/* Destination */}
               <div>
-                <label className="mb-2 block text-sm font-medium text-foreground">To</label>
+                <label className="mb-1.5 block text-sm font-medium text-foreground">To</label>
                 <Select value={data.destination} onValueChange={(value) => setData((d) => ({ ...d, destination: value }))}>
                   <SelectTrigger className="h-11 md:h-12 bg-secondary/60">
                     <div className="flex items-center">
@@ -418,24 +419,29 @@ const BookingForm: React.FC = () => {
               {/* Departure */}
               <div>
                 <label className="mb-2 block text-sm font-medium text-foreground">Departure Date</label>
-                <Select
-                  value={data.departDate ? format(data.departDate, "yyyy-MM-dd") : ""}
-                  onValueChange={(value) => {
-                    setData((s) => ({ ...s, departDate: new Date(value) }));
-                  }}
-                >
-                  <SelectTrigger className="w-full h-11 md:h-12 bg-secondary/60 text-sm border-input">
-                    <Calendar className="mr-3 opacity-70 w-4 h-4" />
-                    <SelectValue placeholder="Departure" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {getDateOptions().map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "w-full h-11 md:h-12 bg-secondary/60 text-sm border-input justify-start text-left font-normal",
+                        !data.departDate && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-3 opacity-70 w-4 h-4" />
+                      {data.departDate ? format(data.departDate, "dd/MM/yyyy") : "Departure"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <CalendarWidget
+                      mode="single"
+                      selected={data.departDate}
+                      onSelect={(date) => setData((d) => ({ ...d, departDate: date }))}
+                      disabled={(date) => date < new Date()}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
                 {errors.departDate && <p className="mt-2 text-xs text-destructive">{errors.departDate}</p>}
               </div>
 
@@ -443,24 +449,29 @@ const BookingForm: React.FC = () => {
               {data.tripType === "round" && (
                 <div>
                   <label className="mb-2 block text-sm font-medium text-foreground">Return Date</label>
-                  <Select
-                    value={data.returnDate ? format(data.returnDate, "yyyy-MM-dd") : ""}
-                    onValueChange={(value) => {
-                      setData((s) => ({ ...s, returnDate: new Date(value) }));
-                    }}
-                  >
-                    <SelectTrigger className="w-full h-11 md:h-12 bg-secondary/60 text-sm border-input">
-                      <Calendar className="mr-3 opacity-70 w-4 h-4" />
-                      <SelectValue placeholder="Return" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {getDateOptions(data.departDate).map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "w-full h-11 md:h-12 bg-secondary/60 text-sm border-input justify-start text-left font-normal",
+                          !data.returnDate && "text-muted-foreground"
+                        )}
+                      >
+                        <CalendarIcon className="mr-3 opacity-70 w-4 h-4" />
+                        {data.returnDate ? format(data.returnDate, "dd/MM/yyyy") : "Return"}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <CalendarWidget
+                        mode="single"
+                        selected={data.returnDate}
+                        onSelect={(date) => setData((d) => ({ ...d, returnDate: date }))}
+                        disabled={(date) => date < new Date() || (data.departDate && date <= data.departDate)}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
                   {errors.returnDate && <p className="mt-2 text-xs text-destructive">{errors.returnDate}</p>}
                 </div>
               )}
