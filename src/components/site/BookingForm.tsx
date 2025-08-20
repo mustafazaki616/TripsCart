@@ -145,7 +145,7 @@ const BookingForm: React.FC = () => {
 
   return (
     <>
-    <form onSubmit={submit} className="rounded-2xl bg-card/20 backdrop-blur border shadow-soft p-2 sm:p-3 md:p-6 w-full max-w-full overflow-hidden relative">
+    <form onSubmit={submit} className="rounded-2xl bg-card/20 backdrop-blur border shadow-soft p-4 sm:p-3 md:p-6 w-full max-w-full overflow-hidden relative">
       {/* Category tabs */}
       <Tabs defaultValue="flight" className="w-full">
         <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 h-auto sm:h-14 rounded-t-lg bg-secondary/80 p-1 flex-wrap gap-1 text-xs sm:text-sm">

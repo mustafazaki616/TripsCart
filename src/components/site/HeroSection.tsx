@@ -9,7 +9,7 @@ const HeroSection = () => {
         <img src={heroImage} alt="Airplane at sunset - flight booking hero" className="w-full h-[70vh] md:h-[80vh] object-cover" loading="eager" />
         <div className="absolute inset-0 hero-overlay" aria-hidden="true" />
       </div>
-      <div className="relative container mx-auto pt-16 md:pt-28 pb-10 md:pb-16 px-4 sm:px-6">
+      <div className="relative container mx-auto pt-16 md:pt-28 pb-10 md:pb-16 px-2 sm:px-6">
         <div className="max-w-3xl">
           <h1 className="text-gradient-primary text-3xl md:text-4xl lg:text-5xl">Your trip, just a click away</h1>
           <p className="mt-4 text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl">
@@ -31,7 +31,7 @@ const HeroSection = () => {
             </div>
             <div className="text-center">
               <div className="text-sm font-medium opacity-90">24/7 Emergency Support</div>
-              <div className="text-lg font-bold">Call: 0208-004-4475</div>
+              <div className="text-lg font-bold">Call: 019-315-87001</div>
             </div>
           </a>
         </div>
