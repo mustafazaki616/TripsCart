@@ -74,16 +74,16 @@ const HajjBookingForm: React.FC = () => {
 
   return (
     <>
-      <form onSubmit={onSubmit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-4 md:p-6">
+      <form onSubmit={onSubmit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-2 md:p-6">
         <div className="space-y-4 md:grid md:grid-cols-2 md:gap-4 md:space-y-0">
           <div>
             <label className="mb-2 block text-sm text-muted-foreground font-medium">Name</label>
-            <Input value={data.name} onChange={(e)=> setField("name", e.target.value)} placeholder="Your full name" className="h-11 bg-secondary/60 text-sm" />
+            <Input value={data.name} onChange={(e)=> setField("name", e.target.value)} placeholder="Your full name" className="h-11 bg-secondary/60 text-sm placeholder:text-xs" />
             {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name}</p>}
           </div>
           <div>
             <label className="mb-2 block text-sm text-muted-foreground font-medium">Contact Number</label>
-            <Input type="tel" value={data.phone} onChange={(e)=> setField("phone", e.target.value)} placeholder="e.g., +44 20 1234 5678" className="h-11 bg-secondary/60 text-sm" />
+            <Input type="tel" value={data.phone} onChange={(e)=> setField("phone", e.target.value)} placeholder="e.g., +44 20 1234 5678" className="h-11 bg-secondary/60 text-sm placeholder:text-xs" />
             {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
           </div>
           <div>

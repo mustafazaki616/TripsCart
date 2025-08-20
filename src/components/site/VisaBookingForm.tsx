@@ -91,7 +91,7 @@ const VisaBookingForm: React.FC = () => {
 
   return (
     <>
-      <form onSubmit={onSubmit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-4 md:p-6">
+      <form onSubmit={onSubmit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-2 md:p-6">
         {/* Main Fields */}
         <div className="grid grid-cols-2 gap-3">
           <div>
@@ -117,7 +117,7 @@ const VisaBookingForm: React.FC = () => {
                 value={data.destination}
                 onChange={(e) => setField("destination", e.target.value)}
                 placeholder="Enter destination country..."
-                className="h-10 bg-secondary/60 pr-10"
+                className="h-10 bg-secondary/60 pr-10 placeholder:text-xs"
               />
               <MapPin className="absolute right-3 top-2.5 opacity-70" />
             </div>
@@ -156,7 +156,7 @@ const VisaBookingForm: React.FC = () => {
                 value={data.firstName}
                 onChange={(e) => setField("firstName", e.target.value)}
                 placeholder="Enter first name"
-                className="h-10 bg-secondary/60 pr-10"
+                className="h-10 bg-secondary/60 pr-10 placeholder:text-xs"
               />
               <User className="absolute right-3 top-2.5 opacity-70" />
             </div>
@@ -169,7 +169,7 @@ const VisaBookingForm: React.FC = () => {
                 value={data.lastName}
                 onChange={(e) => setField("lastName", e.target.value)}
                 placeholder="Enter last name"
-                className="h-10 bg-secondary/60 pr-10"
+                className="h-10 bg-secondary/60 pr-10 placeholder:text-xs"
               />
               <User className="absolute right-3 top-2.5 opacity-70" />
             </div>
@@ -182,7 +182,7 @@ const VisaBookingForm: React.FC = () => {
                 value={data.passportNumber}
                 onChange={(e) => setField("passportNumber", e.target.value)}
                 placeholder="Enter passport number"
-                className="h-10 bg-secondary/60 pr-10"
+                className="h-10 bg-secondary/60 pr-10 placeholder:text-xs"
               />
               <FileText className="absolute right-3 top-2.5 opacity-70" />
             </div>
@@ -196,7 +196,7 @@ const VisaBookingForm: React.FC = () => {
                 value={data.phone}
                 onChange={(e) => setField("phone", e.target.value)}
                 placeholder="UK Numbers Only"
-                className="h-10 bg-secondary/60 pr-10"
+                className="h-10 bg-secondary/60 pr-10 placeholder:text-xs"
               />
               <Phone className="absolute right-3 top-2.5 opacity-70" />
             </div>
@@ -210,7 +210,7 @@ const VisaBookingForm: React.FC = () => {
                 value={data.email}
                 onChange={(e) => setField("email", e.target.value)}
                 placeholder="Email (Optional)"
-                className="h-10 bg-secondary/60 pr-10"
+                className="h-10 bg-secondary/60 pr-10 placeholder:text-xs"
               />
               <Mail className="absolute right-3 top-2.5 opacity-70" />
             </div>
@@ -223,7 +223,7 @@ const VisaBookingForm: React.FC = () => {
                 value={data.purpose}
                 onChange={(e) => setField("purpose", e.target.value)}
                 placeholder="Brief description of travel purpose..."
-                className="h-10 bg-secondary/60 pr-10"
+                className="h-10 bg-secondary/60 pr-10 placeholder:text-xs"
               />
               <FileText className="absolute right-3 top-2.5 opacity-70" />
             </div>

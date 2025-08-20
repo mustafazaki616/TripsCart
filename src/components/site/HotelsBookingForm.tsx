@@ -50,7 +50,7 @@ const HotelsBookingForm: React.FC = () => {
   return (
     <>
       {/* Mobile Compact Layout */}
-      <div className="block md:hidden space-y-4 p-4 rounded-2xl bg-card/90 backdrop-blur border shadow-soft">
+      <div className="block md:hidden space-y-4 p-2 rounded-2xl bg-card/90 backdrop-blur border shadow-soft">
         <div className="space-y-3">
           {/* Destination - Full Width */}
           <div className="space-y-2">
@@ -64,7 +64,7 @@ const HotelsBookingForm: React.FC = () => {
               placeholder="Enter destination"
               value={data.destination || ""}
               onChange={(e) => setData((d) => ({ ...d, destination: e.target.value }))}
-              className="h-10 bg-secondary/60"
+              className="h-10 bg-secondary/60 placeholder:text-xs"
             />
           </div>
 
@@ -172,7 +172,7 @@ const HotelsBookingForm: React.FC = () => {
                 placeholder="Enter your full name"
                 value={data.name || ""}
                 onChange={(e) => setData((d) => ({ ...d, name: e.target.value }))}
-                className="h-10 bg-secondary/60"
+                className="h-10 bg-secondary/60 placeholder:text-xs"
               />
             </div>
             <div className="grid grid-cols-2 gap-3">
@@ -184,7 +184,7 @@ const HotelsBookingForm: React.FC = () => {
                   placeholder="UK Numbers Only"
                   value={data.phone || ""}
                   onChange={(e) => setData((d) => ({ ...d, phone: e.target.value }))}
-                  className="h-10 bg-secondary/60"
+                  className="h-10 bg-secondary/60 placeholder:text-xs"
                 />
               </div>
               <div className="space-y-2">
@@ -195,7 +195,7 @@ const HotelsBookingForm: React.FC = () => {
                   placeholder="Email (Optional)"
                   value={data.email || ""}
                   onChange={(e) => setData((d) => ({ ...d, email: e.target.value }))}
-                  className="h-10 bg-secondary/60"
+                  className="h-10 bg-secondary/60 placeholder:text-xs"
                 />
               </div>
             </div>

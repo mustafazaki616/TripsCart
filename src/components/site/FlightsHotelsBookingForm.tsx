@@ -79,7 +79,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
   return (
     <>
       {/* Mobile Compact Layout */}
-      <div className="block md:hidden space-y-4 p-4 rounded-2xl bg-card/90 backdrop-blur border shadow-soft">
+      <div className="block md:hidden space-y-4 p-2 rounded-2xl bg-card/90 backdrop-blur border shadow-soft">
         {/* Trip Type */}
         <div className="space-y-2">
           <Label className="text-sm font-medium text-gray-700">Trip Type</Label>
@@ -274,7 +274,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
                 placeholder="UK Numbers Only"
                 value={data.phone || ""}
                 onChange={(e) => setData(prev => ({ ...prev, phone: e.target.value }))}
-                className="h-10 bg-secondary/60"
+                className="h-10 bg-secondary/60 placeholder:text-xs"
               />
             </div>
             <div className="space-y-2">
@@ -285,7 +285,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
                 placeholder="Email (Optional)"
                 value={data.email || ""}
                 onChange={(e) => setData(prev => ({ ...prev, email: e.target.value }))}
-                className="h-10 bg-secondary/60"
+                className="h-10 bg-secondary/60 placeholder:text-xs"
               />
             </div>
           </div>

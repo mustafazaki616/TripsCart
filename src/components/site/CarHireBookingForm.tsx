@@ -87,7 +87,7 @@ const CarHireBookingForm: React.FC = () => {
 
   return (
     <>
-      <form onSubmit={onSubmit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-4 md:p-6">
+      <form onSubmit={onSubmit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-2 md:p-6">
         {/* Class Selection */}
         <div className="flex items-center gap-4 text-sm text-muted-foreground px-1 mb-6">
           <label className="inline-flex items-center gap-2 font-medium">
@@ -123,7 +123,7 @@ const CarHireBookingForm: React.FC = () => {
                   value={data.pickUpLocation}
                   onChange={(e) => setField("pickUpLocation", e.target.value)}
                   placeholder="Enter Pick-up location..."
-                  className="h-11 bg-secondary/60 pr-10 text-sm"
+                  className="h-11 bg-secondary/60 pr-10 text-sm placeholder:text-xs"
                 />
                 <MapPin className="absolute right-3 top-3 opacity-70 w-4 h-4" />
               </div>
@@ -136,7 +136,7 @@ const CarHireBookingForm: React.FC = () => {
                   value={data.dropOffLocation}
                   onChange={(e) => setField("dropOffLocation", e.target.value)}
                   placeholder="Enter Drop-off Location..."
-                  className="h-11 bg-secondary/60 pr-10 text-sm"
+                  className="h-11 bg-secondary/60 pr-10 text-sm placeholder:text-xs"
                 />
                 <MapPin className="absolute right-3 top-3 opacity-70 w-4 h-4" />
               </div>
@@ -214,7 +214,7 @@ const CarHireBookingForm: React.FC = () => {
                   value={data.phone}
                   onChange={(e) => setField("phone", e.target.value)}
                   placeholder="UK Numbers Only"
-                  className="h-11 bg-secondary/60 pr-10 text-sm"
+                  className="h-11 bg-secondary/60 pr-10 text-sm placeholder:text-xs"
                 />
                 <Phone className="absolute right-3 top-3 opacity-70 w-4 h-4" />
               </div>
@@ -228,7 +228,7 @@ const CarHireBookingForm: React.FC = () => {
                   value={data.email}
                   onChange={(e) => setField("email", e.target.value)}
                   placeholder="Email (Optional)"
-                  className="h-11 bg-secondary/60 pr-10 text-sm"
+                  className="h-11 bg-secondary/60 pr-10 text-sm placeholder:text-xs"
                 />
                 <Mail className="absolute right-3 top-3 opacity-70 w-4 h-4" />
               </div>
