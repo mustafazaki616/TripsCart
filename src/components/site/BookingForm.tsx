@@ -160,182 +160,210 @@ const BookingForm: React.FC = () => {
 
         {/* Flight Form */}
         <TabsContent value="flight">
-        {/* Mobile Compact Layout */}
-        <div className="md:hidden space-y-2 mb-3">
-          {/* Trip Type - Full Width */}
-          <div>
-            <label className="text-xs text-gray-500 mb-0.5 block">Trip Type</label>
-            <Select value={data.tripType} onValueChange={(v) => setData((d) => ({ ...d, tripType: v as FormState["tripType"] }))}>
-              <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="round">Round-trip</SelectItem>
-                <SelectItem value="oneway">One Way</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          
-          {/* From + To - Two Column Grid */}
-          <div className="grid grid-cols-2 gap-2">
-            <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">From</label>
-              <Select value={data.origin} onValueChange={(value) => setData((d) => ({ ...d, origin: value }))}>
-                <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
-                  <SelectValue placeholder="Select departure city" />
-                </SelectTrigger>
-                <SelectContent>
-                  {getPopularAirports().map((airport) => (
-                    <SelectItem key={airport.code} value={airport.code}>
-                      {airport.city}, {airport.country} ({airport.code})
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {errors.origin && <p className="mt-1 text-xs text-destructive">{errors.origin}</p>}
-            </div>
-            
-            <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">To</label>
-              <Select value={data.destination} onValueChange={(value) => setData((d) => ({ ...d, destination: value }))}>
-                <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
-                  <SelectValue placeholder="Select destination city" />
-                </SelectTrigger>
-                <SelectContent>
-                  {getPopularAirports().map((airport) => (
-                    <SelectItem key={airport.code} value={airport.code}>
-                      {airport.city}, {airport.country} ({airport.code})
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {errors.destination && <p className="mt-1 text-xs text-destructive">{errors.destination}</p>}
+        {/* Mobile Layout - Matching desired.html structure */}
+        <div className="md:hidden">
+          {/* Trip Type Radio Buttons */}
+          <div className="py-2">
+            <div className="flex gap-4 justify-center">
+              <label className="flex items-center gap-2">
+                <input 
+                  type="radio" 
+                  name="tripType" 
+                  value="round" 
+                  checked={data.tripType === "round"}
+                  onChange={(e) => setData((d) => ({ ...d, tripType: e.target.value as FormState["tripType"] }))}
+                  className="w-4 h-4"
+                />
+                <span className="text-sm">Round-trip</span>
+              </label>
+              <label className="flex items-center gap-2">
+                <input 
+                  type="radio" 
+                  name="tripType" 
+                  value="oneway" 
+                  checked={data.tripType === "oneway"}
+                  onChange={(e) => setData((d) => ({ ...d, tripType: e.target.value as FormState["tripType"] }))}
+                  className="w-4 h-4"
+                />
+                <span className="text-sm">One Way</span>
+              </label>
             </div>
           </div>
-          
-          {/* Departure Date + Return Date - Two Column Grid */}
-          <div className="grid grid-cols-2 gap-2">
-            <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">Departure Date</label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className={cn(
-                      "h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal",
-                      !data.departDate && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {data.departDate ? format(data.departDate, "dd/MM/yyyy") : "dd/mm/yyyy"}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <CalendarWidget
-                    mode="single"
-                    selected={data.departDate}
-                    onSelect={(date) => setData((d) => ({ ...d, departDate: date }))}
-                    disabled={(date) => date < new Date()}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              {errors.departDate && <p className="mt-1 text-xs text-destructive">{errors.departDate}</p>}
-            </div>
-            
-            {data.tripType === "round" ? (
-              <div>
-                <label className="text-xs text-gray-500 mb-0.5 block">Return Date</label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className={cn(
-                        "h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal",
-                        !data.returnDate && "text-muted-foreground"
-                      )}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {data.returnDate ? format(data.returnDate, "dd/MM/yyyy") : "dd/mm/yyyy"}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <CalendarWidget
-                      mode="single"
-                      selected={data.returnDate}
-                      onSelect={(date) => setData((d) => ({ ...d, returnDate: date }))}
-                      disabled={(date) => date < new Date() || (data.departDate && date <= data.departDate)}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-                {errors.returnDate && <p className="mt-1 text-xs text-destructive">{errors.returnDate}</p>}
+
+          {/* Travelers and Cabin Class Dropdowns */}
+          <div className="py-2">
+            <div className="flex gap-4 justify-center flex-wrap">
+              <div className="min-w-[140px]">
+                <PassengerModal
+                  passengers={{
+                    adults: data.adults,
+                    children: data.children,
+                    infants: data.infants
+                  }}
+                  onPassengersChange={(passengers: PassengerCounts) => {
+                    setData(d => ({ ...d, ...passengers }));
+                  }}
+                  className="h-12 px-3 text-sm rounded-md bg-secondary/60"
+                />
               </div>
-            ) : (
-              <div></div>
-            )}
-          </div>
-          
-          {/* Passengers + Cabin Class - Two Column Grid */}
-          <div className="grid grid-cols-2 gap-2">
-            <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">Passengers</label>
-              <PassengerModal
-                passengers={{
-                  adults: data.adults,
-                  children: data.children,
-                  infants: data.infants
-                }}
-                onPassengersChange={(passengers: PassengerCounts) => {
-                  setData(d => ({ ...d, ...passengers }));
-                }}
-                className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60"
-              />
-            </div>
-            
-            <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">Cabin Class</label>
-              <Select value={data.cabin} onValueChange={(v) => setData((d) => ({ ...d, cabin: v as FormState["cabin"] }))}>
-                <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {cabinClasses.map((c) => (
-                    <SelectItem key={c} value={c}>{c}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <div className="min-w-[120px]">
+                <Select value={data.cabin} onValueChange={(v) => setData((d) => ({ ...d, cabin: v as FormState["cabin"] }))}>
+                  <SelectTrigger className="h-12 px-3 text-sm rounded-md bg-secondary/60">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {cabinClasses.map((c) => (
+                      <SelectItem key={c} value={c}>{c}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </div>
-          
-          {/* Phone Number - Full Width */}
-          <div>
-            <label className="text-xs text-gray-500 mb-0.5 block">Phone Number</label>
-            <Input
-              type="tel"
-              placeholder="Phone number"
-              value={data.phone || ""}
-              onChange={(e) => setData((d) => ({ ...d, phone: e.target.value }))}
-              className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60"
-            />
+
+          {/* Form Fields Grid - Using desired.html structure */}
+          <div className="py-2">
+            <div className="grid grid-cols-2 gap-2">
+              {/* Fly From */}
+              <div className="p-2">
+                <div className="relative">
+                  <label className="text-xs text-gray-500 mb-1 block">Fly From</label>
+                  <Select value={data.origin} onValueChange={(value) => setData((d) => ({ ...d, origin: value }))}>
+                    <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
+                      <SelectValue placeholder="Country..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {getPopularAirports().map((airport) => (
+                        <SelectItem key={airport.code} value={airport.code}>
+                          {airport.city}, {airport.country} ({airport.code})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  {errors.origin && <p className="mt-1 text-xs text-destructive">{errors.origin}</p>}
+                </div>
+              </div>
+
+              {/* Fly To */}
+              <div className="p-2">
+                <div className="relative">
+                  <label className="text-xs text-gray-500 mb-1 block">Fly To</label>
+                  <Select value={data.destination} onValueChange={(value) => setData((d) => ({ ...d, destination: value }))}>
+                    <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
+                      <SelectValue placeholder="Country..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {getPopularAirports().map((airport) => (
+                        <SelectItem key={airport.code} value={airport.code}>
+                          {airport.city}, {airport.country} ({airport.code})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  {errors.destination && <p className="mt-1 text-xs text-destructive">{errors.destination}</p>}
+                </div>
+              </div>
+
+              {/* Departure Date */}
+              <div className="p-2">
+                <div className="relative">
+                  <label className="text-xs text-gray-500 mb-1 block">Departure Date</label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal",
+                          !data.departDate && "text-muted-foreground"
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {data.departDate ? format(data.departDate, "dd/MM/yyyy") : "Departure"}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <CalendarWidget
+                        mode="single"
+                        selected={data.departDate}
+                        onSelect={(date) => setData((d) => ({ ...d, departDate: date }))}
+                        disabled={(date) => date < new Date()}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  {errors.departDate && <p className="mt-1 text-xs text-destructive">{errors.departDate}</p>}
+                </div>
+              </div>
+
+              {/* Return Date */}
+              {data.tripType === "round" && (
+                <div className="p-2">
+                  <div className="relative">
+                    <label className="text-xs text-gray-500 mb-1 block">Return Date</label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className={cn(
+                            "h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal",
+                            !data.returnDate && "text-muted-foreground"
+                          )}
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {data.returnDate ? format(data.returnDate, "dd/MM/yyyy") : "Returning"}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <CalendarWidget
+                          mode="single"
+                          selected={data.returnDate}
+                          onSelect={(date) => setData((d) => ({ ...d, returnDate: date }))}
+                          disabled={(date) => date < new Date() || (data.departDate && date <= data.departDate)}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    {errors.returnDate && <p className="mt-1 text-xs text-destructive">{errors.returnDate}</p>}
+                  </div>
+                </div>
+              )}
+
+              {/* Phone Number */}
+              <div className="p-2">
+                <div className="relative">
+                  <label className="text-xs text-gray-500 mb-1 block">Phone Number</label>
+                  <Input
+                    type="tel"
+                    placeholder="UK Number Only"
+                    value={data.phone || ""}
+                    onChange={(e) => setData((d) => ({ ...d, phone: e.target.value }))}
+                    className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60"
+                  />
+                </div>
+              </div>
+
+              {/* Email Address */}
+              <div className="p-2">
+                <div className="relative">
+                  <label className="text-xs text-gray-500 mb-1 block">Email Address</label>
+                  <Input
+                    type="email"
+                    placeholder="Email (Optional)"
+                    value={data.email || ""}
+                    onChange={(e) => setData((d) => ({ ...d, email: e.target.value }))}
+                    className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
-          
-          {/* Email Address - Full Width */}
-          <div>
-            <label className="text-xs text-gray-500 mb-0.5 block">Email Address</label>
-            <Input
-              type="email"
-              placeholder="Email address"
-              value={data.email || ""}
-              onChange={(e) => setData((d) => ({ ...d, email: e.target.value }))}
-              className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60"
-            />
+
+          {/* Search Button */}
+          <div className="flex pt-4 justify-center">
+            <Button type="submit" disabled={isSubmitting} className="px-8 h-12 bg-primary hover:bg-primary/90 text-primary-foreground text-base font-semibold">
+              {isSubmitting ? "Searching..." : "Search Flight"}
+            </Button>
           </div>
-          
-          {/* Search Button - Full Width */}
-          <Button type="submit" disabled={isSubmitting} className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground text-base font-semibold">
-            {isSubmitting ? "Searching..." : "Search Flights"}
-          </Button>
         </div>
 
         {/* Desktop Layout */}

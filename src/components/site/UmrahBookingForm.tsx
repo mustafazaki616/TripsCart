@@ -98,22 +98,10 @@ const UmrahBookingForm: React.FC = () => {
       <form onSubmit={onSubmit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-2 md:p-6">
         {/* Mobile Compact Layout */}
         <div className="space-y-2 md:hidden">
-          {/* Full Width - Name */}
-          <div>
-            <label className="text-xs text-gray-500 mb-0.5 block">Name</label>
-            <Input 
-              value={data.name} 
-              onChange={(e)=> setField("name", e.target.value)} 
-              placeholder="Your full name" 
-              className="h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200 placeholder:text-xs" 
-            />
-            {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name}</p>}
-          </div>
-
-          {/* Two Column - Passengers/Days */}
-          <div className="grid grid-cols-2 gap-2">
-            <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">Passengers</label>
+          {/* Centered - Passengers */}
+          <div className="flex justify-center">
+            <div className="w-full max-w-xs">
+              <label className="text-xs text-gray-500 mb-0.5 block text-center">Passengers</label>
               <PassengerModal
                 passengers={{
                   adults: data.adults,
@@ -126,6 +114,20 @@ const UmrahBookingForm: React.FC = () => {
                 className="h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200"
               />
             </div>
+          </div>
+
+          {/* Two Column Grid - Form Fields */}
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="text-xs text-gray-500 mb-0.5 block">Name</label>
+              <Input 
+                value={data.name} 
+                onChange={(e)=> setField("name", e.target.value)} 
+                placeholder="Your full name" 
+                className="h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200 placeholder:text-xs" 
+              />
+              {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name}</p>}
+            </div>
             <div>
               <label className="text-xs text-gray-500 mb-0.5 block">Days</label>
               <Input 
@@ -137,39 +139,49 @@ const UmrahBookingForm: React.FC = () => {
               />
               {errors.days && <p className="mt-1 text-xs text-destructive">{errors.days}</p>}
             </div>
-          </div>
-
-          {/* Full Width - Departure Date */}
-          <div>
-            <label className="text-xs text-gray-500 mb-0.5 block">Departure Date</label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={cn(
-                    "h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200 justify-start text-left font-normal",
-                    !data.departure && "text-muted-foreground"
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {data.departure ? format(data.departure, "dd/MM/yyyy") : "Departure Date"}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <CalendarWidget
-                  mode="single"
-                  selected={data.departure}
-                  onSelect={(date) => setField("departure", date)}
-                  disabled={(date) => date < new Date()}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
-            {errors.departure && <p className="mt-1 text-xs text-destructive">{errors.departure}</p>}
-          </div>
-
-          {/* Two Column - Visa/Transport */}
-          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="text-xs text-gray-500 mb-0.5 block">Departure Date</label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200 justify-start text-left font-normal",
+                      !data.departure && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {data.departure ? format(data.departure, "dd/MM/yyyy") : "Departure Date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <CalendarWidget
+                    mode="single"
+                    selected={data.departure}
+                    onSelect={(date) => setField("departure", date)}
+                    disabled={(date) => date < new Date()}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+              {errors.departure && <p className="mt-1 text-xs text-destructive">{errors.departure}</p>}
+            </div>
+            <div>
+              <label className="text-xs text-gray-500 mb-0.5 block">Hotel Category</label>
+              <Select value={data.hotel} onValueChange={(v)=> setField("hotel", v as FormState["hotel"])}>
+                <SelectTrigger className="h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200">
+                  <SelectValue placeholder="Select hotel category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Standard">Standard</SelectItem>
+                  <SelectItem value="Economy">Economy</SelectItem>
+                  <SelectItem value="3 Star">3 Star</SelectItem>
+                  <SelectItem value="4 Star">4 Star</SelectItem>
+                  <SelectItem value="5 Star">5 Star</SelectItem>
+                </SelectContent>
+              </Select>
+              {errors.hotel && <p className="mt-1 text-xs text-destructive">{errors.hotel}</p>}
+            </div>
             <div>
               <label className="text-xs text-gray-500 mb-0.5 block">Visa</label>
               <Select value={data.visa} onValueChange={(v)=> setField("visa", v as FormState["visa"])}>
@@ -196,37 +208,17 @@ const UmrahBookingForm: React.FC = () => {
               </Select>
               {errors.transport && <p className="mt-1 text-xs text-destructive">{errors.transport}</p>}
             </div>
-          </div>
-
-          {/* Full Width - Hotel */}
-          <div>
-            <label className="text-xs text-gray-500 mb-0.5 block">Hotel Category</label>
-            <Select value={data.hotel} onValueChange={(v)=> setField("hotel", v as FormState["hotel"])}>
-              <SelectTrigger className="h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200">
-                <SelectValue placeholder="Select hotel category" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Standard">Standard</SelectItem>
-                <SelectItem value="Economy">Economy</SelectItem>
-                <SelectItem value="3 Star">3 Star</SelectItem>
-                <SelectItem value="4 Star">4 Star</SelectItem>
-                <SelectItem value="5 Star">5 Star</SelectItem>
-              </SelectContent>
-            </Select>
-            {errors.hotel && <p className="mt-1 text-xs text-destructive">{errors.hotel}</p>}
-          </div>
-
-          {/* Full Width - Phone */}
-          <div>
-            <label className="text-xs text-gray-500 mb-0.5 block">Contact Number</label>
-            <Input 
-              type="tel" 
-              value={data.phone} 
-              onChange={(e)=> setField("phone", e.target.value)} 
-              placeholder="e.g., +44 20 1234 5678" 
-              className="h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200 placeholder:text-xs" 
-            />
-            {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
+            <div>
+              <label className="text-xs text-gray-500 mb-0.5 block">Contact Number</label>
+              <Input 
+                type="tel" 
+                value={data.phone} 
+                onChange={(e)=> setField("phone", e.target.value)} 
+                placeholder="e.g., +44 20 1234 5678" 
+                className="h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200 placeholder:text-xs" 
+              />
+              {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
+            </div>
           </div>
 
           {/* Full Width - Search Button */}
