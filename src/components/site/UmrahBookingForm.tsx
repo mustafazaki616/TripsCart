@@ -95,7 +95,7 @@ const UmrahBookingForm: React.FC = () => {
 
   return (
     <>
-      <form onSubmit={onSubmit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-2 md:p-6">
+      <div className="booking-form-container rounded-2xl bg-card/20 backdrop-blur border shadow-soft p-2 md:p-6">
         {/* Mobile Compact Layout */}
         <div className="space-y-2 md:hidden">
           {/* Centered - Passengers */}
@@ -111,20 +111,20 @@ const UmrahBookingForm: React.FC = () => {
                 onPassengersChange={(passengers: PassengerCounts) => {
                   setData(prev => ({ ...prev, ...passengers }));
                 }}
-                className="h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200"
+                className="h-16 w-full px-4 text-sm bg-white rounded-lg border border-gray-200"
               />
             </div>
           </div>
 
           {/* Two Column Grid - Form Fields */}
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-1">
             <div>
               <label className="text-xs text-gray-500 mb-0.5 block">Name</label>
               <Input 
                 value={data.name} 
                 onChange={(e)=> setField("name", e.target.value)} 
                 placeholder="Your full name" 
-                className="h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200 placeholder:text-xs" 
+                className="h-16 w-full px-4 text-sm bg-white rounded-lg border border-gray-200 placeholder:text-xs" 
               />
               {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name}</p>}
             </div>
@@ -146,7 +146,7 @@ const UmrahBookingForm: React.FC = () => {
                   <Button
                     variant="outline"
                     className={cn(
-                      "h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200 justify-start text-left font-normal",
+                      "h-16 w-full px-4 text-sm bg-white rounded-lg border border-gray-200 justify-start text-left font-normal",
                       !data.departure && "text-muted-foreground"
                     )}
                   >
@@ -169,7 +169,7 @@ const UmrahBookingForm: React.FC = () => {
             <div>
               <label className="text-xs text-gray-500 mb-0.5 block">Hotel Category</label>
               <Select value={data.hotel} onValueChange={(v)=> setField("hotel", v as FormState["hotel"])}>
-                <SelectTrigger className="h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200">
+                <SelectTrigger className="h-16 w-full px-4 text-sm bg-white rounded-lg border border-gray-200">
                   <SelectValue placeholder="Select hotel category" />
                 </SelectTrigger>
                 <SelectContent>
@@ -184,8 +184,8 @@ const UmrahBookingForm: React.FC = () => {
             </div>
             <div>
               <label className="text-xs text-gray-500 mb-0.5 block">Visa</label>
-              <Select value={data.visa} onValueChange={(v)=> setField("visa", v as FormState["visa"])}>
-                <SelectTrigger className="h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200">
+              <Select value={data.visa} onValueChange={(v)=> setField("visa", v as FormState["visa"]))}>
+                <SelectTrigger className="h-16 w-full px-4 text-sm bg-white rounded-lg border border-gray-200">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
@@ -197,8 +197,8 @@ const UmrahBookingForm: React.FC = () => {
             </div>
             <div>
               <label className="text-xs text-gray-500 mb-0.5 block">Transport</label>
-              <Select value={data.transport} onValueChange={(v)=> setField("transport", v as FormState["transport"])}>
-                <SelectTrigger className="h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200">
+              <Select value={data.transport} onValueChange={(v)=> setField("transport", v as FormState["transport"]))}>
+                <SelectTrigger className="h-16 w-full px-4 text-sm bg-white rounded-lg border border-gray-200">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
@@ -215,7 +215,7 @@ const UmrahBookingForm: React.FC = () => {
                 value={data.phone} 
                 onChange={(e)=> setField("phone", e.target.value)} 
                 placeholder="e.g., +44 20 1234 5678" 
-                className="h-12 w-full px-4 text-sm bg-white rounded-lg border border-gray-200 placeholder:text-xs" 
+                className="h-16 w-full px-4 text-sm bg-white rounded-lg border border-gray-200 placeholder:text-xs" 
               />
               {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
             </div>
@@ -223,16 +223,17 @@ const UmrahBookingForm: React.FC = () => {
 
           {/* Full Width - Search Button */}
           <Button 
-            type="submit" 
+            type="button" 
             className="h-12 w-full text-base font-bold rounded-lg" 
             variant="hero"
+            onClick={(e) => { e.preventDefault(); onSubmit(e as any); }}
           >
             Book Umrah
           </Button>
         </div>
 
         {/* Desktop Layout */}
-        <div className="hidden md:grid md:grid-cols-2 md:gap-4 md:space-y-0">
+        <div className="hidden md:grid md:grid-cols-2 md:gap-2 md:space-y-0">
           <div>
             <label className="mb-2 block text-sm text-muted-foreground font-medium">Name</label>
             <Input value={data.name} onChange={(e)=> setField("name", e.target.value)} placeholder="Your full name" className="h-11 bg-secondary/60 text-sm placeholder:text-xs" />
@@ -317,10 +318,10 @@ const UmrahBookingForm: React.FC = () => {
             {errors.transport && <p className="mt-1 text-xs text-destructive">{errors.transport}</p>}
           </div>
           <div className="md:col-span-2 flex justify-center md:justify-end mt-2">
-            <Button type="submit" className="h-12 px-8 text-base" variant="hero">Book Umrah</Button>
+            <Button type="button" className="h-12 px-8 text-base" variant="hero" onClick={(e) => { e.preventDefault(); onSubmit(e as any); }}>Book Umrah</Button>
           </div>
         </div>
-      </form>
+      </div>
 
       <Dialog open={showModal} onOpenChange={(o)=>{ if(!o){ setShowModal(false); clear(); } }}>
         <DialogContent className="sm:max-w-md">

@@ -136,13 +136,11 @@ const BookingForm: React.FC = () => {
       cabin: "Economy",
     });
     setErrors({});
-    setOriginFilter("");
-    setDestinationFilter("");
   };
 
   return (
     <>
-    <form onSubmit={submit} className="rounded-2xl bg-card/20 backdrop-blur border shadow-soft p-4 sm:p-3 md:p-6 w-full max-w-full overflow-hidden relative">
+    <form onSubmit={submit} className="booking-form-container rounded-2xl bg-card/20 backdrop-blur border shadow-soft p-4 sm:p-3 md:p-6 w-full max-w-full overflow-hidden relative">
       {/* Category tabs */}
       <Tabs defaultValue="flight" className="w-full">
         <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 h-auto sm:h-14 rounded-t-lg bg-secondary/80 p-1 flex-wrap gap-1 text-xs sm:text-sm">
@@ -160,55 +158,132 @@ const BookingForm: React.FC = () => {
 
         {/* Flight Form */}
         <TabsContent value="flight">
-        {/* Mobile Layout - Matching desired.html structure */}
-        <div className="md:hidden">
-          {/* Trip Type Radio Buttons */}
-          <div className="py-2">
-            <div className="flex gap-4 justify-center">
-              <label className="flex items-center gap-2">
-                <input 
-                  type="radio" 
-                  name="tripType" 
-                  value="round" 
-                  checked={data.tripType === "round"}
-                  onChange={(e) => setData((d) => ({ ...d, tripType: e.target.value as FormState["tripType"] }))}
-                  className="w-4 h-4"
-                />
-                <span className="text-sm">Round-trip</span>
-              </label>
-              <label className="flex items-center gap-2">
-                <input 
-                  type="radio" 
-                  name="tripType" 
-                  value="oneway" 
-                  checked={data.tripType === "oneway"}
-                  onChange={(e) => setData((d) => ({ ...d, tripType: e.target.value as FormState["tripType"] }))}
-                  className="w-4 h-4"
-                />
-                <span className="text-sm">One Way</span>
-              </label>
-            </div>
+        {/* Unified Layout - Works for both Mobile and Desktop */}
+        <div className="space-y-3">
+          {/* Trip type selector */}
+          <div className="flex gap-2 justify-center md:justify-start">
+            <Button
+              type="button"
+              variant={data.tripType === "round" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setData((d) => ({ ...d, tripType: "round" }))}
+              className="text-xs px-4"
+            >
+              Round-trip
+            </Button>
+            <Button
+              type="button"
+              variant={data.tripType === "oneway" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setData((d) => ({ ...d, tripType: "oneway" }))}
+              className="text-xs px-4"
+            >
+              One Way
+            </Button>
           </div>
 
-          {/* Travelers and Cabin Class Dropdowns */}
+          {/* Passengers and Cabin Class */}
           <div className="py-2">
-            <div className="flex gap-4 justify-center flex-wrap">
-              <div className="min-w-[140px]">
-                <PassengerModal
-                  passengers={{
-                    adults: data.adults,
-                    children: data.children,
-                    infants: data.infants
-                  }}
-                  onPassengersChange={(passengers: PassengerCounts) => {
-                    setData(d => ({ ...d, ...passengers }));
-                  }}
-                  className="h-12 px-3 text-sm rounded-md bg-secondary/60"
-                />
+            <div className="flex gap-1 md:gap-3">
+              <div className="flex-1">
+                <div className="md:hidden">
+                  <PassengerModal
+                    passengers={{
+                      adults: data.adults,
+                      children: data.children,
+                      infants: data.infants
+                    }}
+                    onPassengersChange={(passengers: PassengerCounts) => {
+                      setData(d => ({ ...d, ...passengers }));
+                    }}
+                    className="h-16 px-3 text-sm rounded-md bg-secondary/60"
+                  />
+                </div>
+                <div className="hidden md:block">
+                  <label className="mb-1 block text-xs md:text-sm text-muted-foreground">Passengers</label>
+                  <Popover open={openTravellers} onOpenChange={setOpenTravellers}>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline" className="w-full justify-start h-10 md:h-12 bg-secondary/60 text-left text-xs md:text-sm">
+                        <span className="truncate">
+                          {data.adults + data.children + data.infants} Passenger{(data.adults + data.children + data.infants) > 1 ? "s" : ""}
+                        </span>
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent align="end" className="w-72">
+                      {[
+                        { key: "adults", label: "Adults", caption: "12+", min: 1 },
+                        { key: "children", label: "Children", caption: "2-11", min: 0 },
+                        { key: "infants", label: "Infants", caption: "Under 2", min: 0 },
+                      ].map((row) => {
+                        const value = data[row.key as keyof Pick<FormState, "adults" | "children" | "infants">] as number;
+                        return (
+                          <div key={row.key} className="flex items-center justify-between py-2">
+                            <div>
+                              <div className="text-sm font-medium">{row.label}</div>
+                              <div className="text-xs text-muted-foreground">{row.caption}</div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Button
+                                type="button"
+                                size="icon"
+                                variant="secondary"
+                                disabled={value <= row.min}
+                                onClick={() =>
+                                  setData((d) => {
+                                    const updated = { ...d, [row.key]: Math.max(row.min, value - 1) } as FormState;
+                                    if (row.key === "adults" && updated.infants > updated.adults) {
+                                      updated.infants = updated.adults;
+                                    }
+                                    return updated;
+                                  })
+                                }
+                                aria-label={`Decrease ${row.label}`}
+                              >
+                                <Minus className="h-4 w-4" />
+                              </Button>
+                              <span className="w-8 text-center text-sm">{value}</span>
+                              <Button
+                                type="button"
+                                size="icon"
+                                variant="secondary"
+                                onClick={() =>
+                                  setData((d) => {
+                                    const cap = 9;
+                                    const total = d.adults + d.children + d.infants;
+                                    if (total >= cap) return d;
+                                    const updated = { ...d, [row.key]: value + 1 } as FormState;
+                                    if (row.key === "infants" && updated.infants > updated.adults) {
+                                      return d;
+                                    }
+                                    return updated;
+                                  })
+                                }
+                                aria-label={`Increase ${row.label}`}
+                              >
+                                <Plus className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                      <div className="mt-3 flex justify-end">
+                        <Button type="button" onClick={() => setOpenTravellers(false)}>Done</Button>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                  {(errors.adults || errors.infants) && (
+                    <p className="mt-1 text-xs text-destructive">
+                      {errors.adults || errors.infants}
+                    </p>
+                  )}
+                </div>
               </div>
-              <div className="min-w-[120px]">
+              <div className="min-w-[120px] md:flex-1">
+                <div className="md:mb-1">
+                  <label className="hidden md:block text-xs md:text-sm text-muted-foreground">Cabin Class</label>
+                </div>
                 <Select value={data.cabin} onValueChange={(v) => setData((d) => ({ ...d, cabin: v as FormState["cabin"] }))}>
-                  <SelectTrigger className="h-12 px-3 text-sm rounded-md bg-secondary/60">
+                  <SelectTrigger className="h-16 md:h-10 md:h-12 px-3 text-sm rounded-md bg-secondary/60">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -221,63 +296,73 @@ const BookingForm: React.FC = () => {
             </div>
           </div>
 
-          {/* Form Fields Grid - Using desired.html structure */}
+          {/* Form Fields Grid - Bootstrap-like responsive grid */}
           <div className="py-2">
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1 md:gap-2">
               {/* Fly From */}
-              <div className="p-2">
-                <div className="relative">
+              <div className="p-1 md:p-2 col-span-1 md:col-span-1 lg:col-span-2">
+                <div className="input__fields relative">
                   <label className="text-xs text-gray-500 mb-1 block">Fly From</label>
-                  <Select value={data.origin} onValueChange={(value) => setData((d) => ({ ...d, origin: value }))}>
-                    <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
-                      <SelectValue placeholder="Country..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {getPopularAirports().map((airport) => (
-                        <SelectItem key={airport.code} value={airport.code}>
-                          {airport.city}, {airport.country} ({airport.code})
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <div className="relative">
+                    <Select value={data.origin} onValueChange={(value) => setData((d) => ({ ...d, origin: value }))}>
+                      <SelectTrigger className="h-16 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 border-input">
+                        <div className="flex items-center w-full">
+                          <Plane className="mr-2 h-4 w-4 opacity-70" />
+                          <SelectValue placeholder="Country..." />
+                        </div>
+                      </SelectTrigger>
+                      <SelectContent>
+                        {getPopularAirports().map((airport) => (
+                          <SelectItem key={airport.code} value={airport.code}>
+                            {airport.city}, {airport.country} ({airport.code})
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                   {errors.origin && <p className="mt-1 text-xs text-destructive">{errors.origin}</p>}
                 </div>
               </div>
 
               {/* Fly To */}
-              <div className="p-2">
-                <div className="relative">
+              <div className="p-1 md:p-2 col-span-1 md:col-span-1 lg:col-span-2">
+                <div className="input__fields relative">
                   <label className="text-xs text-gray-500 mb-1 block">Fly To</label>
-                  <Select value={data.destination} onValueChange={(value) => setData((d) => ({ ...d, destination: value }))}>
-                    <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
-                      <SelectValue placeholder="Country..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {getPopularAirports().map((airport) => (
-                        <SelectItem key={airport.code} value={airport.code}>
-                          {airport.city}, {airport.country} ({airport.code})
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <div className="relative">
+                    <Select value={data.destination} onValueChange={(value) => setData((d) => ({ ...d, destination: value }))}>
+                      <SelectTrigger className="h-16 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 border-input">
+                        <div className="flex items-center w-full">
+                          <ArrowLeftRight className="mr-2 h-4 w-4 opacity-70" />
+                          <SelectValue placeholder="Country..." />
+                        </div>
+                      </SelectTrigger>
+                      <SelectContent>
+                        {getPopularAirports().map((airport) => (
+                          <SelectItem key={airport.code} value={airport.code}>
+                            {airport.city}, {airport.country} ({airport.code})
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                   {errors.destination && <p className="mt-1 text-xs text-destructive">{errors.destination}</p>}
                 </div>
               </div>
 
               {/* Departure Date */}
-              <div className="p-2">
-                <div className="relative">
+              <div className="p-1 md:p-2 col-span-1 md:col-span-1 lg:col-span-1">
+                <div className="input__fields relative">
                   <label className="text-xs text-gray-500 mb-1 block">Departure Date</label>
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
                         className={cn(
-                          "h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal",
+                          "h-16 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal border-input",
                           !data.departDate && "text-muted-foreground"
                         )}
                       >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />
                         {data.departDate ? format(data.departDate, "dd/MM/yyyy") : "Departure"}
                       </Button>
                     </PopoverTrigger>
@@ -297,19 +382,19 @@ const BookingForm: React.FC = () => {
 
               {/* Return Date */}
               {data.tripType === "round" && (
-                <div className="p-2">
-                  <div className="relative">
+                <div className="p-1 md:p-2 col-span-1 md:col-span-1 lg:col-span-1">
+                  <div className="input__fields relative">
                     <label className="text-xs text-gray-500 mb-1 block">Return Date</label>
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
                           variant="outline"
                           className={cn(
-                            "h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal",
+                            "h-16 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal border-input",
                             !data.returnDate && "text-muted-foreground"
                           )}
                         >
-                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />
                           {data.returnDate ? format(data.returnDate, "dd/MM/yyyy") : "Returning"}
                         </Button>
                       </PopoverTrigger>
@@ -329,30 +414,36 @@ const BookingForm: React.FC = () => {
               )}
 
               {/* Phone Number */}
-              <div className="p-2">
-                <div className="relative">
+              <div className="p-1 md:p-2 col-span-1 md:col-span-1 lg:col-span-1">
+                <div className="input__fields relative">
                   <label className="text-xs text-gray-500 mb-1 block">Phone Number</label>
-                  <Input
-                    type="tel"
-                    placeholder="UK Number Only"
-                    value={data.phone || ""}
-                    onChange={(e) => setData((d) => ({ ...d, phone: e.target.value }))}
-                    className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60"
-                  />
+                  <div className="relative">
+                    <Input
+                      type="tel"
+                      placeholder="UK Number Only"
+                      value={data.phone || ""}
+                      onChange={(e) => setData((d) => ({ ...d, phone: e.target.value }))}
+                      className="h-16 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10"
+                    />
+                    <Phone className="absolute right-3 top-4 md:top-3 h-4 w-4 opacity-70" />
+                  </div>
                 </div>
               </div>
 
               {/* Email Address */}
-              <div className="p-2">
-                <div className="relative">
+              <div className="p-1 md:p-2 col-span-1 md:col-span-1 lg:col-span-1">
+                <div className="input__fields relative">
                   <label className="text-xs text-gray-500 mb-1 block">Email Address</label>
-                  <Input
-                    type="email"
-                    placeholder="Email (Optional)"
-                    value={data.email || ""}
-                    onChange={(e) => setData((d) => ({ ...d, email: e.target.value }))}
-                    className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60"
-                  />
+                  <div className="relative">
+                    <Input
+                      type="email"
+                      placeholder="Email (Optional)"
+                      value={data.email || ""}
+                      onChange={(e) => setData((d) => ({ ...d, email: e.target.value }))}
+                      className="h-16 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10"
+                    />
+                    <Mail className="absolute right-3 top-4 md:top-3 h-4 w-4 opacity-70" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -360,276 +451,13 @@ const BookingForm: React.FC = () => {
 
           {/* Search Button */}
           <div className="flex pt-4 justify-center">
-            <Button type="submit" disabled={isSubmitting} className="px-8 h-12 bg-primary hover:bg-primary/90 text-primary-foreground text-base font-semibold">
+            <Button type="submit" disabled={isSubmitting} className="px-8 h-12 md:h-14 bg-primary hover:bg-primary/90 text-primary-foreground text-base font-semibold w-full md:w-auto">
               {isSubmitting ? "Searching..." : "Search Flight"}
             </Button>
           </div>
         </div>
 
-        {/* Desktop Layout */}
-        <div className="hidden md:block space-y-3">
-          {/* Trip type selector */}
-          <div className="flex gap-2">
-            <Button
-              type="button"
-              variant={data.tripType === "round" ? "default" : "outline"}
-              size="sm"
-              onClick={() => setData((d) => ({ ...d, tripType: "round" }))}
-              className="text-xs"
-            >
-              Round-trip
-            </Button>
-            <Button
-              type="button"
-              variant={data.tripType === "oneway" ? "default" : "outline"}
-              size="sm"
-              onClick={() => setData((d) => ({ ...d, tripType: "oneway" }))}
-              className="text-xs"
-            >
-              One Way
-            </Button>
-          </div>
 
-          {/* Origin and Destination fields */}
-          <div className="space-y-2 md:space-y-0">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
-              {/* Origin */}
-              <div>
-                <label className="mb-1.5 block text-sm font-medium text-foreground">From</label>
-                <Select value={data.origin} onValueChange={(value) => setData((d) => ({ ...d, origin: value }))}>
-                  <SelectTrigger className="h-11 md:h-12 bg-secondary/60">
-                    <div className="flex items-center">
-                      <Plane className="mr-3 opacity-70 w-4 h-4" />
-                      <SelectValue placeholder="Select departure city" />
-                    </div>
-                  </SelectTrigger>
-                  <SelectContent className="max-h-64">
-                    {getPopularAirports().map((airport) => (
-                      <SelectItem key={airport.code} value={airport.code}>
-                        {airport.city}, {airport.country} ({airport.code})
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                {errors.origin && <p className="mt-2 text-xs text-destructive">{errors.origin}</p>}
-              </div>
-
-              {/* Destination */}
-              <div>
-                <label className="mb-1.5 block text-sm font-medium text-foreground">To</label>
-                <Select value={data.destination} onValueChange={(value) => setData((d) => ({ ...d, destination: value }))}>
-                  <SelectTrigger className="h-11 md:h-12 bg-secondary/60">
-                    <div className="flex items-center">
-                      <ArrowLeftRight className="mr-3 opacity-70 w-4 h-4" />
-                      <SelectValue placeholder="Select destination city" />
-                    </div>
-                  </SelectTrigger>
-                  <SelectContent className="max-h-64">
-                    {getPopularAirports().map((airport) => (
-                      <SelectItem key={airport.code} value={airport.code}>
-                        {airport.city}, {airport.country} ({airport.code})
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                {errors.destination && <p className="mt-2 text-xs text-destructive">{errors.destination}</p>}
-              </div>
-            </div>
-          </div>
-          
-          {/* Date fields */}
-          <div className="space-y-3 md:space-y-0">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-              {/* Departure */}
-              <div>
-                <label className="mb-2 block text-sm font-medium text-foreground">Departure Date</label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className={cn(
-                        "w-full h-11 md:h-12 bg-secondary/60 text-sm border-input justify-start text-left font-normal",
-                        !data.departDate && "text-muted-foreground"
-                      )}
-                    >
-                      <CalendarIcon className="mr-3 opacity-70 w-4 h-4" />
-                      {data.departDate ? format(data.departDate, "dd/MM/yyyy") : "Departure"}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <CalendarWidget
-                      mode="single"
-                      selected={data.departDate}
-                      onSelect={(date) => setData((d) => ({ ...d, departDate: date }))}
-                      disabled={(date) => date < new Date()}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-                {errors.departDate && <p className="mt-2 text-xs text-destructive">{errors.departDate}</p>}
-              </div>
-
-              {/* Return */}
-              {data.tripType === "round" && (
-                <div>
-                  <label className="mb-2 block text-sm font-medium text-foreground">Return Date</label>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className={cn(
-                          "w-full h-11 md:h-12 bg-secondary/60 text-sm border-input justify-start text-left font-normal",
-                          !data.returnDate && "text-muted-foreground"
-                        )}
-                      >
-                        <CalendarIcon className="mr-3 opacity-70 w-4 h-4" />
-                        {data.returnDate ? format(data.returnDate, "dd/MM/yyyy") : "Return"}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <CalendarWidget
-                        mode="single"
-                        selected={data.returnDate}
-                        onSelect={(date) => setData((d) => ({ ...d, returnDate: date }))}
-                        disabled={(date) => date < new Date() || (data.departDate && date <= data.departDate)}
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  {errors.returnDate && <p className="mt-2 text-xs text-destructive">{errors.returnDate}</p>}
-                </div>
-              )}
-            </div>
-          </div>
-          
-          {/* Travelers and Class - Desktop */}
-          <div className="grid grid-cols-2 gap-3 md:gap-4">
-            {/* Travelers dropdown */}
-            <div>
-              <label className="mb-1 block text-xs md:text-sm text-muted-foreground">Passengers</label>
-              <Popover open={openTravellers} onOpenChange={setOpenTravellers}>
-                <PopoverTrigger asChild>
-                  <Button variant="outline" className="w-full justify-start h-10 md:h-12 bg-secondary/60 text-left text-xs md:text-sm">
-                    <span className="truncate">
-                      {data.adults + data.children + data.infants} Passenger{(data.adults + data.children + data.infants) > 1 ? "s" : ""}
-                    </span>
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent align="end" className="w-72">
-                  {[
-                    { key: "adults", label: "Adults", caption: "12+", min: 1 },
-                    { key: "children", label: "Children", caption: "2-11", min: 0 },
-                    { key: "infants", label: "Infants", caption: "Under 2", min: 0 },
-                  ].map((row) => {
-                    const value = data[row.key as keyof Pick<FormState, "adults" | "children" | "infants">] as number;
-                    return (
-                      <div key={row.key} className="flex items-center justify-between py-2">
-                        <div>
-                          <div className="text-sm font-medium">{row.label}</div>
-                          <div className="text-xs text-muted-foreground">{row.caption}</div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Button
-                            type="button"
-                            size="icon"
-                            variant="secondary"
-                            disabled={value <= row.min}
-                            onClick={() =>
-                              setData((d) => {
-                                const updated = { ...d, [row.key]: Math.max(row.min, value - 1) } as FormState;
-                                if (row.key === "adults" && updated.infants > updated.adults) {
-                                  updated.infants = updated.adults;
-                                }
-                                return updated;
-                              })
-                            }
-                            aria-label={`Decrease ${row.label}`}
-                          >
-                            <Minus className="h-4 w-4" />
-                          </Button>
-                          <span className="w-8 text-center text-sm">{value}</span>
-                          <Button
-                            type="button"
-                            size="icon"
-                            variant="secondary"
-                            onClick={() =>
-                              setData((d) => {
-                                const cap = 9; // typical cap
-                                const total = d.adults + d.children + d.infants;
-                                if (total >= cap) return d;
-                                const updated = { ...d, [row.key]: value + 1 } as FormState;
-                                if (row.key === "infants" && updated.infants > updated.adults) {
-                                  // infants cannot exceed adults
-                                  return d;
-                                }
-                                return updated;
-                              })
-                            }
-                            aria-label={`Increase ${row.label}`}
-                          >
-                            <Plus className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </div>
-                    );
-                  })}
-                  <div className="mt-3 flex justify-end">
-                    <Button type="button" onClick={() => setOpenTravellers(false)}>Done</Button>
-                  </div>
-                </PopoverContent>
-              </Popover>
-              {(errors.adults || errors.infants) && (
-                <p className="mt-1 text-xs text-destructive">
-                  {errors.adults || errors.infants}
-                </p>
-              )}
-            </div>
-
-            {/* Cabin class */}
-            <div>
-              <label className="mb-1 block text-xs md:text-sm text-muted-foreground">Cabin Class</label>
-              <Select value={data.cabin} onValueChange={(v) => setData((d) => ({ ...d, cabin: v as FormState["cabin"] }))}>
-                <SelectTrigger className="h-10 md:h-12 bg-secondary/60 text-xs md:text-sm">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {cabinClasses.map((c) => (
-                    <SelectItem key={c} value={c}>{c}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-          
-          {/* Contact Information - Desktop */}
-          <div className="grid grid-cols-2 gap-3 md:gap-4">
-            <div>
-              <label className="mb-1 block text-xs md:text-sm text-muted-foreground">Phone Number</label>
-              <Input
-                type="tel"
-                placeholder="Enter phone number"
-                value={data.phone || ""}
-                onChange={(e) => setData((d) => ({ ...d, phone: e.target.value }))}
-                className="h-10 md:h-12 bg-secondary/60"
-              />
-            </div>
-            <div>
-              <label className="mb-1 block text-xs md:text-sm text-muted-foreground">Email Address</label>
-              <Input
-                type="email"
-                placeholder="Enter email address"
-                value={data.email || ""}
-                onChange={(e) => setData((d) => ({ ...d, email: e.target.value }))}
-                className="h-10 md:h-12 bg-secondary/60"
-              />
-            </div>
-          </div>
-          
-          {/* Search button - Desktop */}
-          <Button type="submit" disabled={isSubmitting} className="w-full h-12 md:h-14 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-sm md:text-base">
-            {isSubmitting ? "Searching Flights..." : "Search Flights"}
-          </Button>
-        </div>
         </TabsContent>
 
         {/* Hotels Form */}

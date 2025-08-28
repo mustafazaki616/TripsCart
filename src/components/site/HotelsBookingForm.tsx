@@ -50,7 +50,7 @@ const HotelsBookingForm: React.FC = () => {
   return (
     <>
       {/* Mobile Compact Layout */}
-      <div className="block md:hidden space-y-3 p-2 rounded-2xl bg-card/90 backdrop-blur border shadow-soft">
+      <div className="booking-form-container block md:hidden space-y-3 p-2 rounded-2xl bg-card/20 backdrop-blur border shadow-soft">
         {/* Destination - Full Width */}
         <div>
           <label className="text-xs text-gray-500 mb-1 block">Destination</label>
@@ -206,7 +206,7 @@ const HotelsBookingForm: React.FC = () => {
       </div>
 
       {/* Desktop Layout */}
-      <div className="hidden md:block space-y-6 p-6 rounded-2xl bg-card/90 backdrop-blur border shadow-soft">
+      <div className="booking-form-container hidden md:block space-y-6 p-6 rounded-2xl bg-card/20 backdrop-blur border shadow-soft">
         {/* Main booking fields */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* Destination */}

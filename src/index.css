@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Mobile form scaling - 80% for better content density */
+@media (max-width: 768px) {
+  .booking-form-container {
+    transform: scale(0.8);
+    transform-origin: top center;
+    margin-bottom: -20%;
+  }
+}
+
 /* Design System — all colors are HSL variables.
    Dark-first theme with vibrant yellow brand accent. */
 

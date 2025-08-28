@@ -95,7 +95,7 @@ const VisaBookingForm: React.FC = () => {
 
   return (
     <>
-      <form onSubmit={onSubmit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-2 md:p-6">
+      <div className="booking-form-container rounded-2xl bg-card/20 backdrop-blur border shadow-soft p-2 md:p-6">
         {/* Mobile Compact Layout */}
         <div className="block md:hidden space-y-2">
           {/* Visa Type + Destination - Two Column Grid */}
@@ -282,7 +282,7 @@ const VisaBookingForm: React.FC = () => {
           </div>
 
           {/* Search Button - Full Width */}
-          <Button type="submit" className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground text-base font-semibold">
+          <Button type="button" className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground text-base font-semibold" onClick={(e) => { e.preventDefault(); onSubmit(e as any); }}>
             Apply for Visa
           </Button>
         </div>
@@ -458,7 +458,7 @@ const VisaBookingForm: React.FC = () => {
 
           {/* Submit */}
           <div className="mt-6 flex justify-center">
-            <Button type="submit" variant="hero" className="h-12 px-8 group">
+            <Button type="button" variant="hero" className="h-12 px-8 group" onClick={(e) => { e.preventDefault(); onSubmit(e as any); }}>
               Apply for Visa
               <svg className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -466,7 +466,7 @@ const VisaBookingForm: React.FC = () => {
             </Button>
           </div>
         </div>
-      </form>
+      </div>
 
       <Dialog open={showModal} onOpenChange={(o) => { if (!o) { setShowModal(false); clear(); } }}>
         <DialogContent className="sm:max-w-md">

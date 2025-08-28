@@ -95,7 +95,7 @@ const HajjBookingForm: React.FC = () => {
 
   return (
     <>
-      <form onSubmit={onSubmit} className="rounded-2xl bg-card/90 backdrop-blur border shadow-soft p-2 md:p-6">
+      <div className="booking-form-container rounded-2xl bg-card/20 backdrop-blur border shadow-soft p-2 md:p-6">
         {/* Mobile Layout - Matching desired.html structure */}
         <div className="block md:hidden">
           {/* Travelers Dropdown */}
@@ -111,7 +111,7 @@ const HajjBookingForm: React.FC = () => {
                   onPassengersChange={(passengers: PassengerCounts) => {
                     setData(prev => ({ ...prev, ...passengers }));
                   }}
-                  className="h-12 px-3 text-sm rounded-md bg-secondary/60"
+                  className="h-16 px-3 text-sm rounded-md bg-secondary/60"
                 />
               </div>
             </div>
@@ -119,23 +119,23 @@ const HajjBookingForm: React.FC = () => {
 
           {/* Form Fields Grid - Using desired.html structure */}
           <div className="py-2">
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-1">
               {/* Name */}
-              <div className="p-2">
+              <div className="p-1">
                 <div className="relative">
                   <label className="text-xs text-gray-500 mb-1 block">Name</label>
                   <Input 
                     value={data.name} 
                     onChange={(e)=> setField("name", e.target.value)} 
                     placeholder="Your full name" 
-                    className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60" 
+                    className="h-16 w-full px-3 text-sm rounded-md bg-secondary/60" 
                   />
                   {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name}</p>}
                 </div>
               </div>
 
               {/* Days */}
-              <div className="p-2">
+              <div className="p-1">
                 <div className="relative">
                   <label className="text-xs text-gray-500 mb-1 block">Days</label>
                   <Input 
@@ -143,14 +143,14 @@ const HajjBookingForm: React.FC = () => {
                     min={1} 
                     value={data.days} 
                     onChange={(e)=> setField("days", Math.max(1, Number(e.target.value)))} 
-                    className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60" 
+                    className="h-16 w-full px-3 text-sm rounded-md bg-secondary/60" 
                   />
                   {errors.days && <p className="mt-1 text-xs text-destructive">{errors.days}</p>}
                 </div>
               </div>
 
               {/* Departure Date */}
-              <div className="p-2">
+              <div className="p-1">
                 <div className="relative">
                   <label className="text-xs text-gray-500 mb-1 block">Departure Date</label>
                   <Popover>
@@ -158,7 +158,7 @@ const HajjBookingForm: React.FC = () => {
                       <Button
                         variant="outline"
                         className={cn(
-                          "h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal",
+                          "h-16 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal",
                           !data.departure && "text-muted-foreground"
                         )}
                       >
@@ -181,11 +181,11 @@ const HajjBookingForm: React.FC = () => {
               </div>
 
               {/* Hotel Category */}
-              <div className="p-2">
+              <div className="p-1">
                 <div className="relative">
                   <label className="text-xs text-gray-500 mb-1 block">Hotel Category</label>
                   <Select value={data.hotel} onValueChange={(v)=> setField("hotel", v as FormState["hotel"])}>
-                    <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
+                    <SelectTrigger className="h-16 w-full px-3 text-sm rounded-md bg-secondary/60">
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
                     <SelectContent>
@@ -201,7 +201,7 @@ const HajjBookingForm: React.FC = () => {
               </div>
 
               {/* Visa */}
-              <div className="p-2">
+              <div className="p-1">
                 <div className="relative">
                   <label className="text-xs text-gray-500 mb-1 block">Visa</label>
                   <Select value={data.visa} onValueChange={(v)=> setField("visa", v as FormState["visa"])}>
@@ -218,7 +218,7 @@ const HajjBookingForm: React.FC = () => {
               </div>
 
               {/* Transport */}
-              <div className="p-2">
+              <div className="p-1">
                 <div className="relative">
                   <label className="text-xs text-gray-500 mb-1 block">Transport</label>
                   <Select value={data.transport} onValueChange={(v)=> setField("transport", v as FormState["transport"])}>
@@ -235,7 +235,7 @@ const HajjBookingForm: React.FC = () => {
               </div>
 
               {/* Contact Number */}
-              <div className="p-2">
+              <div className="p-1">
                 <div className="relative">
                   <label className="text-xs text-gray-500 mb-1 block">Contact Number</label>
                   <Input 
@@ -254,8 +254,9 @@ const HajjBookingForm: React.FC = () => {
           {/* Search Button */}
           <div className="flex pt-4 justify-center">
             <Button 
-              type="submit" 
-              className="px-8 h-12 bg-primary hover:bg-primary/90 text-primary-foreground text-base font-semibold" 
+              type="button" 
+              className="px-8 h-16 bg-primary hover:bg-primary/90 text-primary-foreground text-base font-semibold" 
+              onClick={(e) => { e.preventDefault(); onSubmit(e as any); }}
             >
               Book Hajj
             </Button>
@@ -263,7 +264,7 @@ const HajjBookingForm: React.FC = () => {
         </div>
 
         {/* Desktop Layout */}
-        <div className="hidden md:grid md:grid-cols-2 md:gap-4 md:space-y-0">
+        <div className="hidden md:grid md:grid-cols-2 md:gap-2 md:space-y-0">
           <div>
             <label className="mb-2 block text-sm text-muted-foreground font-medium">Name</label>
             <Input value={data.name} onChange={(e)=> setField("name", e.target.value)} placeholder="Your full name" className="h-11 bg-secondary/60 text-sm placeholder:text-xs" />
@@ -348,10 +349,10 @@ const HajjBookingForm: React.FC = () => {
             {errors.transport && <p className="mt-1 text-xs text-destructive">{errors.transport}</p>}
           </div>
           <div className="md:col-span-2 flex justify-center md:justify-end mt-2">
-            <Button type="submit" className="h-12 px-8 text-base" variant="hero">Book Hajj</Button>
+            <Button type="button" className="h-12 px-8 text-base" variant="hero" onClick={(e) => { e.preventDefault(); onSubmit(e as any); }}>Book Hajj</Button>
           </div>
         </div>
-      </form>
+      </div>
 
       <Dialog open={showModal} onOpenChange={(o)=>{ if(!o){ setShowModal(false); clear(); } }}>
         <DialogContent className="sm:max-w-md">
