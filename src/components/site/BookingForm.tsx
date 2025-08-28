@@ -140,7 +140,7 @@ const BookingForm: React.FC = () => {
 
   return (
     <>
-    <form onSubmit={submit} className="booking-form-container rounded-2xl bg-card/20 backdrop-blur border shadow-soft p-4 sm:p-3 md:p-6 w-full max-w-full overflow-hidden relative">
+    <form onSubmit={submit} className="booking-form-container rounded-2xl bg-card/20 backdrop-blur border shadow-soft p-3 sm:p-4 md:p-6 w-full max-w-md sm:max-w-lg md:max-w-full mx-auto overflow-hidden relative">
       {/* Category tabs */}
       <Tabs defaultValue="flight" className="w-full">
         <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 h-auto sm:h-14 rounded-t-lg bg-secondary/80 p-1 flex-wrap gap-1 text-xs sm:text-sm">
@@ -298,9 +298,9 @@ const BookingForm: React.FC = () => {
 
           {/* Form Fields Grid - Bootstrap-like responsive grid */}
           <div className="py-2">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1 md:gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-1 sm:gap-2 md:gap-2">
               {/* Fly From */}
-              <div className="p-1 md:p-2 col-span-1 md:col-span-1 lg:col-span-2">
+              <div className="p-1 md:p-2 col-span-1 sm:col-span-1 md:col-span-1 lg:col-span-2">
                 <div className="input__fields relative">
                   <label className="text-xs text-gray-500 mb-1 block">Fly From</label>
                   <div className="relative">
@@ -325,7 +325,7 @@ const BookingForm: React.FC = () => {
               </div>
 
               {/* Fly To */}
-              <div className="p-1 md:p-2 col-span-1 md:col-span-1 lg:col-span-2">
+              <div className="p-1 md:p-2 col-span-1 sm:col-span-1 md:col-span-1 lg:col-span-2">
                 <div className="input__fields relative">
                   <label className="text-xs text-gray-500 mb-1 block">Fly To</label>
                   <div className="relative">
@@ -350,7 +350,7 @@ const BookingForm: React.FC = () => {
               </div>
 
               {/* Departure Date */}
-              <div className="p-1 md:p-2 col-span-1 md:col-span-1 lg:col-span-1">
+              <div className="p-1 md:p-2 col-span-1 sm:col-span-1 md:col-span-1 lg:col-span-1">
                 <div className="input__fields relative">
                   <label className="text-xs text-gray-500 mb-1 block">Departure Date</label>
                   <Popover>
@@ -382,7 +382,7 @@ const BookingForm: React.FC = () => {
 
               {/* Return Date */}
               {data.tripType === "round" && (
-                <div className="p-1 md:p-2 col-span-1 md:col-span-1 lg:col-span-1">
+                <div className="p-1 md:p-2 col-span-1 sm:col-span-1 md:col-span-1 lg:col-span-1">
                   <div className="input__fields relative">
                     <label className="text-xs text-gray-500 mb-1 block">Return Date</label>
                     <Popover>
@@ -414,7 +414,7 @@ const BookingForm: React.FC = () => {
               )}
 
               {/* Phone Number */}
-              <div className="p-1 md:p-2 col-span-1 md:col-span-1 lg:col-span-1">
+              <div className="p-1 md:p-2 col-span-1 sm:col-span-1 md:col-span-1 lg:col-span-1">
                 <div className="input__fields relative">
                   <label className="text-xs text-gray-500 mb-1 block">Phone Number</label>
                   <div className="relative">
@@ -431,7 +431,7 @@ const BookingForm: React.FC = () => {
               </div>
 
               {/* Email Address */}
-              <div className="p-1 md:p-2 col-span-1 md:col-span-1 lg:col-span-1">
+              <div className="p-1 md:p-2 col-span-1 sm:col-span-1 md:col-span-1 lg:col-span-1">
                 <div className="input__fields relative">
                   <label className="text-xs text-gray-500 mb-1 block">Email Address</label>
                   <div className="relative">
