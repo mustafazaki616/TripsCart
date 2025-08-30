@@ -23,7 +23,7 @@ const HeroSection = () => {
         {/* Emergency Phone Banner - Mobile Only */}
         <div className="mt-6 md:hidden">
           <a 
-            href="tel:+442080044475" 
+            href="tel:01931587001" 
             className="flex items-center justify-center gap-3 bg-gradient-to-r from-primary to-primary/80 text-primary-foreground rounded-xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 active:scale-95"
           >
             <div className="bg-white/20 rounded-full p-2">
