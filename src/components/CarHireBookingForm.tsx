@@ -211,7 +211,7 @@ export function CarHireBookingForm() {
                 Time
               </Label>
               <Select value={formData.pickupTime} onValueChange={(value) => handleInputChange('pickupTime', value)}>
-                <SelectTrigger className={cn(errors.pickupTime && "border-red-500")}>
+                <SelectTrigger className={cn(errors.pickupTime && "border-red-500")} id="pickup-time" name="pickupTime">
                   <SelectValue placeholder="Time" />
                 </SelectTrigger>
                 <SelectContent>
@@ -250,7 +250,7 @@ export function CarHireBookingForm() {
                 Time
               </Label>
               <Select value={formData.dropoffTime} onValueChange={(value) => handleInputChange('dropoffTime', value)}>
-                <SelectTrigger className={cn(errors.dropoffTime && "border-red-500")}>
+                <SelectTrigger className={cn(errors.dropoffTime && "border-red-500")} id="dropoff-time" name="dropoffTime">
                   <SelectValue placeholder="Time" />
                 </SelectTrigger>
                 <SelectContent>
@@ -290,7 +290,7 @@ export function CarHireBookingForm() {
                 Car Type
               </Label>
               <Select value={formData.carType} onValueChange={(value) => handleInputChange('carType', value)}>
-                <SelectTrigger className={cn(errors.carType && "border-red-500")}>
+                <SelectTrigger className={cn(errors.carType && "border-red-500")} id="car-type" name="carType">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
@@ -442,7 +442,7 @@ export function CarHireBookingForm() {
               Pickup Time
             </Label>
             <Select value={formData.pickupTime} onValueChange={(value) => handleInputChange('pickupTime', value)}>
-              <SelectTrigger className={cn("h-12", errors.pickupTime && "border-red-500")}>
+              <SelectTrigger className={cn("h-12", errors.pickupTime && "border-red-500")} id="pickup-time-desktop" name="pickupTime">
                 <SelectValue placeholder="Select time" />
               </SelectTrigger>
               <SelectContent>
@@ -479,7 +479,7 @@ export function CarHireBookingForm() {
               Drop-off Time
             </Label>
             <Select value={formData.dropoffTime} onValueChange={(value) => handleInputChange('dropoffTime', value)}>
-              <SelectTrigger className={cn("h-12", errors.dropoffTime && "border-red-500")}>
+              <SelectTrigger className={cn("h-12", errors.dropoffTime && "border-red-500")} id="dropoff-time-desktop" name="dropoffTime">
                 <SelectValue placeholder="Select time" />
               </SelectTrigger>
               <SelectContent>
@@ -520,7 +520,7 @@ export function CarHireBookingForm() {
               Car Type
             </Label>
             <Select value={formData.carType} onValueChange={(value) => handleInputChange('carType', value)}>
-              <SelectTrigger className={cn("h-12", errors.carType && "border-red-500")}>
+              <SelectTrigger className={cn("h-12", errors.carType && "border-red-500")} id="car-type-desktop" name="carType">
                 <SelectValue placeholder="Select car type" />
               </SelectTrigger>
               <SelectContent>
@@ -544,11 +544,14 @@ export function CarHireBookingForm() {
             </Label>
             <Input
               id="phone-desktop"
+              name="phone"
               type="tel"
               placeholder="Enter phone number"
               value={formData.phone}
               onChange={(e) => handleInputChange('phone', e.target.value)}
               className={cn("h-12", errors.phone && "border-red-500")}
+              autoComplete="tel"
+              inputMode="tel"
             />
             {errors.phone && (
               <p className="text-sm text-red-500">{errors.phone}</p>
@@ -562,11 +565,14 @@ export function CarHireBookingForm() {
             </Label>
             <Input
               id="email-desktop"
+              name="email"
               type="email"
               placeholder="Enter email address"
               value={formData.email}
               onChange={(e) => handleInputChange('email', e.target.value)}
               className={cn("h-12", errors.email && "border-red-500")}
+              autoComplete="email"
+              inputMode="email"
             />
             {errors.email && (
               <p className="text-sm text-red-500">{errors.email}</p>

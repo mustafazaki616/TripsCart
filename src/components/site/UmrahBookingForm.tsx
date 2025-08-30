@@ -101,8 +101,9 @@ const UmrahBookingForm: React.FC = () => {
           {/* Centered - Passengers */}
           <div className="flex justify-center">
             <div className="w-full max-w-xs">
-              <label className="text-xs text-gray-500 mb-0.5 block text-center">Passengers</label>
+              <label className="text-xs text-gray-500 mb-0.5 block text-center" htmlFor="passengers-mobile">Passengers</label>
               <PassengerModal
+                id="passengers-mobile"
                 passengers={{
                   adults: data.adults,
                   children: data.children,
@@ -119,8 +120,9 @@ const UmrahBookingForm: React.FC = () => {
           {/* Two Column Grid - Form Fields */}
           <div className="grid grid-cols-2 gap-1">
             <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">Name</label>
+              <label htmlFor="name-mobile" className="text-xs text-gray-500 mb-0.5 block">Name</label>
               <Input 
+                id="name-mobile"
                 value={data.name} 
                 onChange={(e)=> setField("name", e.target.value)} 
                 placeholder="Your full name" 
@@ -129,8 +131,9 @@ const UmrahBookingForm: React.FC = () => {
               {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name}</p>}
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">Days</label>
+              <label htmlFor="days-mobile" className="text-xs text-gray-500 mb-0.5 block">Days</label>
               <Input 
+                id="days-mobile"
                 type="number" 
                 min={1} 
                 value={data.days} 
@@ -140,10 +143,11 @@ const UmrahBookingForm: React.FC = () => {
               {errors.days && <p className="mt-1 text-xs text-destructive">{errors.days}</p>}
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">Departure Date</label>
+              <label htmlFor="departure-date-mobile" className="text-xs text-gray-500 mb-0.5 block">Departure Date</label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
+                    id="departure-date-mobile"
                     variant="outline"
                     className={cn(
                       "h-16 w-full px-4 text-sm bg-white rounded-lg border border-gray-200 justify-start text-left font-normal",
@@ -167,9 +171,9 @@ const UmrahBookingForm: React.FC = () => {
               {errors.departure && <p className="mt-1 text-xs text-destructive">{errors.departure}</p>}
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">Hotel Category</label>
-              <Select value={data.hotel} onValueChange={(v)=> setField("hotel", v as FormState["hotel"])}>
-                <SelectTrigger className="h-16 w-full px-4 text-sm bg-white rounded-lg border border-gray-200">
+              <label htmlFor="hotel-mobile" className="text-xs text-gray-500 mb-0.5 block">Hotel Category</label>
+              <Select value={data.hotel} onValueChange={(v)=> setField("hotel", v as FormState["hotel"]))}>
+                <SelectTrigger className="h-16 w-full px-4 text-sm bg-white rounded-lg border border-gray-200" id="hotel-mobile" name="hotel">
                   <SelectValue placeholder="Select hotel category" />
                 </SelectTrigger>
                 <SelectContent>
@@ -183,9 +187,9 @@ const UmrahBookingForm: React.FC = () => {
               {errors.hotel && <p className="mt-1 text-xs text-destructive">{errors.hotel}</p>}
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">Visa</label>
+              <label htmlFor="visa-mobile" className="text-xs text-gray-500 mb-0.5 block">Visa</label>
               <Select value={data.visa} onValueChange={(v)=> setField("visa", v as FormState["visa"]))}>
-                <SelectTrigger className="h-16 w-full px-4 text-sm bg-white rounded-lg border border-gray-200">
+                <SelectTrigger className="h-16 w-full px-4 text-sm bg-white rounded-lg border border-gray-200" id="visa-mobile" name="visa">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
@@ -196,9 +200,9 @@ const UmrahBookingForm: React.FC = () => {
               {errors.visa && <p className="mt-1 text-xs text-destructive">{errors.visa}</p>}
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">Transport</label>
+              <label htmlFor="transport-mobile" className="text-xs text-gray-500 mb-0.5 block">Transport</label>
               <Select value={data.transport} onValueChange={(v)=> setField("transport", v as FormState["transport"]))}>
-                <SelectTrigger className="h-16 w-full px-4 text-sm bg-white rounded-lg border border-gray-200">
+                <SelectTrigger className="h-16 w-full px-4 text-sm bg-white rounded-lg border border-gray-200" id="transport-mobile" name="transport">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
@@ -209,8 +213,9 @@ const UmrahBookingForm: React.FC = () => {
               {errors.transport && <p className="mt-1 text-xs text-destructive">{errors.transport}</p>}
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">Contact Number</label>
+              <label htmlFor="contact-number-mobile" className="text-xs text-gray-500 mb-0.5 block">Contact Number</label>
               <Input 
+                id="contact-number-mobile"
                 type="tel" 
                 value={data.phone} 
                 onChange={(e)=> setField("phone", e.target.value)} 
@@ -235,25 +240,26 @@ const UmrahBookingForm: React.FC = () => {
         {/* Desktop Layout */}
         <div className="hidden md:grid md:grid-cols-2 md:gap-2 md:space-y-0">
           <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Name</label>
-            <Input value={data.name} onChange={(e)=> setField("name", e.target.value)} placeholder="Your full name" className="h-11 bg-secondary/60 text-sm placeholder:text-xs" />
+            <label htmlFor="umrah-name" className="mb-2 block text-sm text-muted-foreground font-medium">Name</label>
+            <Input id="umrah-name" name="name" autoComplete="name" value={data.name} onChange={(e)=> setField("name", e.target.value)} placeholder="Your full name" className="h-11 bg-secondary/60 text-sm placeholder:text-xs" />
             {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name}</p>}
           </div>
           <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Contact Number</label>
-            <Input type="tel" value={data.phone} onChange={(e)=> setField("phone", e.target.value)} placeholder="e.g., +44 20 1234 5678" className="h-11 bg-secondary/60 text-sm placeholder:text-xs" />
+            <label htmlFor="umrah-phone" className="mb-2 block text-sm text-muted-foreground font-medium">Contact Number</label>
+            <Input id="umrah-phone" name="phone" type="tel" autoComplete="tel" value={data.phone} onChange={(e)=> setField("phone", e.target.value)} placeholder="e.g., +44 20 1234 5678" className="h-11 bg-secondary/60 text-sm placeholder:text-xs" />
             {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
           </div>
           <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Passengers</label>
-            <Input type="number" min={1} value={data.passengers} onChange={(e)=> setField("passengers", Math.max(1, Number(e.target.value)))} className="h-11 bg-secondary/60 text-sm" />
+            <label htmlFor="umrah-passengers" className="mb-2 block text-sm text-muted-foreground font-medium">Passengers</label>
+            <Input id="umrah-passengers" name="passengers" type="number" min={1} value={data.passengers} onChange={(e)=> setField("passengers", Math.max(1, Number(e.target.value)))} className="h-11 bg-secondary/60 text-sm" />
             {errors.passengers && <p className="mt-1 text-xs text-destructive">{errors.passengers}</p>}
           </div>
           <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Departure</label>
+            <label htmlFor="departure-desktop" className="mb-2 block text-sm text-muted-foreground font-medium">Departure</label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
+                  id="departure-desktop"
                   variant="outline"
                   className={cn(
                     "h-11 w-full justify-start text-left font-normal bg-secondary/60 text-sm",
@@ -277,14 +283,14 @@ const UmrahBookingForm: React.FC = () => {
             {errors.departure && <p className="mt-1 text-xs text-destructive">{errors.departure}</p>}
           </div>
           <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Days</label>
-            <Input type="number" min={1} value={data.days} onChange={(e)=> setField("days", Math.max(1, Number(e.target.value)))} className="h-11 bg-secondary/60 text-sm" />
+            <label htmlFor="umrah-days" className="mb-2 block text-sm text-muted-foreground font-medium">Days</label>
+            <Input id="umrah-days" name="days" type="number" min={1} value={data.days} onChange={(e)=> setField("days", Math.max(1, Number(e.target.value)))} className="h-11 bg-secondary/60 text-sm" />
             {errors.days && <p className="mt-1 text-xs text-destructive">{errors.days}</p>}
           </div>
           <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Visa</label>
-            <Select value={data.visa} onValueChange={(v)=> setField("visa", v as FormState["visa"])}>
-              <SelectTrigger className="h-11 bg-secondary/60"><SelectValue placeholder="Select" /></SelectTrigger>
+            <label htmlFor="visa-desktop" className="mb-2 block text-sm text-muted-foreground font-medium">Visa</label>
+            <Select value={data.visa} onValueChange={(v)=> setField("visa", v as FormState["visa"]))}>
+              <SelectTrigger className="h-11 bg-secondary/60" id="visa-desktop" name="visa"><SelectValue placeholder="Select" /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="Yes">Yes</SelectItem>
                 <SelectItem value="No">No</SelectItem>
@@ -293,9 +299,9 @@ const UmrahBookingForm: React.FC = () => {
             {errors.visa && <p className="mt-1 text-xs text-destructive">{errors.visa}</p>}
           </div>
           <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Hotels</label>
-            <Select value={data.hotel} onValueChange={(v)=> setField("hotel", v as FormState["hotel"])}>
-              <SelectTrigger className="h-11 bg-secondary/60"><SelectValue placeholder="Select" /></SelectTrigger>
+            <label htmlFor="hotel-desktop" className="mb-2 block text-sm text-muted-foreground font-medium">Hotels</label>
+            <Select value={data.hotel} onValueChange={(v)=> setField("hotel", v as FormState["hotel"]))}>
+              <SelectTrigger className="h-11 bg-secondary/60" id="hotel-desktop" name="hotel"><SelectValue placeholder="Select" /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="Standard">Standard</SelectItem>
                 <SelectItem value="Economy">Economy</SelectItem>
@@ -307,9 +313,9 @@ const UmrahBookingForm: React.FC = () => {
             {errors.hotel && <p className="mt-1 text-xs text-destructive">{errors.hotel}</p>}
           </div>
           <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Transport</label>
-            <Select value={data.transport} onValueChange={(v)=> setField("transport", v as FormState["transport"])}>
-              <SelectTrigger className="h-11 bg-secondary/60"><SelectValue placeholder="Select" /></SelectTrigger>
+            <label htmlFor="transport-desktop" className="mb-2 block text-sm text-muted-foreground font-medium">Transport</label>
+            <Select value={data.transport} onValueChange={(v)=> setField("transport", v as FormState["transport"]))}>
+              <SelectTrigger className="h-11 bg-secondary/60" id="transport-desktop" name="transport"><SelectValue placeholder="Select" /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="Yes">Yes</SelectItem>
                 <SelectItem value="No">No</SelectItem>

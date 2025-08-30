@@ -123,8 +123,9 @@ const HajjBookingForm: React.FC = () => {
               {/* Name */}
               <div className="p-1">
                 <div className="relative">
-                  <label className="text-xs text-gray-500 mb-1 block">Name</label>
+                  <label htmlFor="hajj-name-mobile" className="text-xs text-gray-500 mb-1 block">Name</label>
                   <Input 
+                    id="hajj-name-mobile"
                     value={data.name} 
                     onChange={(e)=> setField("name", e.target.value)} 
                     placeholder="Your full name" 
@@ -137,8 +138,9 @@ const HajjBookingForm: React.FC = () => {
               {/* Days */}
               <div className="p-1">
                 <div className="relative">
-                  <label className="text-xs text-gray-500 mb-1 block">Days</label>
+                  <label htmlFor="hajj-days-mobile" className="text-xs text-gray-500 mb-1 block">Days</label>
                   <Input 
+                    id="hajj-days-mobile"
                     type="number" 
                     min={1} 
                     value={data.days} 
@@ -152,10 +154,11 @@ const HajjBookingForm: React.FC = () => {
               {/* Departure Date */}
               <div className="p-1">
                 <div className="relative">
-                  <label className="text-xs text-gray-500 mb-1 block">Departure Date</label>
+                  <label htmlFor="hajj-departure-mobile" className="text-xs text-gray-500 mb-1 block">Departure Date</label>
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
+                        id="hajj-departure-mobile"
                         variant="outline"
                         className={cn(
                           "h-16 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal",
@@ -183,9 +186,9 @@ const HajjBookingForm: React.FC = () => {
               {/* Hotel Category */}
               <div className="p-1">
                 <div className="relative">
-                  <label className="text-xs text-gray-500 mb-1 block">Hotel Category</label>
-                  <Select value={data.hotel} onValueChange={(v)=> setField("hotel", v as FormState["hotel"])}>
-                    <SelectTrigger className="h-16 w-full px-3 text-sm rounded-md bg-secondary/60">
+                  <label htmlFor="hajj-hotel-mobile" className="text-xs text-gray-500 mb-1 block">Hotel Category</label>
+                  <Select value={data.hotel} onValueChange={(v)=> setField("hotel", v as FormState["hotel"]))}>
+                    <SelectTrigger className="h-16 w-full px-3 text-sm rounded-md bg-secondary/60" id="hajj-hotel-mobile" name="hotel">
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
                     <SelectContent>
@@ -203,9 +206,9 @@ const HajjBookingForm: React.FC = () => {
               {/* Visa */}
               <div className="p-1">
                 <div className="relative">
-                  <label className="text-xs text-gray-500 mb-1 block">Visa</label>
-                  <Select value={data.visa} onValueChange={(v)=> setField("visa", v as FormState["visa"])}>
-                    <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
+                  <label htmlFor="hajj-visa-mobile" className="text-xs text-gray-500 mb-1 block">Visa</label>
+                  <Select value={data.visa} onValueChange={(v)=> setField("visa", v as FormState["visa"]))}>
+                    <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60" id="hajj-visa-mobile" name="visa">
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
                     <SelectContent>
@@ -220,9 +223,9 @@ const HajjBookingForm: React.FC = () => {
               {/* Transport */}
               <div className="p-1">
                 <div className="relative">
-                  <label className="text-xs text-gray-500 mb-1 block">Transport</label>
-                  <Select value={data.transport} onValueChange={(v)=> setField("transport", v as FormState["transport"])}>
-                    <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
+                  <label htmlFor="hajj-transport-mobile" className="text-xs text-gray-500 mb-1 block">Transport</label>
+                  <Select value={data.transport} onValueChange={(v)=> setField("transport", v as FormState["transport"]))}>
+                    <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60" id="hajj-transport-mobile" name="transport">
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
                     <SelectContent>
@@ -237,8 +240,9 @@ const HajjBookingForm: React.FC = () => {
               {/* Contact Number */}
               <div className="p-1">
                 <div className="relative">
-                  <label className="text-xs text-gray-500 mb-1 block">Contact Number</label>
+                  <label htmlFor="hajj-contact-mobile" className="text-xs text-gray-500 mb-1 block">Contact Number</label>
                   <Input 
+                    id="hajj-contact-mobile"
                     type="tel" 
                     value={data.phone} 
                     onChange={(e)=> setField("phone", e.target.value)} 
@@ -266,25 +270,26 @@ const HajjBookingForm: React.FC = () => {
         {/* Desktop Layout */}
         <div className="hidden md:grid md:grid-cols-2 md:gap-2 md:space-y-0">
           <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Name</label>
-            <Input value={data.name} onChange={(e)=> setField("name", e.target.value)} placeholder="Your full name" className="h-11 bg-secondary/60 text-sm placeholder:text-xs" />
+            <label htmlFor="hajj-name" className="mb-2 block text-sm text-muted-foreground font-medium">Name</label>
+            <Input id="hajj-name" name="name" autoComplete="name" value={data.name} onChange={(e)=> setField("name", e.target.value)} placeholder="Your full name" className="h-11 bg-secondary/60 text-sm placeholder:text-xs" />
             {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name}</p>}
           </div>
           <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Contact Number</label>
-            <Input type="tel" value={data.phone} onChange={(e)=> setField("phone", e.target.value)} placeholder="e.g., +44 20 1234 5678" className="h-11 bg-secondary/60 text-sm placeholder:text-xs" />
+            <label htmlFor="hajj-phone" className="mb-2 block text-sm text-muted-foreground font-medium">Contact Number</label>
+            <Input id="hajj-phone" name="phone" type="tel" autoComplete="tel" value={data.phone} onChange={(e)=> setField("phone", e.target.value)} placeholder="e.g., +44 20 1234 5678" className="h-11 bg-secondary/60 text-sm placeholder:text-xs" />
             {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
           </div>
           <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Passengers</label>
-            <Input type="number" min={1} value={data.passengers} onChange={(e)=> setField("passengers", Math.max(1, Number(e.target.value)))} className="h-11 bg-secondary/60 text-sm" />
+            <label htmlFor="hajj-passengers" className="mb-2 block text-sm text-muted-foreground font-medium">Passengers</label>
+            <Input id="hajj-passengers" name="passengers" type="number" min={1} value={data.passengers} onChange={(e)=> setField("passengers", Math.max(1, Number(e.target.value)))} className="h-11 bg-secondary/60 text-sm" />
             {errors.passengers && <p className="mt-1 text-xs text-destructive">{errors.passengers}</p>}
           </div>
           <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Departure</label>
+            <label htmlFor="hajj-departure-desktop" className="mb-2 block text-sm text-muted-foreground font-medium">Departure</label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
+                  id="hajj-departure-desktop"
                   variant="outline"
                   className={cn(
                     "h-11 w-full bg-secondary/60 text-sm justify-start text-left font-normal",
@@ -308,14 +313,14 @@ const HajjBookingForm: React.FC = () => {
             {errors.departure && <p className="mt-1 text-xs text-destructive">{errors.departure}</p>}
           </div>
           <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Days</label>
-            <Input type="number" min={1} value={data.days} onChange={(e)=> setField("days", Math.max(1, Number(e.target.value)))} className="h-11 bg-secondary/60 text-sm" />
+            <label htmlFor="hajj-days" className="mb-2 block text-sm text-muted-foreground font-medium">Days</label>
+            <Input id="hajj-days" name="days" type="number" min={1} value={data.days} onChange={(e)=> setField("days", Math.max(1, Number(e.target.value)))} className="h-11 bg-secondary/60 text-sm" />
             {errors.days && <p className="mt-1 text-xs text-destructive">{errors.days}</p>}
           </div>
           <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Visa</label>
-            <Select value={data.visa} onValueChange={(v)=> setField("visa", v as FormState["visa"])}>
-              <SelectTrigger className="h-11 bg-secondary/60"><SelectValue placeholder="Select" /></SelectTrigger>
+            <label htmlFor="hajj-visa-desktop" className="mb-2 block text-sm text-muted-foreground font-medium">Visa</label>
+            <Select value={data.visa} onValueChange={(v)=> setField("visa", v as FormState["visa"]))}>
+              <SelectTrigger className="h-11 bg-secondary/60" id="hajj-visa-desktop" name="visa"><SelectValue placeholder="Select" /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="Yes">Yes</SelectItem>
                 <SelectItem value="No">No</SelectItem>
@@ -324,9 +329,9 @@ const HajjBookingForm: React.FC = () => {
             {errors.visa && <p className="mt-1 text-xs text-destructive">{errors.visa}</p>}
           </div>
           <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Hotels</label>
-            <Select value={data.hotel} onValueChange={(v)=> setField("hotel", v as FormState["hotel"])}>
-              <SelectTrigger className="h-11 bg-secondary/60"><SelectValue placeholder="Select" /></SelectTrigger>
+            <label htmlFor="hajj-hotel-desktop" className="mb-2 block text-sm text-muted-foreground font-medium">Hotels</label>
+            <Select value={data.hotel} onValueChange={(v)=> setField("hotel", v as FormState["hotel"]))}>
+              <SelectTrigger className="h-11 bg-secondary/60" id="hajj-hotel-desktop" name="hotel"><SelectValue placeholder="Select" /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="Standard">Standard</SelectItem>
                 <SelectItem value="Economy">Economy</SelectItem>
@@ -338,9 +343,9 @@ const HajjBookingForm: React.FC = () => {
             {errors.hotel && <p className="mt-1 text-xs text-destructive">{errors.hotel}</p>}
           </div>
           <div>
-            <label className="mb-2 block text-sm text-muted-foreground font-medium">Transport</label>
-            <Select value={data.transport} onValueChange={(v)=> setField("transport", v as FormState["transport"])}>
-              <SelectTrigger className="h-11 bg-secondary/60"><SelectValue placeholder="Select" /></SelectTrigger>
+            <label htmlFor="hajj-transport-desktop" className="mb-2 block text-sm text-muted-foreground font-medium">Transport</label>
+            <Select value={data.transport} onValueChange={(v)=> setField("transport", v as FormState["transport"]))}>
+              <SelectTrigger className="h-11 bg-secondary/60" id="hajj-transport-desktop" name="transport"><SelectValue placeholder="Select" /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="Yes">Yes</SelectItem>
                 <SelectItem value="No">No</SelectItem>

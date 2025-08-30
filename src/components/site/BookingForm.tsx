@@ -16,8 +16,118 @@ import VisaBookingForm from "./VisaBookingForm";
 import { sendAdminEmail } from "@/lib/email";
 import { searchAirports, getAirportByCode, getPopularAirports, type Airport } from "@/data/airports";
 import { PassengerModal, type PassengerCounts } from "./PassengerModal";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 
 const cabinClasses = ["Economy", "Premium Economy", "Business", "First"] as const;
+
+// Airport Autocomplete Component
+interface AirportAutocompleteProps {
+  value?: string;
+  onValueChange: (value: string) => void;
+  placeholder: string;
+  icon: React.ReactNode;
+  label?: string;
+  id: string;
+  name?: string;
+  autoComplete?: string;
+}
+
+const AirportAutocomplete: React.FC<AirportAutocompleteProps> = ({ value, onValueChange, placeholder, icon, label, id, name, autoComplete }) => {
+  const [open, setOpen] = React.useState(false);
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const [filteredAirports, setFilteredAirports] = React.useState<Airport[]>([]);
+
+  // Get display text for selected airport
+  const selectedAirport = value ? getAirportByCode(value) : null;
+  const displayText = selectedAirport ? `${selectedAirport.code} - ${selectedAirport.name}` : "";
+
+  // Filter airports based on search query
+  React.useEffect(() => {
+    if (searchQuery.length > 0) {
+      const results = searchAirports(searchQuery).slice(0, 10); // Limit to 10 results
+      setFilteredAirports(results);
+    } else {
+      setFilteredAirports([]); // Show no suggestions when search is empty
+    }
+  }, [searchQuery]);
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      {/* Trigger as read-only input so the external label htmlFor matches a persistent input element */}
+      <div className="relative">
+        <PopoverTrigger asChild>
+          <Input
+            id={id}
+            readOnly
+            value={displayText}
+            placeholder={placeholder}
+            autoComplete={autoComplete ?? "off"}
+            role="combobox"
+            aria-expanded={open}
+            aria-haspopup="listbox"
+            aria-controls={`${id}-list`}
+            className="h-16 md:h-12 w-full px-3 pl-8 text-sm rounded-md bg-secondary/60 border-input text-left"
+          />
+        </PopoverTrigger>
+        <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2">
+          {icon}
+        </div>
+      </div>
+      <PopoverContent className="w-[340px] p-0" align="start">
+        {label && (
+          <div className="flex items-center justify-between px-3 py-2 border-b bg-background">
+            <span className="text-xs text-muted-foreground">{label}</span>
+            <button type="button" aria-label="Close" onClick={() => setOpen(false)} className="p-1 hover:opacity-80">
+              <X className="h-3.5 w-3.5 opacity-60" />
+            </button>
+          </div>
+        )}
+        <Command shouldFilter={false}>
+          <CommandInput
+            id={`${id}-input`}
+            placeholder="Search city or airport..."
+            value={searchQuery}
+            onValueChange={setSearchQuery}
+            autoComplete={autoComplete ?? "off"}
+            // prevent browser autofill dropdowns
+            aria-controls={`${id}-list`}
+          />
+          <CommandList id={`${id}-list`}>
+            {searchQuery.length === 0 ? (
+              <div className="p-4 text-sm text-muted-foreground text-center">
+                Start typing to search airports...
+              </div>
+            ) : filteredAirports.length === 0 ? (
+              <CommandEmpty>No airports found.</CommandEmpty>
+            ) : (
+              <CommandGroup>
+                {filteredAirports.map((airport) => (
+                  <CommandItem
+                    key={airport.code}
+                    value={`${airport.code} ${airport.city} ${airport.country} ${airport.name}`}
+                    onSelect={() => {
+                      onValueChange(airport.code);
+                      setOpen(false);
+                      setSearchQuery("");
+                    }}
+                    className="cursor-pointer"
+                  >
+                    <div className="flex flex-col">
+                      <div className="text-sm"><span className="font-semibold">{airport.code}</span> - {airport.name}</div>
+                      <div className="text-xs text-muted-foreground">{airport.city}, {airport.country.toUpperCase()}</div>
+                    </div>
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            )}
+          </CommandList>
+        </Command>
+        {/* Hidden input to expose value to forms and autofill engines without breaking custom UI */}
+        <input type="hidden" id={`${id}-value`} name={name} autoComplete={autoComplete ?? "off"} value={value ?? ""} />
+      </PopoverContent>
+    </Popover>
+  );
+};
 
 // Helper function to generate date options for the next 365 days
 const getDateOptions = (startDate?: Date) => {
@@ -140,7 +250,7 @@ const BookingForm: React.FC = () => {
 
   return (
     <>
-    <form onSubmit={submit} className="booking-form-container rounded-2xl bg-card/20 backdrop-blur border shadow-soft p-3 sm:p-4 md:p-6 w-full max-w-md sm:max-w-lg md:max-w-full mx-auto overflow-hidden relative">
+    <form onSubmit={submit} className="booking-form-container rounded-2xl bg-card/20 backdrop-blur border shadow-soft p-4 sm:p-3 md:p-6 w-full max-w-full overflow-hidden relative">
       {/* Category tabs */}
       <Tabs defaultValue="flight" className="w-full">
         <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 h-auto sm:h-14 rounded-t-lg bg-secondary/80 p-1 flex-wrap gap-1 text-xs sm:text-sm">
@@ -200,10 +310,10 @@ const BookingForm: React.FC = () => {
                   />
                 </div>
                 <div className="hidden md:block">
-                  <label className="mb-1 block text-xs md:text-sm text-muted-foreground">Passengers</label>
+                  <label htmlFor="passengers-booking" className="mb-1 block text-xs md:text-sm text-muted-foreground">Passengers</label>
                   <Popover open={openTravellers} onOpenChange={setOpenTravellers}>
                     <PopoverTrigger asChild>
-                      <Button variant="outline" className="w-full justify-start h-10 md:h-12 bg-secondary/60 text-left text-xs md:text-sm">
+                      <Button id="passengers-booking" variant="outline" className="w-full justify-start h-10 md:h-12 bg-secondary/60 text-left text-xs md:text-sm">
                         <span className="truncate">
                           {data.adults + data.children + data.infants} Passenger{(data.adults + data.children + data.infants) > 1 ? "s" : ""}
                         </span>
@@ -280,11 +390,11 @@ const BookingForm: React.FC = () => {
               </div>
               <div className="min-w-[120px] md:flex-1">
                 <div className="md:mb-1">
-                  <label className="hidden md:block text-xs md:text-sm text-muted-foreground">Cabin Class</label>
+                  <label className="hidden md:block text-xs md:text-sm text-muted-foreground" htmlFor="cabin-class">Cabin Class</label>
                 </div>
-                <Select value={data.cabin} onValueChange={(v) => setData((d) => ({ ...d, cabin: v as FormState["cabin"] }))}>
-                  <SelectTrigger className="h-16 md:h-10 md:h-12 px-3 text-sm rounded-md bg-secondary/60">
-                    <SelectValue />
+                <Select value={data.cabin} onValueChange={(v) => setData(d => ({ ...d, cabin: v as FormState["cabin"] }))}>
+                  <SelectTrigger id="cabin-class" name="cabin" className="h-16 md:h-12 px-3 text-sm rounded-md bg-secondary/60">
+                    <SelectValue placeholder="Select cabin class" />
                   </SelectTrigger>
                   <SelectContent>
                     {cabinClasses.map((c) => (
@@ -298,64 +408,51 @@ const BookingForm: React.FC = () => {
 
           {/* Form Fields Grid - Bootstrap-like responsive grid */}
           <div className="py-2">
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-1 sm:gap-2 md:gap-2">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1 md:gap-2">
               {/* Fly From */}
-              <div className="p-1 md:p-2 col-span-1 sm:col-span-1 md:col-span-1 lg:col-span-2">
+              <div className="p-1 md:p-2 col-span-1 md:col-span-1 lg:col-span-2">
                 <div className="input__fields relative">
-                  <label className="text-xs text-gray-500 mb-1 block">Fly From</label>
-                  <div className="relative">
-                    <Select value={data.origin} onValueChange={(value) => setData((d) => ({ ...d, origin: value }))}>
-                      <SelectTrigger className="h-16 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 border-input">
-                        <div className="flex items-center w-full">
-                          <Plane className="mr-2 h-4 w-4 opacity-70" />
-                          <SelectValue placeholder="Country..." />
-                        </div>
-                      </SelectTrigger>
-                      <SelectContent>
-                        {getPopularAirports().map((airport) => (
-                          <SelectItem key={airport.code} value={airport.code}>
-                            {airport.city}, {airport.country} ({airport.code})
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
+                  <label htmlFor="fly-from-booking" className="text-xs text-gray-500 mb-1 block">Fly From</label>
+                  <AirportAutocomplete
+                    id="fly-from-booking"
+                    name="origin"
+                    autoComplete="off"
+                    value={data.origin}
+                    onValueChange={(value) => setData((d) => ({ ...d, origin: value }))}
+                    placeholder="Enter city or airport..."
+                    icon={<Plane className="mr-2 h-4 w-4 opacity-70" />}
+                    label="Fly From"
+                  />
                   {errors.origin && <p className="mt-1 text-xs text-destructive">{errors.origin}</p>}
                 </div>
               </div>
 
               {/* Fly To */}
-              <div className="p-1 md:p-2 col-span-1 sm:col-span-1 md:col-span-1 lg:col-span-2">
+              <div className="p-1 md:p-2 col-span-1 md:col-span-1 lg:col-span-2">
                 <div className="input__fields relative">
-                  <label className="text-xs text-gray-500 mb-1 block">Fly To</label>
-                  <div className="relative">
-                    <Select value={data.destination} onValueChange={(value) => setData((d) => ({ ...d, destination: value }))}>
-                      <SelectTrigger className="h-16 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 border-input">
-                        <div className="flex items-center w-full">
-                          <ArrowLeftRight className="mr-2 h-4 w-4 opacity-70" />
-                          <SelectValue placeholder="Country..." />
-                        </div>
-                      </SelectTrigger>
-                      <SelectContent>
-                        {getPopularAirports().map((airport) => (
-                          <SelectItem key={airport.code} value={airport.code}>
-                            {airport.city}, {airport.country} ({airport.code})
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
+                  <label htmlFor="fly-to-booking" className="text-xs text-gray-500 mb-1 block">Fly To</label>
+                  <AirportAutocomplete
+                    id="fly-to-booking"
+                    name="destination"
+                    autoComplete="off"
+                    value={data.destination}
+                    onValueChange={(value) => setData((d) => ({ ...d, destination: value }))}
+                    placeholder="Enter city or airport..."
+                    icon={<ArrowLeftRight className="mr-2 h-4 w-4 opacity-70" />}
+                    label="Fly To"
+                  />
                   {errors.destination && <p className="mt-1 text-xs text-destructive">{errors.destination}</p>}
                 </div>
               </div>
 
               {/* Departure Date */}
-              <div className="p-1 md:p-2 col-span-1 sm:col-span-1 md:col-span-1 lg:col-span-1">
+              <div className="p-1 md:p-2 col-span-1 md:col-span-1 lg:col-span-1">
                 <div className="input__fields relative">
-                  <label className="text-xs text-gray-500 mb-1 block">Departure Date</label>
+                  <label htmlFor="departure-date-booking" className="text-xs text-gray-500 mb-1 block">Departure Date</label>
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
+                        id="departure-date-booking"
                         variant="outline"
                         className={cn(
                           "h-16 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal border-input",
@@ -382,12 +479,13 @@ const BookingForm: React.FC = () => {
 
               {/* Return Date */}
               {data.tripType === "round" && (
-                <div className="p-1 md:p-2 col-span-1 sm:col-span-1 md:col-span-1 lg:col-span-1">
+                <div className="p-1 md:p-2 col-span-1 md:col-span-1 lg:col-span-1">
                   <div className="input__fields relative">
-                    <label className="text-xs text-gray-500 mb-1 block">Return Date</label>
+                    <label htmlFor="return-date-booking" className="text-xs text-gray-500 mb-1 block">Return Date</label>
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
+                          id="return-date-booking"
                           variant="outline"
                           className={cn(
                             "h-16 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal border-input",
@@ -414,16 +512,20 @@ const BookingForm: React.FC = () => {
               )}
 
               {/* Phone Number */}
-              <div className="p-1 md:p-2 col-span-1 sm:col-span-1 md:col-span-1 lg:col-span-1">
+              <div className="p-1 md:p-2 col-span-1 md:col-span-1 lg:col-span-1">
                 <div className="input__fields relative">
-                  <label className="text-xs text-gray-500 mb-1 block">Phone Number</label>
+                  <label htmlFor="phone-booking" className="text-xs text-gray-500 mb-1 block">Phone Number</label>
                   <div className="relative">
                     <Input
+                      id="phone-booking"
+                      name="phone"
                       type="tel"
                       placeholder="UK Number Only"
                       value={data.phone || ""}
                       onChange={(e) => setData((d) => ({ ...d, phone: e.target.value }))}
                       className="h-16 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10"
+                      autoComplete="tel"
+                      inputMode="tel"
                     />
                     <Phone className="absolute right-3 top-4 md:top-3 h-4 w-4 opacity-70" />
                   </div>
@@ -431,16 +533,20 @@ const BookingForm: React.FC = () => {
               </div>
 
               {/* Email Address */}
-              <div className="p-1 md:p-2 col-span-1 sm:col-span-1 md:col-span-1 lg:col-span-1">
+              <div className="p-1 md:p-2 col-span-1 md:col-span-1 lg:col-span-1">
                 <div className="input__fields relative">
-                  <label className="text-xs text-gray-500 mb-1 block">Email Address</label>
+                  <label htmlFor="email-booking" className="text-xs text-gray-500 mb-1 block">Email Address</label>
                   <div className="relative">
                     <Input
+                      id="email-booking"
+                      name="email"
                       type="email"
                       placeholder="Email (Optional)"
                       value={data.email || ""}
                       onChange={(e) => setData((d) => ({ ...d, email: e.target.value }))}
                       className="h-16 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10"
+                      autoComplete="email"
+                      inputMode="email"
                     />
                     <Mail className="absolute right-3 top-4 md:top-3 h-4 w-4 opacity-70" />
                   </div>

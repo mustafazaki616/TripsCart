@@ -178,7 +178,7 @@ export function VisaBookingForm() {
               Visa Type
             </Label>
             <Select value={formData.visaType} onValueChange={(value) => handleInputChange('visaType', value)}>
-              <SelectTrigger className={cn(errors.visaType && "border-red-500")}>
+              <SelectTrigger className={cn(errors.visaType && "border-red-500")} id="visa-type" name="visaType">
                 <SelectValue placeholder="Select visa type" />
               </SelectTrigger>
               <SelectContent>
@@ -199,7 +199,7 @@ export function VisaBookingForm() {
               Destination Country
             </Label>
             <Select value={formData.destinationCountry} onValueChange={(value) => handleInputChange('destinationCountry', value)}>
-              <SelectTrigger className={cn(errors.destinationCountry && "border-red-500")}>
+              <SelectTrigger className={cn(errors.destinationCountry && "border-red-500")} id="destination-country" name="destinationCountry">
                 <SelectValue placeholder="Select country" />
               </SelectTrigger>
               <SelectContent>
@@ -220,7 +220,7 @@ export function VisaBookingForm() {
               Nationality
             </Label>
             <Select value={formData.nationality} onValueChange={(value) => handleInputChange('nationality', value)}>
-              <SelectTrigger className={cn(errors.nationality && "border-red-500")}>
+              <SelectTrigger className={cn(errors.nationality && "border-red-500")} id="nationality" name="nationality">
                 <SelectValue placeholder="Select nationality" />
               </SelectTrigger>
               <SelectContent>
@@ -352,7 +352,7 @@ export function VisaBookingForm() {
               Purpose of Visit
             </Label>
             <Select value={formData.purposeOfVisit} onValueChange={(value) => handleInputChange('purposeOfVisit', value)}>
-              <SelectTrigger className={cn(errors.purposeOfVisit && "border-red-500")}>
+              <SelectTrigger className={cn(errors.purposeOfVisit && "border-red-500")} id="purpose-of-visit" name="purposeOfVisit">
                 <SelectValue placeholder="Select purpose" />
               </SelectTrigger>
               <SelectContent>
@@ -447,7 +447,7 @@ export function VisaBookingForm() {
               Visa Type
             </Label>
             <Select value={formData.visaType} onValueChange={(value) => handleInputChange('visaType', value)}>
-              <SelectTrigger className={cn("h-12", errors.visaType && "border-red-500")}>
+              <SelectTrigger className={cn("h-12", errors.visaType && "border-red-500")} id="visa-type-desktop" name="visaType">
                 <SelectValue placeholder="Select visa type" />
               </SelectTrigger>
               <SelectContent>
@@ -467,7 +467,7 @@ export function VisaBookingForm() {
               Destination Country
             </Label>
             <Select value={formData.destinationCountry} onValueChange={(value) => handleInputChange('destinationCountry', value)}>
-              <SelectTrigger className={cn("h-12", errors.destinationCountry && "border-red-500")}>
+              <SelectTrigger className={cn("h-12", errors.destinationCountry && "border-red-500")} id="destination-country-desktop" name="destinationCountry">
                 <SelectValue placeholder="Select country" />
               </SelectTrigger>
               <SelectContent>
@@ -487,7 +487,7 @@ export function VisaBookingForm() {
               Nationality
             </Label>
             <Select value={formData.nationality} onValueChange={(value) => handleInputChange('nationality', value)}>
-              <SelectTrigger className={cn("h-12", errors.nationality && "border-red-500")}>
+              <SelectTrigger className={cn("h-12", errors.nationality && "border-red-500")} id="nationality-desktop" name="nationality">
                 <SelectValue placeholder="Select nationality" />
               </SelectTrigger>
               <SelectContent>
@@ -621,7 +621,7 @@ export function VisaBookingForm() {
               Purpose of Visit
             </Label>
             <Select value={formData.purposeOfVisit} onValueChange={(value) => handleInputChange('purposeOfVisit', value)}>
-              <SelectTrigger className={cn("h-12", errors.purposeOfVisit && "border-red-500")}>
+              <SelectTrigger className={cn("h-12", errors.purposeOfVisit && "border-red-500")} id="purpose-of-visit-desktop" name="purposeOfVisit">
                 <SelectValue placeholder="Select purpose" />
               </SelectTrigger>
               <SelectContent>

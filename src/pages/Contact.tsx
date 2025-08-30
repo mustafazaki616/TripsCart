@@ -144,23 +144,30 @@ const Contact = () => {
               <form onSubmit={onSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="mb-2 block text-sm font-medium">Full Name *</label>
+                    <label htmlFor="contact-name" className="mb-2 block text-sm font-medium">Full Name *</label>
                     <Input
+                      id="contact-name"
+                      name="name"
                       value={formData.name}
                       onChange={(e) => setField("name", e.target.value)}
                       placeholder="Your full name"
                       className="h-12"
+                      autoComplete="name"
                     />
                     {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name}</p>}
                   </div>
                   <div>
-                    <label className="mb-2 block text-sm font-medium">Email Address *</label>
+                    <label htmlFor="contact-email" className="mb-2 block text-sm font-medium">Email Address *</label>
                     <Input
+                      id="contact-email"
+                      name="email"
                       type="email"
                       value={formData.email}
                       onChange={(e) => setField("email", e.target.value)}
                       placeholder="your.email@example.com"
                       className="h-12"
+                      autoComplete="email"
+                      inputMode="email"
                     />
                     {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
                   </div>
@@ -168,19 +175,23 @@ const Contact = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="mb-2 block text-sm font-medium">Phone Number</label>
+                    <label htmlFor="contact-phone" className="mb-2 block text-sm font-medium">Phone Number</label>
                     <Input
+                      id="contact-phone"
+                      name="phone"
                       type="tel"
                       value={formData.phone}
                       onChange={(e) => setField("phone", e.target.value)}
                       placeholder="019-315-87001"
                       className="h-12"
+                      autoComplete="tel"
+                      inputMode="tel"
                     />
                   </div>
                   <div>
-                    <label className="mb-2 block text-sm font-medium">Subject *</label>
+                    <label className="mb-2 block text-sm font-medium" htmlFor="contact-subject">Subject *</label>
                     <Select value={formData.subject} onValueChange={(v) => setField("subject", v)}>
-                      <SelectTrigger className="h-12">
+                      <SelectTrigger className="h-12" id="contact-subject" name="subject" autoComplete="off">
                         <SelectValue placeholder="Select a subject" />
                       </SelectTrigger>
                       <SelectContent>
@@ -199,12 +210,15 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <label className="mb-2 block text-sm font-medium">Message *</label>
+                  <label htmlFor="contact-message" className="mb-2 block text-sm font-medium">Message *</label>
                   <Textarea
+                    id="contact-message"
+                    name="message"
                     value={formData.message}
                     onChange={(e) => setField("message", e.target.value)}
                     placeholder="Tell us about your travel plans or any questions you have..."
                     className="min-h-32 resize-none"
+                    autoComplete="off"
                   />
                   {errors.message && <p className="mt-1 text-xs text-destructive">{errors.message}</p>}
                 </div>

@@ -101,9 +101,9 @@ const VisaBookingForm: React.FC = () => {
           {/* Visa Type + Destination - Two Column Grid */}
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">Visa Type</label>
+              <label className="text-xs text-gray-500 mb-0.5 block" htmlFor="visa-type-mobile">Visa Type</label>
               <Select value={data.visaType} onValueChange={(v) => setField("visaType", v)}>
-                <SelectTrigger className="h-12 bg-secondary/60 text-sm">
+                <SelectTrigger className="h-12 bg-secondary/60 text-sm" id="visa-type-mobile" name="visaType">
                   <SelectValue placeholder="Select visa type" />
                 </SelectTrigger>
                 <SelectContent>
@@ -117,13 +117,16 @@ const VisaBookingForm: React.FC = () => {
               {errors.visaType && <p className="mt-1 text-xs text-destructive">{errors.visaType}</p>}
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">Destination</label>
+              <label className="text-xs text-gray-500 mb-0.5 block" htmlFor="destination-mobile">Destination</label>
               <div className="relative">
                 <Input
+                  id="destination-mobile"
+                  name="destination"
                   value={data.destination}
                   onChange={(e) => setField("destination", e.target.value)}
                   placeholder="Enter destination country..."
                   className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10 placeholder:text-xs"
+                  autoComplete="country"
                 />
                 <MapPin className="absolute right-3 top-3 opacity-70 w-4 h-4" />
               </div>
@@ -134,10 +137,11 @@ const VisaBookingForm: React.FC = () => {
           {/* Travel + Return Dates - Two Column Grid */}
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">Travel Date</label>
+              <label htmlFor="travel-date-mobile" className="text-xs text-gray-500 mb-0.5 block">Travel Date</label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
+                    id="travel-date-mobile"
                     variant="outline"
                     className={cn(
                       "h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal",
@@ -161,10 +165,11 @@ const VisaBookingForm: React.FC = () => {
               {errors.travelDate && <p className="mt-1 text-xs text-destructive">{errors.travelDate}</p>}
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">Return Date</label>
+              <label htmlFor="return-date-mobile" className="text-xs text-gray-500 mb-0.5 block">Return Date</label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
+                    id="return-date-mobile"
                     variant="outline"
                     className={cn(
                       "h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal",
@@ -192,9 +197,10 @@ const VisaBookingForm: React.FC = () => {
           {/* First + Last Name - Two Column Grid */}
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">First Name</label>
+              <label htmlFor="first-name-mobile" className="text-xs text-gray-500 mb-0.5 block">First Name</label>
               <div className="relative">
                 <Input
+                  id="first-name-mobile"
                   value={data.firstName}
                   onChange={(e) => setField("firstName", e.target.value)}
                   placeholder="Enter first name"
@@ -205,9 +211,10 @@ const VisaBookingForm: React.FC = () => {
               {errors.firstName && <p className="mt-1 text-xs text-destructive">{errors.firstName}</p>}
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">Last Name</label>
+              <label htmlFor="last-name-mobile" className="text-xs text-gray-500 mb-0.5 block">Last Name</label>
               <div className="relative">
                 <Input
+                  id="last-name-mobile"
                   value={data.lastName}
                   onChange={(e) => setField("lastName", e.target.value)}
                   placeholder="Enter last name"
@@ -221,9 +228,10 @@ const VisaBookingForm: React.FC = () => {
 
           {/* Passport Number - Full Width */}
           <div>
-            <label className="text-xs text-gray-500 mb-0.5 block">Passport Number</label>
+            <label htmlFor="passport-number-mobile" className="text-xs text-gray-500 mb-0.5 block">Passport Number</label>
             <div className="relative">
               <Input
+                id="passport-number-mobile"
                 value={data.passportNumber}
                 onChange={(e) => setField("passportNumber", e.target.value)}
                 placeholder="Enter passport number"
@@ -237,9 +245,10 @@ const VisaBookingForm: React.FC = () => {
           {/* Phone + Email - Two Column Grid */}
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">Phone Number</label>
+              <label htmlFor="phone-mobile" className="text-xs text-gray-500 mb-0.5 block">Phone Number</label>
               <div className="relative">
                 <Input
+                  id="phone-mobile"
                   type="tel"
                   value={data.phone}
                   onChange={(e) => setField("phone", e.target.value)}
@@ -251,9 +260,10 @@ const VisaBookingForm: React.FC = () => {
               {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">Email Address</label>
+              <label htmlFor="email-mobile" className="text-xs text-gray-500 mb-0.5 block">Email Address</label>
               <div className="relative">
                 <Input
+                  id="email-mobile"
                   type="email"
                   value={data.email}
                   onChange={(e) => setField("email", e.target.value)}
@@ -268,9 +278,10 @@ const VisaBookingForm: React.FC = () => {
 
           {/* Purpose of Travel - Full Width */}
           <div>
-            <label className="text-xs text-gray-500 mb-0.5 block">Purpose of Travel</label>
+            <label htmlFor="purpose-mobile" className="text-xs text-gray-500 mb-0.5 block">Purpose of Travel</label>
             <div className="relative">
               <Input
+                id="purpose-mobile"
                 value={data.purpose}
                 onChange={(e) => setField("purpose", e.target.value)}
                 placeholder="Brief description of travel purpose..."
@@ -292,9 +303,9 @@ const VisaBookingForm: React.FC = () => {
           {/* Main Fields */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="mb-1 block text-sm text-muted-foreground">Visa Type</label>
+              <label className="mb-1 block text-sm text-muted-foreground" htmlFor="visa-type-desktop">Visa Type</label>
               <Select value={data.visaType} onValueChange={(v) => setField("visaType", v)}>
-                <SelectTrigger className="h-10 bg-secondary/60">
+                <SelectTrigger className="h-10 bg-secondary/60" id="visa-type-desktop" name="visaType">
                   <SelectValue placeholder="Select visa type" />
                 </SelectTrigger>
                 <SelectContent>
@@ -308,23 +319,27 @@ const VisaBookingForm: React.FC = () => {
               {errors.visaType && <p className="mt-1 text-xs text-destructive">{errors.visaType}</p>}
             </div>
             <div>
-              <label className="mb-1 block text-sm text-muted-foreground">Destination</label>
+              <label className="mb-1 block text-sm text-muted-foreground" htmlFor="destination-desktop">Destination</label>
               <div className="relative">
                 <Input
+                  id="destination-desktop"
+                  name="destination"
                   value={data.destination}
                   onChange={(e) => setField("destination", e.target.value)}
                   placeholder="Enter destination country..."
                   className="h-10 bg-secondary/60 pr-10 placeholder:text-xs"
+                  autoComplete="country"
                 />
                 <MapPin className="absolute right-3 top-2.5 opacity-70" />
               </div>
               {errors.destination && <p className="mt-1 text-xs text-destructive">{errors.destination}</p>}
             </div>
             <div>
-              <label className="mb-1 block text-sm text-muted-foreground">Travel Date</label>
+              <label htmlFor="travel-date-desktop" className="mb-1 block text-sm text-muted-foreground">Travel Date</label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
+                    id="travel-date-desktop"
                     variant="outline"
                     className={cn(
                       "h-10 w-full bg-secondary/60 justify-start text-left font-normal",
@@ -348,10 +363,11 @@ const VisaBookingForm: React.FC = () => {
               {errors.travelDate && <p className="mt-1 text-xs text-destructive">{errors.travelDate}</p>}
             </div>
             <div>
-              <label className="mb-1 block text-sm text-muted-foreground">Return Date</label>
+              <label htmlFor="return-date-desktop" className="mb-1 block text-sm text-muted-foreground">Return Date</label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
+                    id="return-date-desktop"
                     variant="outline"
                     className={cn(
                       "h-10 w-full bg-secondary/60 justify-start text-left font-normal",
@@ -375,9 +391,10 @@ const VisaBookingForm: React.FC = () => {
               {errors.returnDate && <p className="mt-1 text-xs text-destructive">{errors.returnDate}</p>}
             </div>
             <div>
-              <label className="mb-1 block text-sm text-muted-foreground">First Name</label>
+              <label htmlFor="first-name-desktop" className="mb-1 block text-sm text-muted-foreground">First Name</label>
               <div className="relative">
                 <Input
+                  id="first-name-desktop"
                   value={data.firstName}
                   onChange={(e) => setField("firstName", e.target.value)}
                   placeholder="Enter first name"
@@ -388,9 +405,10 @@ const VisaBookingForm: React.FC = () => {
               {errors.firstName && <p className="mt-1 text-xs text-destructive">{errors.firstName}</p>}
             </div>
             <div>
-              <label className="mb-1 block text-sm text-muted-foreground">Last Name</label>
+              <label htmlFor="last-name-desktop" className="mb-1 block text-sm text-muted-foreground">Last Name</label>
               <div className="relative">
                 <Input
+                  id="last-name-desktop"
                   value={data.lastName}
                   onChange={(e) => setField("lastName", e.target.value)}
                   placeholder="Enter last name"
@@ -401,9 +419,10 @@ const VisaBookingForm: React.FC = () => {
               {errors.lastName && <p className="mt-1 text-xs text-destructive">{errors.lastName}</p>}
             </div>
             <div>
-              <label className="mb-1 block text-sm text-muted-foreground">Passport Number</label>
+              <label htmlFor="passport-number-desktop" className="mb-1 block text-sm text-muted-foreground">Passport Number</label>
               <div className="relative">
                 <Input
+                  id="passport-number-desktop"
                   value={data.passportNumber}
                   onChange={(e) => setField("passportNumber", e.target.value)}
                   placeholder="Enter passport number"
@@ -414,9 +433,10 @@ const VisaBookingForm: React.FC = () => {
               {errors.passportNumber && <p className="mt-1 text-xs text-destructive">{errors.passportNumber}</p>}
             </div>
             <div>
-              <label className="mb-1 block text-sm text-muted-foreground">Phone Number</label>
+              <label htmlFor="phone-desktop" className="mb-1 block text-sm text-muted-foreground">Phone Number</label>
               <div className="relative">
                 <Input
+                  id="phone-desktop"
                   type="tel"
                   value={data.phone}
                   onChange={(e) => setField("phone", e.target.value)}
@@ -428,9 +448,10 @@ const VisaBookingForm: React.FC = () => {
               {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
             </div>
             <div>
-              <label className="mb-1 block text-sm text-muted-foreground">Email Address</label>
+              <label htmlFor="email-desktop" className="mb-1 block text-sm text-muted-foreground">Email Address</label>
               <div className="relative">
                 <Input
+                  id="email-desktop"
                   type="email"
                   value={data.email}
                   onChange={(e) => setField("email", e.target.value)}
@@ -442,9 +463,10 @@ const VisaBookingForm: React.FC = () => {
               {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
             </div>
             <div className="col-span-2">
-              <label className="mb-1 block text-sm text-muted-foreground">Purpose of Travel</label>
+              <label htmlFor="purpose-desktop" className="mb-1 block text-sm text-muted-foreground">Purpose of Travel</label>
               <div className="relative">
                 <Input
+                  id="purpose-desktop"
                   value={data.purpose}
                   onChange={(e) => setField("purpose", e.target.value)}
                   placeholder="Brief description of travel purpose..."

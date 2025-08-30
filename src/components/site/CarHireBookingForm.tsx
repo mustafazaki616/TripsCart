@@ -96,10 +96,11 @@ const CarHireBookingForm: React.FC = () => {
         <div className="block md:hidden space-y-2">
           {/* Car Class - Full Width */}
           <div>
-            <label className="text-xs text-gray-500 mb-0.5 block">Car Class</label>
+            <label className="text-xs text-gray-500 mb-0.5 block" htmlFor="car-class-economy">Car Class</label>
             <div className="flex bg-secondary/60 rounded-md p-1 h-12">
-              <label className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors cursor-pointer">
+              <label className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors cursor-pointer" htmlFor="car-class-economy">
                 <input
+                  id="car-class-economy"
                   type="radio"
                   name="class"
                   className="accent-[hsl(var(--primary))]"
@@ -108,8 +109,9 @@ const CarHireBookingForm: React.FC = () => {
                 />
                 Economy
               </label>
-              <label className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors cursor-pointer">
+              <label className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors cursor-pointer" htmlFor="car-class-business">
                 <input
+                  id="car-class-business"
                   type="radio"
                   name="class"
                   className="accent-[hsl(var(--primary))]"
@@ -125,9 +127,10 @@ const CarHireBookingForm: React.FC = () => {
           {/* Pick-up + Drop-off Locations - Two Column Grid */}
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">Pick-up Location</label>
+              <label htmlFor="pickup-location-mobile" className="text-xs text-gray-500 mb-0.5 block">Pick-up Location</label>
               <div className="relative">
                 <Input
+                  id="pickup-location-mobile"
                   value={data.pickUpLocation}
                   onChange={(e) => setField("pickUpLocation", e.target.value)}
                   placeholder="Enter Pick-up location..."
@@ -138,9 +141,10 @@ const CarHireBookingForm: React.FC = () => {
               {errors.pickUpLocation && <p className="mt-1 text-xs text-destructive">{errors.pickUpLocation}</p>}
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">Drop-off Location</label>
+              <label htmlFor="dropoff-location-mobile" className="text-xs text-gray-500 mb-0.5 block">Drop-off Location</label>
               <div className="relative">
                 <Input
+                  id="dropoff-location-mobile"
                   value={data.dropOffLocation}
                   onChange={(e) => setField("dropOffLocation", e.target.value)}
                   placeholder="Enter Drop-off Location..."
@@ -155,10 +159,11 @@ const CarHireBookingForm: React.FC = () => {
           {/* Pick-up + Drop-off Dates - Two Column Grid */}
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">Pick-up Date</label>
+              <label htmlFor="pickup-date-mobile" className="text-xs text-gray-500 mb-0.5 block">Pick-up Date</label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
+                    id="pickup-date-mobile"
                     variant="outline"
                     className={cn(
                       "h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal",
@@ -182,10 +187,11 @@ const CarHireBookingForm: React.FC = () => {
               {errors.pickUpDate && <p className="mt-1 text-xs text-destructive">{errors.pickUpDate}</p>}
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">Drop-off Date</label>
+              <label htmlFor="dropoff-date-mobile" className="text-xs text-gray-500 mb-0.5 block">Drop-off Date</label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
+                    id="dropoff-date-mobile"
                     variant="outline"
                     className={cn(
                       "h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal",
@@ -213,9 +219,10 @@ const CarHireBookingForm: React.FC = () => {
           {/* Pick-up + Drop-off Times - Two Column Grid */}
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">Pick-up Time</label>
+              <label htmlFor="pickup-time-mobile" className="text-xs text-gray-500 mb-0.5 block">Pick-up Time</label>
               <div className="relative">
                 <Input
+                  id="pickup-time-mobile"
                   type="time"
                   value={data.pickUpTime}
                   onChange={(e) => setField("pickUpTime", e.target.value)}
@@ -226,9 +233,10 @@ const CarHireBookingForm: React.FC = () => {
               {errors.pickUpTime && <p className="mt-1 text-xs text-destructive">{errors.pickUpTime}</p>}
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">Drop-off Time</label>
+              <label htmlFor="dropoff-time-mobile" className="text-xs text-gray-500 mb-0.5 block">Drop-off Time</label>
               <div className="relative">
                 <Input
+                  id="dropoff-time-mobile"
                   type="time"
                   value={data.dropOffTime}
                   onChange={(e) => setField("dropOffTime", e.target.value)}
@@ -243,9 +251,11 @@ const CarHireBookingForm: React.FC = () => {
           {/* Phone + Email - Two Column Grid */}
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">Phone Number</label>
+              <label htmlFor="car-phone" className="text-xs text-gray-500 mb-0.5 block">Phone Number</label>
               <div className="relative">
                 <Input
+                  id="car-phone"
+                  name="phone"
                   type="tel"
                   value={data.phone}
                   onChange={(e) => setField("phone", e.target.value)}
@@ -257,9 +267,11 @@ const CarHireBookingForm: React.FC = () => {
               {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-0.5 block">Email Address</label>
+              <label htmlFor="car-email" className="text-xs text-gray-500 mb-0.5 block">Email Address</label>
               <div className="relative">
                 <Input
+                  id="car-email"
+                  name="email"
                   type="email"
                   value={data.email}
                   onChange={(e) => setField("email", e.target.value)}
@@ -282,20 +294,24 @@ const CarHireBookingForm: React.FC = () => {
         <div className="hidden md:block space-y-4">
           {/* Class Selection */}
           <div className="flex items-center gap-4 text-sm text-muted-foreground px-1 mb-6">
-            <label className="inline-flex items-center gap-2 font-medium">
+            <label htmlFor="class-economy" className="inline-flex items-center gap-2 font-medium">
               <input
+                id="class-economy"
                 type="radio"
                 name="class"
+                value="Economy"
                 className="accent-[hsl(var(--primary))]"
                 checked={data.class === "Economy"}
                 onChange={() => setField("class", "Economy")}
               />
               Economy
             </label>
-            <label className="inline-flex items-center gap-2 font-medium">
+            <label htmlFor="class-business" className="inline-flex items-center gap-2 font-medium">
               <input
+                id="class-business"
                 type="radio"
                 name="class"
+                value="Business"
                 className="accent-[hsl(var(--primary))]"
                 checked={data.class === "Business"}
                 onChange={() => setField("class", "Business")}
@@ -307,9 +323,11 @@ const CarHireBookingForm: React.FC = () => {
           {/* Pick-up & Drop-off Locations */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="mb-2 block text-sm text-muted-foreground font-medium">Pick-up Location</label>
+              <label htmlFor="pickup-location-desktop" className="mb-2 block text-sm text-muted-foreground font-medium">Pick-up Location</label>
               <div className="relative">
                 <Input
+                  id="pickup-location-desktop"
+                  name="pickUpLocation"
                   value={data.pickUpLocation}
                   onChange={(e) => setField("pickUpLocation", e.target.value)}
                   placeholder="Enter Pick-up location..."
@@ -320,9 +338,11 @@ const CarHireBookingForm: React.FC = () => {
               {errors.pickUpLocation && <p className="mt-1 text-xs text-destructive">{errors.pickUpLocation}</p>}
             </div>
             <div>
-              <label className="mb-2 block text-sm text-muted-foreground font-medium">Drop-off Location</label>
+              <label htmlFor="dropoff-location-desktop" className="mb-2 block text-sm text-muted-foreground font-medium">Drop-off Location</label>
               <div className="relative">
                 <Input
+                  id="dropoff-location-desktop"
+                  name="dropOffLocation"
                   value={data.dropOffLocation}
                   onChange={(e) => setField("dropOffLocation", e.target.value)}
                   placeholder="Enter Drop-off Location..."
@@ -337,10 +357,11 @@ const CarHireBookingForm: React.FC = () => {
           {/* Pick-up & Drop-off Dates */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="mb-2 block text-sm text-muted-foreground font-medium">Pick-up Date</label>
+              <label htmlFor="pickup-date-desktop" className="mb-2 block text-sm text-muted-foreground font-medium">Pick-up Date</label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
+                    id="pickup-date-desktop"
                     variant="outline"
                     className={cn(
                       "h-11 w-full bg-secondary/60 text-sm justify-start text-left font-normal",
@@ -364,10 +385,11 @@ const CarHireBookingForm: React.FC = () => {
               {errors.pickUpDate && <p className="mt-1 text-xs text-destructive">{errors.pickUpDate}</p>}
             </div>
             <div>
-              <label className="mb-2 block text-sm text-muted-foreground font-medium">Drop-off Date</label>
+              <label htmlFor="dropoff-date-desktop" className="mb-2 block text-sm text-muted-foreground font-medium">Drop-off Date</label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
+                    id="dropoff-date-desktop"
                     variant="outline"
                     className={cn(
                       "h-11 w-full bg-secondary/60 text-sm justify-start text-left font-normal",
@@ -395,9 +417,10 @@ const CarHireBookingForm: React.FC = () => {
           {/* Pick-up & Drop-off Times */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="mb-2 block text-sm text-muted-foreground font-medium">Pick-up Time</label>
+              <label htmlFor="pickup-time-desktop" className="mb-2 block text-sm text-muted-foreground font-medium">Pick-up Time</label>
               <div className="relative">
                 <Input
+                  id="pickup-time-desktop"
                   type="time"
                   value={data.pickUpTime}
                   onChange={(e) => setField("pickUpTime", e.target.value)}
@@ -408,9 +431,10 @@ const CarHireBookingForm: React.FC = () => {
               {errors.pickUpTime && <p className="mt-1 text-xs text-destructive">{errors.pickUpTime}</p>}
             </div>
             <div>
-              <label className="mb-2 block text-sm text-muted-foreground font-medium">Drop-off Time</label>
+              <label htmlFor="dropoff-time-desktop" className="mb-2 block text-sm text-muted-foreground font-medium">Drop-off Time</label>
               <div className="relative">
                 <Input
+                  id="dropoff-time-desktop"
                   type="time"
                   value={data.dropOffTime}
                   onChange={(e) => setField("dropOffTime", e.target.value)}
@@ -425,28 +449,36 @@ const CarHireBookingForm: React.FC = () => {
           {/* Phone & Email */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="mb-2 block text-sm text-muted-foreground font-medium">Phone Number</label>
+              <label htmlFor="phone-desktop" className="mb-2 block text-sm text-muted-foreground font-medium">Phone Number</label>
               <div className="relative">
                 <Input
+                  id="phone-desktop"
+                  name="phone"
                   type="tel"
                   value={data.phone}
                   onChange={(e) => setField("phone", e.target.value)}
                   placeholder="UK Numbers Only"
                   className="h-11 bg-secondary/60 pr-10 text-sm placeholder:text-xs"
+                  autoComplete="tel"
+                  inputMode="tel"
                 />
                 <Phone className="absolute right-3 top-3 opacity-70 w-4 h-4" />
               </div>
               {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
             </div>
             <div>
-              <label className="mb-2 block text-sm text-muted-foreground font-medium">Email Address</label>
+              <label htmlFor="email-desktop" className="mb-2 block text-sm text-muted-foreground font-medium">Email Address</label>
               <div className="relative">
                 <Input
+                  id="email-desktop"
+                  name="email"
                   type="email"
                   value={data.email}
                   onChange={(e) => setField("email", e.target.value)}
                   placeholder="Email (Optional)"
                   className="h-11 bg-secondary/60 pr-10 text-sm placeholder:text-xs"
+                  autoComplete="email"
+                  inputMode="email"
                 />
                 <Mail className="absolute right-3 top-3 opacity-70 w-4 h-4" />
               </div>

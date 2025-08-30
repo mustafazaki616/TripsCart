@@ -53,7 +53,7 @@ const HotelsBookingForm: React.FC = () => {
       <div className="booking-form-container block md:hidden space-y-3 p-2 rounded-2xl bg-card/20 backdrop-blur border shadow-soft">
         {/* Destination - Full Width */}
         <div>
-          <label className="text-xs text-gray-500 mb-1 block">Destination</label>
+          <label htmlFor="destination" className="text-xs text-gray-500 mb-1 block">Destination</label>
           <Input
             id="destination"
             type="text"
@@ -67,10 +67,11 @@ const HotelsBookingForm: React.FC = () => {
         {/* Check-in + Check-out Dates - Two Column Grid */}
         <div className="grid grid-cols-2 gap-2">
           <div>
-            <label className="text-xs text-gray-500 mb-1 block">Check-in Date</label>
+            <label htmlFor="checkin-mobile" className="text-xs text-gray-500 mb-1 block">Check-in Date</label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
+                  id="checkin-mobile"
                   variant="outline"
                   className={cn(
                     "h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal",
@@ -93,10 +94,11 @@ const HotelsBookingForm: React.FC = () => {
             </Popover>
           </div>
           <div>
-            <label className="text-xs text-gray-500 mb-1 block">Check-out Date</label>
+            <label htmlFor="checkout-mobile" className="text-xs text-gray-500 mb-1 block">Check-out Date</label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
+                  id="checkout-mobile"
                   variant="outline"
                   className={cn(
                     "h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal",
@@ -123,9 +125,9 @@ const HotelsBookingForm: React.FC = () => {
         {/* Guests + Rooms - Two Column Grid */}
         <div className="grid grid-cols-2 gap-2">
           <div>
-            <label className="text-xs text-gray-500 mb-1 block">Guests</label>
+            <label htmlFor="guests" className="text-xs text-gray-500 mb-1 block">Guests</label>
             <Select value={data.guests} onValueChange={(value) => setData((d) => ({ ...d, guests: value }))}>
-              <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
+              <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60" id="guests" name="guests">
                 <SelectValue placeholder="Guests" />
               </SelectTrigger>
               <SelectContent>
@@ -139,9 +141,9 @@ const HotelsBookingForm: React.FC = () => {
             </Select>
           </div>
           <div>
-            <label className="text-xs text-gray-500 mb-1 block">Rooms</label>
+            <label htmlFor="rooms" className="text-xs text-gray-500 mb-1 block">Rooms</label>
             <Select value={data.rooms} onValueChange={(value) => setData((d) => ({ ...d, rooms: value }))}>
-              <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
+              <SelectTrigger className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60" id="rooms" name="rooms">
                 <SelectValue placeholder="Rooms" />
               </SelectTrigger>
               <SelectContent>
@@ -157,7 +159,7 @@ const HotelsBookingForm: React.FC = () => {
 
         {/* Full Name - Full Width */}
         <div>
-          <label className="text-xs text-gray-500 mb-1 block">Full Name</label>
+          <label htmlFor="name" className="text-xs text-gray-500 mb-1 block">Full Name</label>
           <Input
             id="name"
             type="text"
@@ -171,7 +173,7 @@ const HotelsBookingForm: React.FC = () => {
         {/* Phone + Email - Two Column Grid */}
         <div className="grid grid-cols-2 gap-2">
           <div>
-            <label className="text-xs text-gray-500 mb-1 block">Phone Number</label>
+            <label htmlFor="phone" className="text-xs text-gray-500 mb-1 block">Phone Number</label>
             <Input
               id="phone"
               type="tel"
@@ -182,7 +184,7 @@ const HotelsBookingForm: React.FC = () => {
             />
           </div>
           <div>
-            <label className="text-xs text-gray-500 mb-1 block">Email Address</label>
+            <label htmlFor="email" className="text-xs text-gray-500 mb-1 block">Email Address</label>
             <Input
               id="email"
               type="email"
@@ -227,10 +229,11 @@ const HotelsBookingForm: React.FC = () => {
 
           {/* Check-in Date */}
           <div className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700">Check-in Date</Label>
+            <Label htmlFor="checkin-desktop" className="text-sm font-medium text-gray-700">Check-in Date</Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
+                  id="checkin-desktop"
                   variant="outline"
                   className={cn(
                     "w-full h-12 justify-start text-left font-normal bg-secondary/60",
@@ -255,10 +258,11 @@ const HotelsBookingForm: React.FC = () => {
 
           {/* Check-out Date */}
           <div className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700">Check-out Date</Label>
+            <Label htmlFor="checkout-desktop" className="text-sm font-medium text-gray-700">Check-out Date</Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
+                  id="checkout-desktop"
                   variant="outline"
                   className={cn(
                     "w-full h-12 justify-start text-left font-normal bg-secondary/60",
@@ -283,13 +287,13 @@ const HotelsBookingForm: React.FC = () => {
 
           {/* Guests & Rooms */}
           <div className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+            <Label className="text-sm font-medium text-gray-700 flex items-center gap-2" htmlFor="guests-desktop">
               <UsersIcon className="h-4 w-4" />
               Guests & Rooms
             </Label>
             <div className="grid grid-cols-2 gap-2">
               <Select value={data.guests} onValueChange={(value) => setData((d) => ({ ...d, guests: value }))}>
-                <SelectTrigger className="h-12 bg-secondary/60">
+                <SelectTrigger className="h-12 bg-secondary/60" id="guests-desktop" name="guests">
                   <SelectValue placeholder="Guests" />
                 </SelectTrigger>
                 <SelectContent>
@@ -302,7 +306,7 @@ const HotelsBookingForm: React.FC = () => {
                 </SelectContent>
               </Select>
               <Select value={data.rooms} onValueChange={(value) => setData((d) => ({ ...d, rooms: value }))}>
-                <SelectTrigger className="h-12 bg-secondary/60">
+                <SelectTrigger className="h-12 bg-secondary/60" id="rooms-desktop" name="rooms">
                   <SelectValue placeholder="Rooms" />
                 </SelectTrigger>
                 <SelectContent>

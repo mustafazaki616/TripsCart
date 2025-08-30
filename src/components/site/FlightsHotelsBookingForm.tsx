@@ -101,8 +101,9 @@ const FlightsHotelsBookingForm: React.FC = () => {
         {/* Trip Type Radio Buttons */}
         <div className="py-2">
           <div className="flex gap-4 justify-center">
-            <label className="flex items-center gap-2">
+            <label className="flex items-center gap-2" htmlFor="tripType-round">
               <input 
+                id="tripType-round"
                 type="radio" 
                 name="tripType" 
                 value="round" 
@@ -112,8 +113,9 @@ const FlightsHotelsBookingForm: React.FC = () => {
               />
               <span className="text-sm">Round-trip</span>
             </label>
-            <label className="flex items-center gap-2">
+            <label className="flex items-center gap-2" htmlFor="tripType-oneway">
               <input 
+                id="tripType-oneway"
                 type="radio" 
                 name="tripType" 
                 value="oneway" 
@@ -144,7 +146,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
             </div>
             <div className="min-w-[100px]">
               <Select value={data.cabin} onValueChange={(value) => setData(prev => ({ ...prev, cabin: value }))}>
-                <SelectTrigger className="h-16 px-3 text-sm rounded-md bg-secondary/60">
+                <SelectTrigger className="h-16 px-3 text-sm rounded-md bg-secondary/60" id="cabin-class" name="cabin">
                   <SelectValue placeholder="Economy" />
                 </SelectTrigger>
                 <SelectContent>
@@ -157,7 +159,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
             </div>
             <div className="min-w-[90px]">
               <Select value={data.rooms} onValueChange={(value) => setData(prev => ({ ...prev, rooms: value }))}>
-                <SelectTrigger className="h-16 px-3 text-sm rounded-md bg-secondary/60">
+                <SelectTrigger className="h-16 px-3 text-sm rounded-md bg-secondary/60" id="hotel-rooms" name="rooms">
                   <SelectValue placeholder="1" />
                 </SelectTrigger>
                 <SelectContent>
@@ -178,9 +180,9 @@ const FlightsHotelsBookingForm: React.FC = () => {
             {/* Fly From */}
             <div className="p-1">
               <div className="relative">
-                <label className="text-xs text-gray-500 mb-1 block">Fly From</label>
+                <label className="text-xs text-gray-500 mb-1 block" htmlFor="flight-origin">Fly From</label>
                 <Select value={data.origin} onValueChange={(value) => setData(prev => ({ ...prev, origin: value }))}>
-                  <SelectTrigger className="h-16 w-full px-3 text-sm rounded-md bg-secondary/60">
+                  <SelectTrigger className="h-16 w-full px-3 text-sm rounded-md bg-secondary/60" id="flight-origin" name="origin">
                     <SelectValue placeholder="Country..." />
                   </SelectTrigger>
                   <SelectContent>
@@ -197,9 +199,9 @@ const FlightsHotelsBookingForm: React.FC = () => {
             {/* Fly To */}
             <div className="p-1">
               <div className="relative">
-                <label className="text-xs text-gray-500 mb-1 block">Fly To</label>
+                <label className="text-xs text-gray-500 mb-1 block" htmlFor="flight-destination">Fly To</label>
                 <Select value={data.destination} onValueChange={(value) => setData(prev => ({ ...prev, destination: value }))}>
-                  <SelectTrigger className="h-16 w-full px-3 text-sm rounded-md bg-secondary/60">
+                  <SelectTrigger className="h-16 w-full px-3 text-sm rounded-md bg-secondary/60" id="flight-destination" name="destination">
                     <SelectValue placeholder="Country..." />
                   </SelectTrigger>
                   <SelectContent>
@@ -216,10 +218,11 @@ const FlightsHotelsBookingForm: React.FC = () => {
             {/* Departure Date */}
             <div className="p-1">
               <div className="relative">
-                <label className="text-xs text-gray-500 mb-1 block">Departure Date</label>
+                <label className="text-xs text-gray-500 mb-1 block" htmlFor="departure-date-mobile">Departure Date</label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
+                      id="departure-date-mobile"
                       variant="outline"
                       className={cn(
                         "h-16 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal",
@@ -247,10 +250,11 @@ const FlightsHotelsBookingForm: React.FC = () => {
             {data.tripType === "round" && (
               <div className="p-1">
                 <div className="relative">
-                  <label className="text-xs text-gray-500 mb-1 block">Return Date</label>
+                  <label className="text-xs text-gray-500 mb-1 block" htmlFor="return-date-mobile">Return Date</label>
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
+                        id="return-date-mobile"
                         variant="outline"
                         className={cn(
                           "h-16 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal",
@@ -278,14 +282,17 @@ const FlightsHotelsBookingForm: React.FC = () => {
             {/* Phone Number */}
             <div className="p-1">
               <div className="relative">
-                <label className="text-xs text-gray-500 mb-1 block">Phone Number</label>
+                <label className="text-xs text-gray-500 mb-1 block" htmlFor="phone">Phone Number</label>
                 <Input
                   id="phone"
+                  name="phone"
                   type="tel"
                   placeholder="UK Number Only"
                   value={data.phone || ""}
                   onChange={(e) => setData(prev => ({ ...prev, phone: e.target.value }))}
                   className="h-16 w-full px-3 text-sm rounded-md bg-secondary/60"
+                  autoComplete="tel"
+                  inputMode="tel"
                 />
               </div>
             </div>
@@ -293,14 +300,17 @@ const FlightsHotelsBookingForm: React.FC = () => {
             {/* Email Address */}
             <div className="p-1">
               <div className="relative">
-                <label className="text-xs text-gray-500 mb-1 block">Email Address</label>
+                <label className="text-xs text-gray-500 mb-1 block" htmlFor="email">Email Address</label>
                 <Input
                   id="email"
+                  name="email"
                   type="email"
                   placeholder="Email (Optional)"
                   value={data.email || ""}
                   onChange={(e) => setData(prev => ({ ...prev, email: e.target.value }))}
                   className="h-16 w-full px-3 text-sm rounded-md bg-secondary/60"
+                  autoComplete="email"
+                  inputMode="email"
                 />
               </div>
             </div>
@@ -352,12 +362,12 @@ const FlightsHotelsBookingForm: React.FC = () => {
           
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+              <Label className="text-sm font-medium text-gray-700 flex items-center gap-2" htmlFor="passengers-desktop">
                 <UsersIcon className="h-4 w-4" />
                 Passengers
               </Label>
               <Select value={data.passengers} onValueChange={(value) => setData(prev => ({ ...prev, passengers: value }))}>
-                <SelectTrigger className="w-24 h-10 bg-secondary/60">
+                <SelectTrigger className="w-24 h-10 bg-secondary/60" id="passengers-desktop" name="passengers">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -372,9 +382,9 @@ const FlightsHotelsBookingForm: React.FC = () => {
             </div>
             
             <div className="flex items-center gap-2">
-              <Label className="text-sm font-medium text-gray-700">Cabin</Label>
+              <Label className="text-sm font-medium text-gray-700" htmlFor="cabin-desktop">Cabin</Label>
               <Select value={data.cabin} onValueChange={(value) => setData(prev => ({ ...prev, cabin: value }))}>
-                <SelectTrigger className="w-32 h-10 bg-secondary/60">
+                <SelectTrigger className="w-32 h-10 bg-secondary/60" id="cabin-desktop" name="cabin">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -387,12 +397,12 @@ const FlightsHotelsBookingForm: React.FC = () => {
             </div>
             
             <div className="flex items-center gap-2">
-              <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+              <Label className="text-sm font-medium text-gray-700 flex items-center gap-2" htmlFor="rooms-desktop">
                 <HotelIcon className="h-4 w-4" />
                 Rooms
               </Label>
               <Select value={data.rooms} onValueChange={(value) => setData(prev => ({ ...prev, rooms: value }))}>
-                <SelectTrigger className="w-20 h-10 bg-secondary/60">
+                <SelectTrigger className="w-20 h-10 bg-secondary/60" id="rooms-desktop" name="rooms">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -412,12 +422,12 @@ const FlightsHotelsBookingForm: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
             {/* Origin */}
             <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+              <Label className="text-sm font-medium text-gray-700 flex items-center gap-2" htmlFor="origin-desktop">
                 <PlaneIcon className="h-4 w-4" />
                 From
               </Label>
               <Select value={data.origin} onValueChange={(value) => setData(prev => ({ ...prev, origin: value }))}>
-                <SelectTrigger className="h-12 bg-secondary/60">
+                <SelectTrigger className="h-12 bg-secondary/60" id="origin-desktop" name="origin">
                   <SelectValue placeholder="Select origin city" />
                 </SelectTrigger>
                 <SelectContent>
@@ -432,12 +442,12 @@ const FlightsHotelsBookingForm: React.FC = () => {
 
             {/* Destination */}
             <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+              <Label className="text-sm font-medium text-gray-700 flex items-center gap-2" htmlFor="destination-desktop">
                 <PlaneIcon className="h-4 w-4" />
                 To
               </Label>
               <Select value={data.destination} onValueChange={(value) => setData(prev => ({ ...prev, destination: value }))}>
-                <SelectTrigger className="h-12 bg-secondary/60">
+                <SelectTrigger className="h-12 bg-secondary/60" id="destination-desktop" name="destination">
                   <SelectValue placeholder="Select destination city" />
                 </SelectTrigger>
                 <SelectContent>
@@ -469,10 +479,11 @@ const FlightsHotelsBookingForm: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-3">
           {/* Departure Date */}
           <div className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700">Departure Date</Label>
+            <Label className="text-sm font-medium text-gray-700" htmlFor="departure-date-desktop">Departure Date</Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
+                  id="departure-date-desktop"
                   variant="outline"
                   className={cn(
                     "w-full h-12 justify-start text-left font-normal bg-secondary/60",
@@ -498,10 +509,11 @@ const FlightsHotelsBookingForm: React.FC = () => {
           {/* Return Date */}
           {data.tripType === 'round' && (
             <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700">Return Date</Label>
+              <Label className="text-sm font-medium text-gray-700" htmlFor="return-date-desktop">Return Date</Label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
+                    id="return-date-desktop"
                     variant="outline"
                     className={cn(
                       "w-full h-12 justify-start text-left font-normal bg-secondary/60",
@@ -534,22 +546,28 @@ const FlightsHotelsBookingForm: React.FC = () => {
             <Label htmlFor="phone-desktop" className="text-sm font-medium text-gray-700">Phone Number</Label>
             <Input
               id="phone-desktop"
+              name="phone"
               type="tel"
               placeholder="UK Numbers Only"
               value={data.phone || ""}
               onChange={(e) => setData(prev => ({ ...prev, phone: e.target.value }))}
               className="h-12 bg-secondary/60"
+              autoComplete="tel"
+              inputMode="tel"
             />
           </div>
           <div className="space-y-2">
             <Label htmlFor="email-desktop" className="text-sm font-medium text-gray-700">Email Address</Label>
             <Input
               id="email-desktop"
+              name="email"
               type="email"
               placeholder="Email (Optional)"
               value={data.email || ""}
               onChange={(e) => setData(prev => ({ ...prev, email: e.target.value }))}
               className="h-12 bg-secondary/60"
+              autoComplete="email"
+              inputMode="email"
             />
           </div>
         </div>

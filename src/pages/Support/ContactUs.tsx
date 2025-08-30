@@ -21,25 +21,27 @@ const ContactUs = () => {
             <form className="space-y-6">
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium mb-2">First Name</label>
-                  <Input placeholder="Enter your first name" />
+                  <label htmlFor="support-first-name" className="block text-sm font-medium mb-2">First Name</label>
+                  <Input id="support-first-name" name="firstName" autoComplete="given-name" placeholder="Enter your first name" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">Last Name</label>
-                  <Input placeholder="Enter your last name" />
+                  <label htmlFor="support-last-name" className="block text-sm font-medium mb-2">Last Name</label>
+                  <Input id="support-last-name" name="lastName" autoComplete="family-name" placeholder="Enter your last name" />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">Email Address</label>
-                <Input type="email" placeholder="Enter your email address" />
+                <label htmlFor="support-email" className="block text-sm font-medium mb-2">Email Address</label>
+                <Input id="support-email" name="email" type="email" autoComplete="email" placeholder="Enter your email address" />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">Subject</label>
-                <Input placeholder="What is this regarding?" />
+                <label htmlFor="support-subject" className="block text-sm font-medium mb-2">Subject</label>
+                <Input id="support-subject" name="subject" autoComplete="off" placeholder="What is this regarding?" />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">Message</label>
+                <label htmlFor="support-message" className="block text-sm font-medium mb-2">Message</label>
                 <Textarea 
+                  id="support-message"
+                  name="message"
                   placeholder="Please describe your inquiry in detail..." 
                   className="min-h-[120px]"
                 />

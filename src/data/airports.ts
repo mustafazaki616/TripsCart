@@ -119,22 +119,73 @@ export const airports: Airport[] = [
 
 // Function to search airports based on user input
 export const searchAirports = (query: string, limit: number = 10): Airport[] => {
-  if (!query || query.length < 2) return [];
+  if (!query || query.length < 1) return [];
   
   const searchTerm = query.toLowerCase().trim();
+  const tokens = searchTerm.split(/\s+/).filter(Boolean);
   
-  return airports
-    .filter(airport => 
-      airport.searchTerms.toLowerCase().includes(searchTerm) ||
-      airport.code.toLowerCase().includes(searchTerm) ||
-      airport.name.toLowerCase().includes(searchTerm) ||
-      airport.city.toLowerCase().includes(searchTerm) ||
-      airport.country.toLowerCase().includes(searchTerm)
-    )
+  const filteredAirports = airports.filter(airport => {
+    const haystack = [
+      airport.searchTerms,
+      airport.code,
+      airport.name,
+      airport.city,
+      airport.country,
+      `${airport.city} airport`,
+      `${airport.city} intl`,
+      `${airport.city} international`,
+      `${airport.code} ${airport.city}`,
+      `${airport.code} ${airport.name}`,
+    ].join(" ").toLowerCase();
+
+    // All tokens must be present in the combined haystack (order independent)
+    const tokensMatch = tokens.every(t => haystack.includes(t));
+
+    // Keep original quick matches as well
+    const searchTermsMatch = airport.searchTerms.toLowerCase().includes(searchTerm);
+    const codeMatch = airport.code.toLowerCase().includes(searchTerm);
+    const nameMatch = airport.name.toLowerCase().includes(searchTerm);
+    const cityMatch = airport.city.toLowerCase().includes(searchTerm);
+    const countryMatch = airport.country.toLowerCase().includes(searchTerm);
+    
+    // Match against the full display format: "City, Country (CODE)"
+    const displayFormat = `${airport.city}, ${airport.country} (${airport.code})`.toLowerCase();
+    const displayFormatMatch = displayFormat.includes(searchTerm);
+    
+    // Also match against airport name in the display format: "Name - City, Country (CODE)"
+    const fullDisplayFormat = `${airport.name} - ${airport.city}, ${airport.country} (${airport.code})`.toLowerCase();
+    const fullDisplayFormatMatch = fullDisplayFormat.includes(searchTerm);
+    
+    // Enhanced bidirectional matching for 3-letter codes: map code to its city
+    let enhancedMatch = false;
+    if (searchTerm.length === 3) {
+      const codeExists = airports.some(a => a.code.toLowerCase() === searchTerm);
+      if (codeExists) {
+        const matchingAirport = airports.find(a => a.code.toLowerCase() === searchTerm);
+        if (matchingAirport && airport.city.toLowerCase().includes(matchingAirport.city.toLowerCase())) {
+          enhancedMatch = true;
+        }
+      }
+    }
+    
+    // If user searches for a city name, also match airports with codes from that city
+    const cityCodeMatch = airports.some(a => 
+      a.city.toLowerCase().includes(searchTerm) && 
+      airport.code.toLowerCase() === a.code.toLowerCase()
+    );
+    
+    return tokensMatch || searchTermsMatch || codeMatch || nameMatch || cityMatch || countryMatch || displayFormatMatch || fullDisplayFormatMatch || enhancedMatch || cityCodeMatch;
+  });
+  
+  return filteredAirports
     .sort((a, b) => {
       // Prioritize exact code matches
       if (a.code.toLowerCase() === searchTerm) return -1;
       if (b.code.toLowerCase() === searchTerm) return 1;
+      
+      // Prioritize country name matches
+      if (a.country.toLowerCase().startsWith(searchTerm)) return -1;
+      if (b.country.toLowerCase().startsWith(searchTerm)) return 1;
       
       // Prioritize city name matches
       if (a.city.toLowerCase().startsWith(searchTerm)) return -1;
@@ -159,3 +210,78 @@ export const getPopularAirports = (): Airport[] => {
   const popularCodes = ['LHR', 'LGW', 'MAN', 'BHX', 'EDI', 'JED', 'RUH', 'DXB', 'DOH', 'KHI', 'LHE', 'ISB', 'DEL', 'BOM'];
   return popularCodes.map(code => getAirportByCode(code)).filter(Boolean) as Airport[];
 };
+
+// Lookup airport by code or by location name (city/country/airport name)
+// Keeps existing getAirportByCode behavior intact; use this for flexible queries
+export const getAirportByCodeOrLocation = (query: string): Airport | undefined => {
+  if (!query) return undefined;
+  const s = query.trim().toLowerCase();
+
+  // 1) Try strict code match first to preserve expected behavior for codes
+  const byCode = getAirportByCode(query);
+  if (byCode) return byCode;
+
+  // 2) Score-based matching across city, country, airport name and search terms
+  const parts = s.split(",").map(p => p.trim()).filter(Boolean);
+  const cityPart = parts[0] ?? "";
+  const countryPart = parts[1] ?? "";
+
+  type Scored = { airport: Airport; score: number };
+
+  const scored: Scored[] = airports
+    .map((a) => {
+      let score = 0;
+      const city = a.city.toLowerCase();
+      const country = a.country.toLowerCase();
+      const name = a.name.toLowerCase();
+      const terms = a.searchTerms.toLowerCase();
+      const displayCityCountry = `${a.city}, ${a.country}`.toLowerCase();
+      const displayFull = `${a.name} - ${a.city}, ${a.country}`.toLowerCase();
+
+      // Exact matches
+      if (city === s) score += 80;
+      if (country === s) score += 60;
+      if (name === s) score += 55;
+      if (displayCityCountry === s || displayFull === s) score += 65;
+
+      // City, Country pattern support
+      if (cityPart && city.startsWith(cityPart)) score += 30;
+      if (countryPart && country.startsWith(countryPart)) score += 30;
+      if (cityPart && countryPart && city.startsWith(cityPart) && country.startsWith(countryPart)) score += 40;
+
+      // Partial / terms
+      if (city.includes(s)) score += 20;
+      if (country.includes(s)) score += 12;
+      if (name.includes(s)) score += 15;
+      if (terms.includes(s)) score += 10;
+
+      // Prefer common primaries when multiple airports exist
+      if (score > 0 && /international/.test(name)) score += 3;
+
+      return { airport: a, score };
+    })
+    .filter((x) => x.score > 0)
+    .sort((a, b) => b.score - a.score);
+
+  if (scored.length === 0) return undefined;
+
+  // Tie-breakers: prefer widely-used hubs, then shorter airport name, then code asc
+  const popularSet = new Set([
+    'LHR','DXB','JED','RUH','ISB','KHI','LHE','DEL','BOM','JFK','LAX','IST','CDG','FRA','AMS'
+  ]);
+  const topScore = scored[0].score;
+  const top = scored.filter(x => x.score === topScore);
+  top.sort((a, b) => {
+    const aPop = popularSet.has(a.airport.code);
+    const bPop = popularSet.has(b.airport.code);
+    if (aPop && !bPop) return -1;
+    if (!aPop && bPop) return 1;
+    if (a.airport.name.length !== b.airport.name.length) return a.airport.name.length - b.airport.name.length;
+    return a.airport.code.localeCompare(b.airport.code);
+  });
+
+  return top[0].airport;
+};
+
+// Convenience alias
+export const getAirport = getAirportByCodeOrLocation;
