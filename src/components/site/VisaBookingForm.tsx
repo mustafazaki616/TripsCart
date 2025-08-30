@@ -81,8 +81,8 @@ const VisaBookingForm: React.FC = () => {
     setData({
       visaType: "",
       destination: "",
-      travelDate: "",
-      returnDate: "",
+      travelDate: undefined,
+      returnDate: undefined,
       firstName: "",
       lastName: "",
       passportNumber: "",
@@ -95,27 +95,27 @@ const VisaBookingForm: React.FC = () => {
 
   return (
     <>
-      <div className="booking-form-container rounded-2xl bg-card/20 backdrop-blur border shadow-soft p-2 md:p-6 w-[96vw] md:w-auto max-h-[80vh] overflow-y-auto mx-auto">
-        {/* Mobile Compact Layout */}
-        <div className="block md:hidden space-y-2">
-          {/* Visa Type + Destination - Two Column Grid */}
-          <div className="grid grid-cols-2 gap-2">
-            <div>
-              <label className="text-xs text-gray-500 mb-0.5 block" htmlFor="visa-type-mobile">Visa Type</label>
-              <Select value={data.visaType} onValueChange={(v) => setField("visaType", v)}>
-                <SelectTrigger className="h-12 bg-secondary/60 text-sm" id="visa-type-mobile" name="visaType">
-                  <SelectValue placeholder="Select visa type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Tourist">Tourist Visa</SelectItem>
-                  <SelectItem value="Business">Business Visa</SelectItem>
-                  <SelectItem value="Student">Student Visa</SelectItem>
-                  <SelectItem value="Work">Work Visa</SelectItem>
-                  <SelectItem value="Transit">Transit Visa</SelectItem>
-                </SelectContent>
-              </Select>
-              {errors.visaType && <p className="mt-1 text-xs text-destructive">{errors.visaType}</p>}
-            </div>
+      <div className="w-full">
+         {/* Mobile Compact Layout */}
+         <div className="block md:hidden space-y-2">
+           {/* Visa Type + Destination - Two Column Grid */}
+           <div className="grid grid-cols-2 gap-2">
+             <div>
+               <label className="text-xs text-gray-500 mb-0.5 block" htmlFor="visa-type-mobile">Visa Type</label>
+               <Select value={data.visaType} onValueChange={(v) => setField("visaType", v)}>
+                 <SelectTrigger className="h-12 bg-secondary/60 text-sm" id="visa-type-mobile" name="visaType">
+                   <SelectValue placeholder="Select visa type" />
+                 </SelectTrigger>
+                 <SelectContent>
+                   <SelectItem value="Tourist">Tourist Visa</SelectItem>
+                   <SelectItem value="Business">Business Visa</SelectItem>
+                   <SelectItem value="Student">Student Visa</SelectItem>
+                   <SelectItem value="Work">Work Visa</SelectItem>
+                   <SelectItem value="Transit">Transit Visa</SelectItem>
+                 </SelectContent>
+               </Select>
+               {errors.visaType && <p className="mt-1 text-xs text-destructive">{errors.visaType}</p>}
+             </div>
             <div>
               <label className="text-xs text-gray-500 mb-0.5 block" htmlFor="destination-mobile">Destination</label>
               <div className="relative">

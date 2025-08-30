@@ -202,7 +202,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
   return (
     <>
       {/* Mobile Layout - Matching desired.html structure */}
-      <div className="booking-form-container block md:hidden">
+      <div className="block md:hidden">
         {/* Trip Type Radio Buttons */}
         <div className="py-2">
           <div className="flex gap-4 justify-center">
@@ -431,7 +431,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
       </div>
 
       {/* Desktop Layout */}
-      <div className="booking-form-container hidden md:block space-y-6 p-6 rounded-2xl bg-card/20 backdrop-blur border shadow-soft">
+      <div className="hidden md:block space-y-6">
         {/* Trip Type */}
         <div className="flex items-center justify-between">
           <div className="flex bg-secondary/60 rounded-lg p-1">
