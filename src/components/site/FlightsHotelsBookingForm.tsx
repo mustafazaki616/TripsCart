@@ -6,12 +6,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { CalendarIcon, MapPinIcon, UsersIcon, PlaneIcon, HotelIcon, ArrowLeftRightIcon } from 'lucide-react';
+import { CalendarIcon, MapPinIcon, UsersIcon, PlaneIcon, HotelIcon, ArrowLeftRightIcon, X } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { sendAdminEmail } from '@/lib/email';
-import { searchAirports, getAirportByCode, getPopularAirports } from '@/data/airports';
-import { PassengerModal, type PassengerCounts } from './PassengerModal';
+import { searchAirports, getAirportByCode, type Airport } from '@/data/airports';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
+ import { PassengerModal, type PassengerCounts } from './PassengerModal';
 
 interface FlightsHotelsFormData {
   tripType?: 'round' | 'oneway';
@@ -27,6 +28,110 @@ interface FlightsHotelsFormData {
   phone?: string;
   email?: string;
 }
+
+// Airport Autocomplete Component (consistent with BookingForm)
+interface AirportAutocompleteProps {
+  value?: string;
+  onValueChange: (value: string) => void;
+  placeholder: string;
+  icon: React.ReactNode;
+  label?: string;
+  id: string;
+  name?: string;
+  autoComplete?: string;
+}
+
+const AirportAutocomplete: React.FC<AirportAutocompleteProps> = ({ value, onValueChange, placeholder, icon, label, id, name, autoComplete }) => {
+  const [open, setOpen] = React.useState(false);
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const [filteredAirports, setFilteredAirports] = React.useState<Airport[]>([]);
+
+  const selectedAirport = value ? getAirportByCode(value) : null;
+  const displayText = selectedAirport ? `${selectedAirport.code} - ${selectedAirport.name}` : '';
+
+  React.useEffect(() => {
+    if (searchQuery.length > 0) {
+      const results = searchAirports(searchQuery).slice(0, 10);
+      setFilteredAirports(results);
+    } else {
+      setFilteredAirports([]);
+    }
+  }, [searchQuery]);
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <div className="relative">
+        <PopoverTrigger asChild>
+          <Input
+            id={id}
+            readOnly
+            value={displayText}
+            placeholder={placeholder}
+            autoComplete={autoComplete ?? 'off'}
+            role="combobox"
+            aria-expanded={open}
+            aria-haspopup="listbox"
+            aria-controls={`${id}-list`}
+            className="h-16 md:h-12 w-full px-3 pl-8 text-sm rounded-md bg-secondary/60 border-input text-left"
+          />
+        </PopoverTrigger>
+        <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2">
+          {icon}
+        </div>
+      </div>
+      <PopoverContent className="w-[340px] p-0" align="start">
+        {label && (
+          <div className="flex items-center justify-between px-3 py-2 border-b bg-background">
+            <span className="text-xs text-muted-foreground">{label}</span>
+            <button type="button" aria-label="Close" onClick={() => setOpen(false)} className="p-1 hover:opacity-80">
+              <X className="h-3.5 w-3.5 opacity-60" />
+            </button>
+          </div>
+        )}
+        <Command shouldFilter={false}>
+          <CommandInput
+            id={`${id}-input`}
+            placeholder="Search city or airport..."
+            value={searchQuery}
+            onValueChange={setSearchQuery}
+            autoComplete={autoComplete ?? 'off'}
+            aria-controls={`${id}-list`}
+          />
+          <CommandList id={`${id}-list`}>
+            {searchQuery.length === 0 ? (
+              <div className="p-4 text-sm text-muted-foreground text-center">
+                Start typing to search airports...
+              </div>
+            ) : filteredAirports.length === 0 ? (
+              <CommandEmpty>No airports found.</CommandEmpty>
+            ) : (
+              <CommandGroup>
+                {filteredAirports.map((airport) => (
+                  <CommandItem
+                    key={airport.code}
+                    value={`${airport.code} ${airport.city} ${airport.country} ${airport.name}`}
+                    onSelect={() => {
+                      onValueChange(airport.code);
+                      setOpen(false);
+                      setSearchQuery('');
+                    }}
+                    className="cursor-pointer"
+                  >
+                    <div className="flex flex-col">
+                      <div className="text-sm"><span className="font-semibold">{airport.code}</span> - {airport.name}</div>
+                      <div className="text-xs text-muted-foreground">{airport.city}, {airport.country.toUpperCase()}</div>
+                    </div>
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            )}
+          </CommandList>
+        </Command>
+        <input type="hidden" id={`${id}-value`} name={name} autoComplete={autoComplete ?? 'off'} value={value ?? ''} />
+      </PopoverContent>
+    </Popover>
+  );
+};
 
 const FlightsHotelsBookingForm: React.FC = () => {
   const [data, setData] = useState<FlightsHotelsFormData>({
@@ -92,7 +197,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
     }));
   };
 
-  const popularAirports = getPopularAirports();
+  // const popularAirports = getPopularAirports(); // removed in favor of typeahead search
 
   return (
     <>
@@ -181,18 +286,16 @@ const FlightsHotelsBookingForm: React.FC = () => {
             <div className="p-1">
               <div className="relative">
                 <label className="text-xs text-gray-500 mb-1 block" htmlFor="flight-origin">Fly From</label>
-                <Select value={data.origin} onValueChange={(value) => setData(prev => ({ ...prev, origin: value }))}>
-                  <SelectTrigger className="h-16 w-full px-3 text-sm rounded-md bg-secondary/60" id="flight-origin" name="origin">
-                    <SelectValue placeholder="Country..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {popularAirports.map((airport) => (
-                      <SelectItem key={airport.code} value={airport.code}>
-                        {airport.city}, {airport.country} ({airport.code})
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <AirportAutocomplete
+                  id="flight-origin"
+                  name="origin"
+                  autoComplete="off"
+                  value={data.origin}
+                  onValueChange={(value) => setData(prev => ({ ...prev, origin: value }))}
+                  placeholder="Enter city or airport..."
+                  icon={<PlaneIcon className="mr-2 h-4 w-4 opacity-70" />}
+                  label="Fly From"
+                />
               </div>
             </div>
 
@@ -200,18 +303,16 @@ const FlightsHotelsBookingForm: React.FC = () => {
             <div className="p-1">
               <div className="relative">
                 <label className="text-xs text-gray-500 mb-1 block" htmlFor="flight-destination">Fly To</label>
-                <Select value={data.destination} onValueChange={(value) => setData(prev => ({ ...prev, destination: value }))}>
-                  <SelectTrigger className="h-16 w-full px-3 text-sm rounded-md bg-secondary/60" id="flight-destination" name="destination">
-                    <SelectValue placeholder="Country..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {popularAirports.map((airport) => (
-                      <SelectItem key={airport.code} value={airport.code}>
-                        {airport.city}, {airport.country} ({airport.code})
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <AirportAutocomplete
+                  id="flight-destination"
+                  name="destination"
+                  autoComplete="off"
+                  value={data.destination}
+                  onValueChange={(value) => setData(prev => ({ ...prev, destination: value }))}
+                  placeholder="Enter city or airport..."
+                  icon={<ArrowLeftRightIcon className="mr-2 h-4 w-4 opacity-70" />}
+                  label="Fly To"
+                />
               </div>
             </div>
 
@@ -290,7 +391,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
                   placeholder="UK Number Only"
                   value={data.phone || ""}
                   onChange={(e) => setData(prev => ({ ...prev, phone: e.target.value }))}
-                  className="h-16 w-full px-3 text-sm rounded-md bg-secondary/60"
+                  className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60"
                   autoComplete="tel"
                   inputMode="tel"
                 />
@@ -308,7 +409,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
                   placeholder="Email (Optional)"
                   value={data.email || ""}
                   onChange={(e) => setData(prev => ({ ...prev, email: e.target.value }))}
-                  className="h-16 w-full px-3 text-sm rounded-md bg-secondary/60"
+                  className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60"
                   autoComplete="email"
                   inputMode="email"
                 />
@@ -321,7 +422,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
           <Button 
             type="submit" 
             disabled={isSubmitting} 
-            className="px-8 h-16 bg-primary hover:bg-primary/90 text-primary-foreground text-base font-semibold"
+            className="px-8 h-12 bg-primary hover:bg-primary/90 text-primary-foreground text-base font-semibold"
             onClick={handleSubmit}
           >
             {isSubmitting ? "Searching..." : "Search Flights & Hotels"}
@@ -426,38 +527,33 @@ const FlightsHotelsBookingForm: React.FC = () => {
                 <PlaneIcon className="h-4 w-4" />
                 From
               </Label>
-              <Select value={data.origin} onValueChange={(value) => setData(prev => ({ ...prev, origin: value }))}>
-                <SelectTrigger className="h-12 bg-secondary/60" id="origin-desktop" name="origin">
-                  <SelectValue placeholder="Select origin city" />
-                </SelectTrigger>
-                <SelectContent>
-                  {popularAirports.map((airport) => (
-                    <SelectItem key={airport.code} value={airport.code}>
-                      {airport.city}, {airport.country} ({airport.code})
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <AirportAutocomplete
+                id="origin-desktop"
+                name="origin"
+                autoComplete="off"
+                value={data.origin}
+                onValueChange={(value) => setData(prev => ({ ...prev, origin: value }))}
+                placeholder="Enter city or airport..."
+                icon={<PlaneIcon className="mr-2 h-4 w-4 opacity-70" />}
+                label="From"
+              />
             </div>
-
             {/* Destination */}
             <div className="space-y-2">
               <Label className="text-sm font-medium text-gray-700 flex items-center gap-2" htmlFor="destination-desktop">
                 <PlaneIcon className="h-4 w-4" />
                 To
               </Label>
-              <Select value={data.destination} onValueChange={(value) => setData(prev => ({ ...prev, destination: value }))}>
-                <SelectTrigger className="h-12 bg-secondary/60" id="destination-desktop" name="destination">
-                  <SelectValue placeholder="Select destination city" />
-                </SelectTrigger>
-                <SelectContent>
-                  {popularAirports.map((airport) => (
-                    <SelectItem key={airport.code} value={airport.code}>
-                      {airport.city}, {airport.country} ({airport.code})
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <AirportAutocomplete
+                id="destination-desktop"
+                name="destination"
+                autoComplete="off"
+                value={data.destination}
+                onValueChange={(value) => setData(prev => ({ ...prev, destination: value }))}
+                placeholder="Enter city or airport..."
+                icon={<ArrowLeftRightIcon className="mr-2 h-4 w-4 opacity-70" />}
+                label="To"
+              />
             </div>
           </div>
 

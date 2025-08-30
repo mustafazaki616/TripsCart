@@ -95,7 +95,7 @@ const UmrahBookingForm: React.FC = () => {
 
   return (
     <>
-      <div className="booking-form-container rounded-2xl bg-card/20 backdrop-blur border shadow-soft p-2 md:p-6">
+      <div className="booking-form-container rounded-2xl bg-card/20 backdrop-blur border shadow-soft p-2 md:p-6 w-[96vw] md:w-auto max-h-[80vh] overflow-y-auto mx-auto">
         {/* Mobile Compact Layout */}
         <div className="space-y-2 md:hidden">
           {/* Centered - Passengers */}

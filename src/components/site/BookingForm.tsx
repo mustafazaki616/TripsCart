@@ -14,7 +14,7 @@ import FlightsHotelsBookingForm from "./FlightsHotelsBookingForm";
 import CarHireBookingForm from "./CarHireBookingForm";
 import VisaBookingForm from "./VisaBookingForm";
 import { sendAdminEmail } from "@/lib/email";
-import { searchAirports, getAirportByCode, getPopularAirports, type Airport } from "@/data/airports";
+import { searchAirports, getAirportByCode, type Airport } from "@/data/airports";
 import { PassengerModal, type PassengerCounts } from "./PassengerModal";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 
@@ -66,7 +66,7 @@ const AirportAutocomplete: React.FC<AirportAutocompleteProps> = ({ value, onValu
             aria-expanded={open}
             aria-haspopup="listbox"
             aria-controls={`${id}-list`}
-            className="h-16 md:h-12 w-full px-3 pl-8 text-sm rounded-md bg-secondary/60 border-input text-left"
+            className="h-10 md:h-12 w-full px-3 pl-8 text-sm rounded-md bg-secondary/60 border-input text-left"
           />
         </PopoverTrigger>
         <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2">
@@ -455,7 +455,7 @@ const BookingForm: React.FC = () => {
                         id="departure-date-booking"
                         variant="outline"
                         className={cn(
-                          "h-16 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal border-input",
+                          "h-12 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal border-input",
                           !data.departDate && "text-muted-foreground"
                         )}
                       >
@@ -488,7 +488,7 @@ const BookingForm: React.FC = () => {
                           id="return-date-booking"
                           variant="outline"
                           className={cn(
-                            "h-16 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal border-input",
+                            "h-12 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal border-input",
                             !data.returnDate && "text-muted-foreground"
                           )}
                         >
@@ -523,11 +523,11 @@ const BookingForm: React.FC = () => {
                       placeholder="UK Number Only"
                       value={data.phone || ""}
                       onChange={(e) => setData((d) => ({ ...d, phone: e.target.value }))}
-                      className="h-16 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10"
+                      className="h-12 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10"
                       autoComplete="tel"
                       inputMode="tel"
                     />
-                    <Phone className="absolute right-3 top-4 md:top-3 h-4 w-4 opacity-70" />
+                    <Phone className="absolute right-3 top-3 h-4 w-4 opacity-70" />
                   </div>
                 </div>
               </div>
@@ -544,11 +544,11 @@ const BookingForm: React.FC = () => {
                       placeholder="Email (Optional)"
                       value={data.email || ""}
                       onChange={(e) => setData((d) => ({ ...d, email: e.target.value }))}
-                      className="h-16 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10"
+                      className="h-12 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10"
                       autoComplete="email"
                       inputMode="email"
                     />
-                    <Mail className="absolute right-3 top-4 md:top-3 h-4 w-4 opacity-70" />
+                    <Mail className="absolute right-3 top-3 h-4 w-4 opacity-70" />
                   </div>
                 </div>
               </div>

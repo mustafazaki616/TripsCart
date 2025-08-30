@@ -50,7 +50,7 @@ const HotelsBookingForm: React.FC = () => {
   return (
     <>
       {/* Mobile Compact Layout */}
-      <div className="booking-form-container block md:hidden space-y-3 p-2 rounded-2xl bg-card/20 backdrop-blur border shadow-soft">
+      <div className="booking-form-container block md:hidden space-y-3 p-2 rounded-2xl bg-card/20 backdrop-blur border shadow-soft w-[96vw] max-h-[80vh] overflow-y-auto mx-auto">
         {/* Destination - Full Width */}
         <div>
           <label htmlFor="destination" className="text-xs text-gray-500 mb-1 block">Destination</label>
