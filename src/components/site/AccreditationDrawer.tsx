@@ -22,13 +22,13 @@ const AccreditationDrawer: React.FC = () => {
       <div className="fixed right-0 top-1/2 z-50 -translate-y-1/2 pointer-events-none">
         {/* Panel */}
         <div
-          className={`relative h-[70vh] w-[22rem] max-w-[85vw] rounded-l-2xl bg-black text-white shadow-xl will-change-transform transform transition-transform duration-500 ease-in-out pointer-events-auto ${
+          className={`relative h-auto max-h-[60vh] w-[22rem] max-w-[85vw] rounded-l-2xl bg-black text-white shadow-xl will-change-transform transform transition-transform duration-500 ease-in-out pointer-events-auto ${
             open ? "translate-x-0" : "translate-x-full"
           }`}
           aria-hidden={!open}
         >
-          <div className="h-full overflow-y-auto p-8">
-            <div className="space-y-10">
+          <div className="overflow-y-auto p-6">
+            <div className="space-y-6">
               <div className="flex flex-col items-center text-center gap-4">
                 <img
                   src={atolLogo}

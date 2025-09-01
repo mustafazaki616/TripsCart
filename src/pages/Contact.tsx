@@ -94,9 +94,7 @@ const Contact = () => {
               </div>
               <h3 className="text-xl font-semibold mb-3">Visit Our Office</h3>
               <p className="text-muted-foreground mb-4">
-                123 Travel Street<br />
-                London, UK<br />
-                SW1A 1AA
+                Based in Luton, United Kingdom
               </p>
               <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
                 <Clock className="w-4 h-4" />
@@ -279,7 +277,7 @@ const Contact = () => {
                   <MapPin className="w-16 h-16 text-primary mx-auto mb-4" />
                   <p className="text-muted-foreground">
                     Interactive map would be embedded here<br />
-                    Showing our office location at 123 Travel Street, London
+                    Showing our office location in Luton, United Kingdom
                   </p>
                 </div>
               </div>

@@ -108,8 +108,8 @@ const Footer = () => {
             </div>
             
             <div className="text-xs text-muted-foreground">
-              <p className="mb-1">🔒 SSL Secured</p>
-              <p>✅ ATOL Protected</p>
+              {/* <p className="mb-1">🔒 SSL Secured</p>
+              <p>✅ ATOL Protected</p> */}
             </div>
           </div>
         </div>

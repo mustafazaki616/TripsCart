@@ -2,12 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Mobile form scaling - 80% for better content density */
+/* Mobile form scaling - 90% for better space utilization */
 @media (max-width: 768px) {
   .booking-form-container {
-    transform: scale(0.8);
+    transform: scale(0.9);
     transform-origin: top center;
-    margin-bottom: -20%;
+    margin-bottom: -10%;
   }
 }
 

@@ -102,9 +102,7 @@ const ContactUs = () => {
                   <CardContent>
                     <CardDescription className="text-base">
                       <div className="space-y-1">
-                        <p>TripsCart Ltd.</p>
-                        <p>123 Travel Street</p>
-                        <p>London, UK EC1A 1BB</p>
+                        <p>Based in Luton, United Kingdom</p>
                       </div>
                     </CardDescription>
                   </CardContent>
