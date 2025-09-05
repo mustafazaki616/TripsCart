@@ -10,13 +10,13 @@ const HeroSection = () => {
         <div className="absolute inset-0 hero-overlay" aria-hidden="true" />
       </div>
       <div className="relative container mx-auto pt-16 md:pt-28 pb-10 md:pb-16 px-2 sm:px-6">
-        <div className="max-w-3xl">
-          <h1 className="text-gradient-primary text-2xl md:text-4xl lg:text-5xl">Your trip, just a click away</h1>
-          <p className="mt-4 text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl">
+        <div className="max-w-3xl mx-auto text-center">
+          <h1 className="text-gradient-primary text-2xl md:text-4xl lg:text-5xl">Fill the cart, FLY the world</h1>
+          {/* <p className="mt-4 text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl">
             Explore a vast array of options and find the perfect tickets with our easy online booking.
-          </p>
+          </p> */}
         </div>
-        <div className="mt-8 md:mt-10">
+        <div className="mt-12 md:mt-16">
           <BookingForm />
         </div>
         
