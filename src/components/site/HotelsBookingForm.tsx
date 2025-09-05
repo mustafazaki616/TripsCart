@@ -32,7 +32,6 @@ const HotelsBookingForm: React.FC = () => {
     setIsSubmitting(true);
     
     try {
-      // Send email to admin with form details
       await sendAdminEmail(data, 'Hotel Booking');
       setShowModal(true);
     } catch (error) {
@@ -51,18 +50,18 @@ const HotelsBookingForm: React.FC = () => {
     <>
       {/* Mobile Compact Layout */}
       <div className="block md:hidden space-y-3">
-         {/* Destination - Full Width */}
-         <div>
-           <label htmlFor="destination" className="text-xs text-gray-500 mb-1 block">Destination</label>
-           <Input
-             id="destination"
-             type="text"
-             placeholder="Enter destination"
-             value={data.destination || ""}
-             onChange={(e) => setData((d) => ({ ...d, destination: e.target.value }))}
-             className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 placeholder:text-xs truncate"
-           />
-         </div>
+        {/* Destination - Full Width */}
+        <div>
+          <label htmlFor="destination" className="text-xs text-gray-500 mb-1 block">Destination</label>
+          <Input
+            id="destination"
+            type="text"
+            placeholder="Enter destination"
+            value={data.destination || ""}
+            onChange={(e) => setData((d) => ({ ...d, destination: e.target.value }))}
+            className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 placeholder:text-xs truncate"
+          />
+        </div>
 
         {/* Check-in + Check-out Dates - Two Column Grid */}
         <div className="grid grid-cols-2 gap-2">
@@ -209,164 +208,169 @@ const HotelsBookingForm: React.FC = () => {
 
       {/* Desktop Layout */}
       <div className="hidden md:block space-y-6">
-         {/* Main booking fields */}
-         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-           {/* Destination */}
-           <div className="space-y-2">
-             <Label htmlFor="destination-desktop" className="text-sm font-medium text-gray-700 flex items-center gap-2">
-               <MapPinIcon className="h-4 w-4" />
-               Destination
-             </Label>
-             <Input
-               id="destination-desktop"
-               type="text"
-               placeholder="Enter destination"
-               value={data.destination || ""}
-               onChange={(e) => setData((d) => ({ ...d, destination: e.target.value }))}
-               className="h-12 bg-secondary/60 truncate"
-             />
-           </div>
+        {/* Main booking fields */}
+        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-12 gap-3 lg:gap-4">
+          {/* Destination */}
+          <div className="space-y-2 lg:col-span-4">
+            <Label htmlFor="destination-desktop" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+              <MapPinIcon className="h-4 w-4" />
+              Destination
+            </Label>
+            <Input
+              id="destination-desktop"
+              type="text"
+              placeholder="Enter destination"
+              value={data.destination || ""}
+              onChange={(e) => setData((d) => ({ ...d, destination: e.target.value }))}
+              className="h-12 bg-secondary/60 truncate"
+            />
+          </div>
 
-           {/* Check-in Date */}
-           <div className="space-y-2">
-             <Label htmlFor="checkin-desktop" className="text-sm font-medium text-gray-700">Check-in Date</Label>
-             <Popover>
-               <PopoverTrigger asChild>
-                 <Button
-                   id="checkin-desktop"
-                   variant="outline"
-                   className={cn(
-                     "w-full h-12 justify-start text-left font-normal bg-secondary/60 min-w-0",
-                     !data.checkIn && "text-muted-foreground"
-                   )}
-                 >
-                   <CalendarIcon className="mr-2 h-4 w-4" />
-                   <span className="truncate">{data.checkIn ? format(data.checkIn, "PPP") : "Select check-in date"}</span>
-                 </Button>
-               </PopoverTrigger>
-               <PopoverContent className="w-auto p-0" align="start">
-                 <Calendar
-                   mode="single"
-                   selected={data.checkIn}
-                   onSelect={(date) => setData((d) => ({ ...d, checkIn: date }))}
-                   disabled={(date) => date < new Date()}
-                   initialFocus
-                 />
-               </PopoverContent>
-             </Popover>
-           </div>
+          {/* Check-in Date */}
+          <div className="space-y-2 lg:col-span-4">
+            <Label htmlFor="checkin-desktop" className="text-sm font-medium text-gray-700">Check-in Date</Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  id="checkin-desktop"
+                  variant="outline"
+                  className={cn(
+                    "w-full h-12 justify-start text-left font-normal bg-secondary/60 min-w-0",
+                    !data.checkIn && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  <span className="truncate">{data.checkIn ? format(data.checkIn, "PPP") : "Select check-in date"}</span>
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={data.checkIn}
+                  onSelect={(date) => setData((d) => ({ ...d, checkIn: date }))}
+                  disabled={(date) => date < new Date()}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
 
-           {/* Check-out Date */}
-           <div className="space-y-2">
-             <Label htmlFor="checkout-desktop" className="text-sm font-medium text-gray-700">Check-out Date</Label>
-             <Popover>
-               <PopoverTrigger asChild>
-                 <Button
-                   id="checkout-desktop"
-                   variant="outline"
-                   className={cn(
-                     "w-full h-12 justify-start text-left font-normal bg-secondary/60 min-w-0",
-                     !data.checkOut && "text-muted-foreground"
-                   )}
-                 >
-                   <CalendarIcon className="mr-2 h-4 w-4" />
-                   <span className="truncate">{data.checkOut ? format(data.checkOut, "PPP") : "Select check-out date"}</span>
-                 </Button>
-               </PopoverTrigger>
-               <PopoverContent className="w-auto p-0" align="start">
-                 <Calendar
-                   mode="single"
-                   selected={data.checkOut}
-                   onSelect={(date) => setData((d) => ({ ...d, checkOut: date }))}
-                   disabled={(date) => date < new Date() || (data.checkIn && date <= data.checkIn)}
-                   initialFocus
-                 />
-               </PopoverContent>
-             </Popover>
-           </div>
+          {/* Check-out Date */}
+          <div className="space-y-2 lg:col-span-4">
+            <Label htmlFor="checkout-desktop" className="text-sm font-medium text-gray-700">Check-out Date</Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  id="checkout-desktop"
+                  variant="outline"
+                  className={cn(
+                    "w-full h-12 justify-start text-left font-normal bg-secondary/60 min-w-0",
+                    !data.checkOut && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  <span className="truncate">{data.checkOut ? format(data.checkOut, "PPP") : "Select check-out date"}</span>
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={data.checkOut}
+                  onSelect={(date) => setData((d) => ({ ...d, checkOut: date }))}
+                  disabled={(date) => date < new Date() || (data.checkIn && date <= data.checkIn)}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+        </div>
 
-           {/* Guests & Rooms */}
-           <div className="space-y-2">
-             <Label className="text-sm font-medium text-gray-700 flex items-center gap-2" htmlFor="guests-desktop">
-               <UsersIcon className="h-4 w-4" />
-               Guests & Rooms
-             </Label>
-             <div className="grid grid-cols-2 gap-2">
-               <Select value={data.guests} onValueChange={(value) => setData((d) => ({ ...d, guests: value }))}>
-                 <SelectTrigger className="h-12 bg-secondary/60" id="guests-desktop" name="guests">
-                   <SelectValue placeholder="Guests" />
-                 </SelectTrigger>
-                 <SelectContent>
-                   <SelectItem value="1">1 Guest</SelectItem>
-                   <SelectItem value="2">2 Guests</SelectItem>
-                   <SelectItem value="3">3 Guests</SelectItem>
-                   <SelectItem value="4">4 Guests</SelectItem>
-                   <SelectItem value="5">5 Guests</SelectItem>
-                   <SelectItem value="6+">6+ Guests</SelectItem>
-                 </SelectContent>
-               </Select>
-               <Select value={data.rooms} onValueChange={(value) => setData((d) => ({ ...d, rooms: value }))}>
-                 <SelectTrigger className="h-12 bg-secondary/60" id="rooms-desktop" name="rooms">
-                   <SelectValue placeholder="Rooms" />
-                 </SelectTrigger>
-                 <SelectContent>
-                   <SelectItem value="1">1 Room</SelectItem>
-                   <SelectItem value="2">2 Rooms</SelectItem>
-                   <SelectItem value="3">3 Rooms</SelectItem>
-                   <SelectItem value="4">4 Rooms</SelectItem>
-                   <SelectItem value="5+">5+ Rooms</SelectItem>
-                 </SelectContent>
-               </Select>
-             </div>
-           </div>
-         </div>
+        {/* Guests & Rooms */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3 lg:gap-4">
+          <div className="space-y-2 lg:col-span-6">
+            <Label className="text-sm font-medium text-gray-700 flex items-center gap-2" htmlFor="guests-desktop">
+              <UsersIcon className="h-4 w-4" />
+              Guests
+            </Label>
+            <Select value={data.guests} onValueChange={(value) => setData((d) => ({ ...d, guests: value }))}>
+              <SelectTrigger className="h-12 bg-secondary/60" id="guests-desktop" name="guests">
+                <SelectValue placeholder="Guests" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="1">1 Guest</SelectItem>
+                <SelectItem value="2">2 Guests</SelectItem>
+                <SelectItem value="3">3 Guests</SelectItem>
+                <SelectItem value="4">4 Guests</SelectItem>
+                <SelectItem value="5">5 Guests</SelectItem>
+                <SelectItem value="6+">6+ Guests</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-2 lg:col-span-6">
+            <Label className="text-sm font-medium text-gray-700" htmlFor="rooms-desktop">
+              Rooms
+            </Label>
+            <Select value={data.rooms} onValueChange={(value) => setData((d) => ({ ...d, rooms: value }))}>
+              <SelectTrigger className="h-12 bg-secondary/60" id="rooms-desktop" name="rooms">
+                <SelectValue placeholder="Rooms" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="1">1 Room</SelectItem>
+                <SelectItem value="2">2 Rooms</SelectItem>
+                <SelectItem value="3">3 Rooms</SelectItem>
+                <SelectItem value="4">4 Rooms</SelectItem>
+                <SelectItem value="5+">5+ Rooms</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
 
-         {/* Contact Information */}
-         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-           <div className="space-y-2">
-             <Label htmlFor="name-desktop" className="text-sm font-medium text-gray-700">Full Name</Label>
-             <Input
-               id="name-desktop"
-               type="text"
-               placeholder="Enter your full name"
-               value={data.name || ""}
-               onChange={(e) => setData((d) => ({ ...d, name: e.target.value }))}
-               className="h-12 bg-secondary/60 truncate"
-             />
-           </div>
-           <div className="space-y-2">
-             <Label htmlFor="phone-desktop" className="text-sm font-medium text-gray-700">Phone Number</Label>
-             <Input
-               id="phone-desktop"
-               type="tel"
-               placeholder="Enter phone number"
-               value={data.phone || ""}
-               onChange={(e) => setData((d) => ({ ...d, phone: e.target.value }))}
-               className="h-12 bg-secondary/60 truncate"
-             />
-           </div>
-           <div className="space-y-2">
-             <Label htmlFor="email-desktop" className="text-sm font-medium text-gray-700">Email Address</Label>
-             <Input
-               id="email-desktop"
-               type="email"
-               placeholder="Enter email address"
-               value={data.email || ""}
-               onChange={(e) => setData((d) => ({ ...d, email: e.target.value }))}
-               className="h-12 bg-secondary/60 truncate"
-             />
-           </div>
-         </div>
-         
-         {/* Search button - Desktop */}
-         <Button 
-           type="submit" 
-           disabled={isSubmitting} 
-           className="w-full h-14 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-base"
-           onClick={handleSubmit}
-         >
-           {isSubmitting ? "Searching Hotels..." : "Search Hotels"}
-         </Button>
+        {/* Contact Information */}
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-12 gap-3 lg:gap-4">
+          <div className="space-y-2 lg:col-span-4">
+            <Label htmlFor="name-desktop" className="text-sm font-medium text-gray-700">Full Name</Label>
+            <Input
+              id="name-desktop"
+              type="text"
+              placeholder="Enter your full name"
+              value={data.name || ""}
+              onChange={(e) => setData((d) => ({ ...d, name: e.target.value }))}
+              className="h-12 bg-secondary/60 truncate"
+            />
+          </div>
+          <div className="space-y-2 lg:col-span-4">
+            <Label htmlFor="phone-desktop" className="text-sm font-medium text-gray-700">Phone Number</Label>
+            <Input
+              id="phone-desktop"
+              type="tel"
+              placeholder="Enter phone number"
+              value={data.phone || ""}
+              onChange={(e) => setData((d) => ({ ...d, phone: e.target.value }))}
+              className="h-12 bg-secondary/60 truncate"
+            />
+          </div>
+          <div className="space-y-2 lg:col-span-4">
+            <Label htmlFor="email-desktop" className="text-sm font-medium text-gray-700">Email Address</Label>
+            <Input
+              id="email-desktop"
+              type="email"
+              placeholder="Enter email address"
+              value={data.email || ""}
+              onChange={(e) => setData((d) => ({ ...d, email: e.target.value }))}
+              className="h-12 bg-secondary/60 truncate"
+            />
+          </div>
+        </div>
+        
+        {/* Search button - Desktop */}
+        <Button 
+          type="submit" 
+          disabled={isSubmitting} 
+          className="w-full h-14 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-base"
+          onClick={handleSubmit}
+        >
+          {isSubmitting ? "Searching Hotels..." : "Search Hotels"}
+        </Button>
       </div>
 
       {/* Success Modal */}

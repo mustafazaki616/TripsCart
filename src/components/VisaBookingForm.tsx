@@ -440,8 +440,8 @@ export function VisaBookingForm() {
     <>
       <form onSubmit={handleSubmit} className="space-y-6 p-6">
         {/* Visa Details */}
-        <div className="grid grid-cols-3 gap-6">
-          <div className="space-y-2">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-12 gap-3 lg:gap-4">
+          <div className="space-y-2 lg:col-span-4">
             <Label htmlFor="visa-type-desktop" className="flex items-center gap-2 text-sm font-medium">
               <FileText className="h-4 w-4" />
               Visa Type
@@ -461,7 +461,7 @@ export function VisaBookingForm() {
             )}
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2 lg:col-span-4">
             <Label htmlFor="destination-country-desktop" className="flex items-center gap-2 text-sm font-medium">
               <Globe className="h-4 w-4" />
               Destination Country
@@ -481,7 +481,7 @@ export function VisaBookingForm() {
             )}
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2 lg:col-span-4">
             <Label htmlFor="nationality-desktop" className="flex items-center gap-2 text-sm font-medium">
               <MapPin className="h-4 w-4" />
               Nationality
@@ -503,8 +503,8 @@ export function VisaBookingForm() {
         </div>
 
         {/* Travel Dates */}
-        <div className="grid grid-cols-2 gap-6">
-          <div className="space-y-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3 lg:gap-4">
+          <div className="space-y-2 lg:col-span-6">
             <Label htmlFor="travel-date-desktop" className="flex items-center gap-2 text-sm font-medium">
               <Calendar className="h-4 w-4" />
               Travel Date
@@ -521,7 +521,7 @@ export function VisaBookingForm() {
             )}
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2 lg:col-span-6">
             <Label htmlFor="return-date-desktop" className="flex items-center gap-2 text-sm font-medium">
               <Calendar className="h-4 w-4" />
               Return Date
@@ -540,8 +540,8 @@ export function VisaBookingForm() {
         </div>
 
         {/* Personal Information */}
-        <div className="grid grid-cols-3 gap-6">
-          <div className="space-y-2">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-12 gap-3 lg:gap-4">
+          <div className="space-y-2 lg:col-span-4">
             <Label htmlFor="first-name-desktop" className="flex items-center gap-2 text-sm font-medium">
               <User className="h-4 w-4" />
               First Name
@@ -559,7 +559,7 @@ export function VisaBookingForm() {
             )}
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2 lg:col-span-4">
             <Label htmlFor="last-name-desktop" className="flex items-center gap-2 text-sm font-medium">
               <User className="h-4 w-4" />
               Last Name
@@ -577,7 +577,7 @@ export function VisaBookingForm() {
             )}
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2 lg:col-span-4">
             <Label htmlFor="date-of-birth-desktop" className="flex items-center gap-2 text-sm font-medium">
               <Calendar className="h-4 w-4" />
               Date of Birth
@@ -596,8 +596,8 @@ export function VisaBookingForm() {
         </div>
 
         {/* Passport and Purpose */}
-        <div className="grid grid-cols-2 gap-6">
-          <div className="space-y-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3 lg:gap-4">
+          <div className="space-y-2 lg:col-span-6">
             <Label htmlFor="passport-number-desktop" className="flex items-center gap-2 text-sm font-medium">
               <FileText className="h-4 w-4" />
               Passport Number
@@ -615,7 +615,7 @@ export function VisaBookingForm() {
             )}
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2 lg:col-span-6">
             <Label htmlFor="purpose-of-visit-desktop" className="flex items-center gap-2 text-sm font-medium">
               <FileText className="h-4 w-4" />
               Purpose of Visit
@@ -637,8 +637,8 @@ export function VisaBookingForm() {
         </div>
 
         {/* Contact Information */}
-        <div className="grid grid-cols-2 gap-6">
-          <div className="space-y-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3 lg:gap-4">
+          <div className="space-y-2 lg:col-span-6">
             <Label htmlFor="phone-desktop" className="flex items-center gap-2 text-sm font-medium">
               <Phone className="h-4 w-4" />
               Phone Number
@@ -656,7 +656,7 @@ export function VisaBookingForm() {
             )}
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2 lg:col-span-6">
             <Label htmlFor="email-desktop" className="flex items-center gap-2 text-sm font-medium">
               <Mail className="h-4 w-4" />
               Email Address

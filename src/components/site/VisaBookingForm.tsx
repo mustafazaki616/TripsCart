@@ -299,9 +299,9 @@ const VisaBookingForm: React.FC = () => {
         </div>
 
         {/* Desktop Layout */}
-        <div className="hidden md:block">
-          {/* Main Fields */}
-          <div className="grid grid-cols-2 gap-3">
+        <div className="hidden md:block space-y-4">
+          {/* Row 1: Visa Type + Destination */}
+          <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="mb-1 block text-sm text-muted-foreground" htmlFor="visa-type-desktop">Visa Type</label>
               <Select value={data.visaType} onValueChange={(v) => setField("visaType", v)}>
@@ -334,6 +334,10 @@ const VisaBookingForm: React.FC = () => {
               </div>
               {errors.destination && <p className="mt-1 text-xs text-destructive">{errors.destination}</p>}
             </div>
+          </div>
+
+          {/* Row 2: Travel Date + Return Date */}
+          <div className="grid grid-cols-2 gap-4">
             <div>
               <label htmlFor="travel-date-desktop" className="mb-1 block text-sm text-muted-foreground">Travel Date</label>
               <Popover>
@@ -390,6 +394,10 @@ const VisaBookingForm: React.FC = () => {
               </Popover>
               {errors.returnDate && <p className="mt-1 text-xs text-destructive">{errors.returnDate}</p>}
             </div>
+          </div>
+
+          {/* Row 3: First Name + Last Name */}
+          <div className="grid grid-cols-2 gap-4">
             <div>
               <label htmlFor="first-name-desktop" className="mb-1 block text-sm text-muted-foreground">First Name</label>
               <div className="relative">
@@ -418,6 +426,10 @@ const VisaBookingForm: React.FC = () => {
               </div>
               {errors.lastName && <p className="mt-1 text-xs text-destructive">{errors.lastName}</p>}
             </div>
+          </div>
+
+          {/* Row 4: Passport Number + Phone Number */}
+          <div className="grid grid-cols-2 gap-4">
             <div>
               <label htmlFor="passport-number-desktop" className="mb-1 block text-sm text-muted-foreground">Passport Number</label>
               <div className="relative">
@@ -447,6 +459,10 @@ const VisaBookingForm: React.FC = () => {
               </div>
               {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
             </div>
+          </div>
+
+          {/* Row 5: Email + Purpose */}
+          <div className="grid grid-cols-2 gap-4">
             <div>
               <label htmlFor="email-desktop" className="mb-1 block text-sm text-muted-foreground">Email Address</label>
               <div className="relative">
@@ -462,7 +478,7 @@ const VisaBookingForm: React.FC = () => {
               </div>
               {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
             </div>
-            <div className="col-span-2">
+            <div>
               <label htmlFor="purpose-desktop" className="mb-1 block text-sm text-muted-foreground">Purpose of Travel</label>
               <div className="relative">
                 <Input

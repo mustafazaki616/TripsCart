@@ -520,9 +520,9 @@ const FlightsHotelsBookingForm: React.FC = () => {
 
         {/* Flight booking fields */}
         <div className="relative">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3 lg:gap-4">
             {/* Origin */}
-            <div className="space-y-2">
+            <div className="space-y-2 lg:col-span-6">
               <Label className="text-sm font-medium text-gray-700 flex items-center gap-2" htmlFor="origin-desktop">
                 <PlaneIcon className="h-4 w-4" />
                 From
@@ -539,7 +539,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
               />
             </div>
             {/* Destination */}
-            <div className="space-y-2">
+            <div className="space-y-2 lg:col-span-6">
               <Label className="text-sm font-medium text-gray-700 flex items-center gap-2" htmlFor="destination-desktop">
                 <PlaneIcon className="h-4 w-4" />
                 To
@@ -572,9 +572,9 @@ const FlightsHotelsBookingForm: React.FC = () => {
         </div>
 
         {/* Date fields */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3 lg:gap-4">
           {/* Departure Date */}
-          <div className="space-y-2">
+          <div className="space-y-2 lg:col-span-6">
             <Label className="text-sm font-medium text-gray-700" htmlFor="departure-date-desktop">Departure Date</Label>
             <Popover>
               <PopoverTrigger asChild>
@@ -604,7 +604,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
 
           {/* Return Date */}
           {data.tripType === 'round' && (
-            <div className="space-y-2">
+            <div className="space-y-2 lg:col-span-6">
               <Label className="text-sm font-medium text-gray-700" htmlFor="return-date-desktop">Return Date</Label>
               <Popover>
                 <PopoverTrigger asChild>
@@ -637,8 +637,8 @@ const FlightsHotelsBookingForm: React.FC = () => {
         </div>
 
         {/* Contact Information */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
-          <div className="space-y-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3 lg:gap-4">
+          <div className="space-y-2 lg:col-span-6">
             <Label htmlFor="phone-desktop" className="text-sm font-medium text-gray-700">Phone Number</Label>
             <Input
               id="phone-desktop"
@@ -652,7 +652,7 @@ const FlightsHotelsBookingForm: React.FC = () => {
               inputMode="tel"
             />
           </div>
-          <div className="space-y-2">
+          <div className="space-y-2 lg:col-span-6">
             <Label htmlFor="email-desktop" className="text-sm font-medium text-gray-700">Email Address</Label>
             <Input
               id="email-desktop"

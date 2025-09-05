@@ -323,8 +323,8 @@ const CarHireBookingForm: React.FC = () => {
          </div>
 
          {/* Pick-up & Drop-off Locations */}
-         <div className="grid grid-cols-2 gap-3">
-           <div>
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3 lg:gap-4">
+           <div className="lg:col-span-6">
              <label htmlFor="pickup-location-desktop" className="mb-2 block text-sm text-muted-foreground font-medium">Pick-up Location</label>
              <div className="relative">
                <Input
@@ -339,7 +339,7 @@ const CarHireBookingForm: React.FC = () => {
              </div>
              {errors.pickUpLocation && <p className="mt-1 text-xs text-destructive">{errors.pickUpLocation}</p>}
            </div>
-           <div>
+           <div className="lg:col-span-6">
              <label htmlFor="dropoff-location-desktop" className="mb-2 block text-sm text-muted-foreground font-medium">Drop-off Location</label>
              <div className="relative">
                <Input
@@ -357,8 +357,8 @@ const CarHireBookingForm: React.FC = () => {
          </div>
 
          {/* Pick-up & Drop-off Dates */}
-         <div className="grid grid-cols-2 gap-3">
-           <div>
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3 lg:gap-4">
+           <div className="lg:col-span-6">
              <label htmlFor="pickup-date-desktop" className="mb-2 block text-sm text-muted-foreground font-medium">Pick-up Date</label>
              <Popover>
                <PopoverTrigger asChild>
@@ -386,7 +386,7 @@ const CarHireBookingForm: React.FC = () => {
              </Popover>
              {errors.pickUpDate && <p className="mt-1 text-xs text-destructive">{errors.pickUpDate}</p>}
            </div>
-           <div>
+           <div className="lg:col-span-6">
              <label htmlFor="dropoff-date-desktop" className="mb-2 block text-sm text-muted-foreground font-medium">Drop-off Date</label>
              <Popover>
                <PopoverTrigger asChild>
@@ -417,8 +417,8 @@ const CarHireBookingForm: React.FC = () => {
          </div>
 
          {/* Pick-up & Drop-off Times */}
-         <div className="grid grid-cols-2 gap-3">
-           <div>
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3 lg:gap-4">
+           <div className="lg:col-span-6">
              <label htmlFor="pickup-time-desktop" className="mb-2 block text-sm text-muted-foreground font-medium">Pick-up Time</label>
              <div className="relative">
                <Input
@@ -432,7 +432,7 @@ const CarHireBookingForm: React.FC = () => {
              </div>
              {errors.pickUpTime && <p className="mt-1 text-xs text-destructive">{errors.pickUpTime}</p>}
            </div>
-           <div>
+           <div className="lg:col-span-6">
              <label htmlFor="dropoff-time-desktop" className="mb-2 block text-sm text-muted-foreground font-medium">Drop-off Time</label>
              <div className="relative">
                <Input
@@ -449,8 +449,8 @@ const CarHireBookingForm: React.FC = () => {
          </div>
 
          {/* Phone & Email */}
-         <div className="grid grid-cols-2 gap-3">
-           <div>
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3 lg:gap-4">
+           <div className="lg:col-span-6">
              <label htmlFor="phone-desktop" className="mb-2 block text-sm text-muted-foreground font-medium">Phone Number</label>
              <div className="relative">
                <Input
@@ -468,7 +468,7 @@ const CarHireBookingForm: React.FC = () => {
              </div>
              {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
            </div>
-           <div>
+           <div className="lg:col-span-6">
              <label htmlFor="email-desktop" className="mb-2 block text-sm text-muted-foreground font-medium">Email Address</label>
              <div className="relative">
                <Input

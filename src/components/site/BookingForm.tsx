@@ -406,11 +406,11 @@ const BookingForm: React.FC = () => {
             </div>
           </div>
 
-          {/* Form Fields Grid - Bootstrap-like responsive grid */}
+          {/* Form Fields Grid - Optimized responsive grid for better space utilization */}
           <div className="py-2">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1 md:gap-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-2 md:gap-3">
               {/* Fly From */}
-              <div className="p-1 md:p-2 col-span-1 md:col-span-1 lg:col-span-2">
+              <div className="col-span-1 md:col-span-1 lg:col-span-3">
                 <div className="input__fields relative">
                   <label htmlFor="fly-from-booking" className="text-xs text-gray-500 mb-1 block">Fly From</label>
                   <AirportAutocomplete
@@ -428,7 +428,7 @@ const BookingForm: React.FC = () => {
               </div>
 
               {/* Fly To */}
-              <div className="p-1 md:p-2 col-span-1 md:col-span-1 lg:col-span-2">
+              <div className="col-span-1 md:col-span-1 lg:col-span-3">
                 <div className="input__fields relative">
                   <label htmlFor="fly-to-booking" className="text-xs text-gray-500 mb-1 block">Fly To</label>
                   <AirportAutocomplete
@@ -446,7 +446,7 @@ const BookingForm: React.FC = () => {
               </div>
 
               {/* Departure Date */}
-              <div className="p-1 md:p-2 col-span-1 md:col-span-1 lg:col-span-1">
+              <div className="col-span-1 md:col-span-1 lg:col-span-2">
                 <div className="input__fields relative">
                   <label htmlFor="departure-date-booking" className="text-xs text-gray-500 mb-1 block">Departure Date</label>
                   <Popover>
@@ -479,7 +479,7 @@ const BookingForm: React.FC = () => {
 
               {/* Return Date */}
               {data.tripType === "round" && (
-                <div className="p-1 md:p-2 col-span-1 md:col-span-1 lg:col-span-1">
+                <div className="col-span-1 md:col-span-1 lg:col-span-2">
                   <div className="input__fields relative">
                     <label htmlFor="return-date-booking" className="text-xs text-gray-500 mb-1 block">Return Date</label>
                     <Popover>
@@ -512,7 +512,7 @@ const BookingForm: React.FC = () => {
               )}
 
               {/* Phone Number */}
-              <div className="p-1 md:p-2 col-span-1 md:col-span-1 lg:col-span-1">
+              <div className="col-span-1 md:col-span-1 lg:col-span-2">
                 <div className="input__fields relative">
                   <label htmlFor="phone-booking" className="text-xs text-gray-500 mb-1 block">Phone Number</label>
                   <div className="relative">
@@ -532,8 +532,11 @@ const BookingForm: React.FC = () => {
                 </div>
               </div>
 
-              {/* Email Address */}
-              <div className="p-1 md:p-2 col-span-1 md:col-span-1 lg:col-span-1">
+              {/* Email Address - Only show when return date is not visible or adjust span */}
+              <div className={cn(
+                "col-span-1 md:col-span-1",
+                data.tripType === "round" ? "lg:col-span-12 lg:mt-2" : "lg:col-span-4"
+              )}>
                 <div className="input__fields relative">
                   <label htmlFor="email-booking" className="text-xs text-gray-500 mb-1 block">Email Address</label>
                   <div className="relative">

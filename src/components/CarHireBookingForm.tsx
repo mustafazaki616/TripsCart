@@ -379,8 +379,8 @@ export function CarHireBookingForm() {
     <>
       <form onSubmit={handleSubmit} className="space-y-6 p-6">
         {/* Location Fields */}
-        <div className="grid grid-cols-2 gap-6">
-          <div className="space-y-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3 lg:gap-4">
+          <div className="space-y-2 lg:col-span-6">
             <Label htmlFor="pickup-location-desktop" className="flex items-center gap-2 text-sm font-medium">
               <MapPin className="h-4 w-4" />
               Pickup Location
@@ -398,7 +398,7 @@ export function CarHireBookingForm() {
             )}
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2 lg:col-span-6">
             <Label htmlFor="dropoff-location-desktop" className="flex items-center gap-2 text-sm font-medium">
               <MapPin className="h-4 w-4" />
               Drop-off Location
@@ -418,8 +418,8 @@ export function CarHireBookingForm() {
         </div>
 
         {/* Date and Time Fields */}
-        <div className="grid grid-cols-4 gap-4">
-          <div className="space-y-2">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-12 gap-3 lg:gap-4">
+          <div className="space-y-2 lg:col-span-3">
             <Label htmlFor="pickup-date-desktop" className="flex items-center gap-2 text-sm font-medium">
               <Calendar className="h-4 w-4" />
               Pickup Date
@@ -436,7 +436,7 @@ export function CarHireBookingForm() {
             )}
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2 lg:col-span-3">
             <Label htmlFor="pickup-time-desktop" className="flex items-center gap-2 text-sm font-medium">
               <Clock className="h-4 w-4" />
               Pickup Time
@@ -456,7 +456,7 @@ export function CarHireBookingForm() {
             )}
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2 lg:col-span-3">
             <Label htmlFor="dropoff-date-desktop" className="flex items-center gap-2 text-sm font-medium">
               <Calendar className="h-4 w-4" />
               Drop-off Date
@@ -473,7 +473,7 @@ export function CarHireBookingForm() {
             )}
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2 lg:col-span-3">
             <Label htmlFor="dropoff-time-desktop" className="flex items-center gap-2 text-sm font-medium">
               <Clock className="h-4 w-4" />
               Drop-off Time
@@ -495,8 +495,8 @@ export function CarHireBookingForm() {
         </div>
 
         {/* Driver Details */}
-        <div className="grid grid-cols-2 gap-6">
-          <div className="space-y-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3 lg:gap-4">
+          <div className="space-y-2 lg:col-span-6">
             <Label htmlFor="driver-age-desktop" className="flex items-center gap-2 text-sm font-medium">
               <User className="h-4 w-4" />
               Driver Age
@@ -514,7 +514,7 @@ export function CarHireBookingForm() {
             )}
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2 lg:col-span-6">
             <Label htmlFor="car-type-desktop" className="flex items-center gap-2 text-sm font-medium">
               <Car className="h-4 w-4" />
               Car Type
@@ -536,8 +536,8 @@ export function CarHireBookingForm() {
         </div>
 
         {/* Contact Information */}
-        <div className="grid grid-cols-2 gap-6">
-          <div className="space-y-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3 lg:gap-4">
+          <div className="space-y-2 lg:col-span-6">
             <Label htmlFor="phone-desktop" className="flex items-center gap-2 text-sm font-medium">
               <Phone className="h-4 w-4" />
               Phone Number
@@ -558,7 +558,7 @@ export function CarHireBookingForm() {
             )}
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2 lg:col-span-6">
             <Label htmlFor="email-desktop" className="flex items-center gap-2 text-sm font-medium">
               <Mail className="h-4 w-4" />
               Email Address

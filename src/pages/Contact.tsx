@@ -92,7 +92,6 @@ const Contact = () => {
               <div className="w-16 h-16 bg-primary/20 rounded-full mx-auto mb-4 flex items-center justify-center">
                 <MapPin className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold mb-3">Visit Our Office</h3>
               <p className="text-muted-foreground mb-4">
                 Based in Luton, United Kingdom
               </p>
@@ -269,16 +268,35 @@ const Contact = () => {
       {/* Map Section */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">Find Our Office</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">Our Location</h2>
           <div className="max-w-4xl mx-auto">
             <div className="bg-card rounded-xl p-8 border">
-              <div className="aspect-video bg-secondary/20 rounded-lg flex items-center justify-center">
-                <div className="text-center">
-                  <MapPin className="w-16 h-16 text-primary mx-auto mb-4" />
-                  <p className="text-muted-foreground">
-                    Interactive map would be embedded here<br />
-                    Showing our office location in Luton, United Kingdom
-                  </p>
+              <div className="aspect-video rounded-lg overflow-hidden">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d39312.99160979253!2d-0.4389!3d51.8787!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48763d20c8040a85%3A0x2532b543986c4b09!2sLuton%2C%20UK!5e0!3m2!1sen!2suk!4v1699999999999!5m2!1sen!2suk"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Luton Office Location"
+                ></iframe>
+              </div>
+              <div className="mt-4 text-center">
+                <div className="space-y-2">
+                  <p className="text-sm font-medium text-foreground">Luton, Bedfordshire, England</p>
+                  <p className="text-xs text-muted-foreground">Central England, 30 miles north of London</p>
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-xs text-muted-foreground">
+                    <span>📍 Postal Code: LU1-LU4</span>
+                    <span className="hidden sm:inline">•</span>
+                    <span>✈️ Near Luton Airport (LTN)</span>
+                  </div>
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-xs text-muted-foreground">
+                    <span>🚂 Direct trains to London (35 mins)</span>
+                    <span className="hidden sm:inline">•</span>
+                    <span>🚗 M1 Junction 10-12</span>
+                  </div>
                 </div>
               </div>
             </div>
