@@ -248,6 +248,10 @@ const BookingForm: React.FC = () => {
     setErrors({});
   };
 
+  const swapLocations = () => {
+    setData(d => ({ ...d, origin: d.destination, destination: d.origin }));
+  };
+
   return (
     <>
     <form onSubmit={submit} className="booking-form-container rounded-2xl bg-card/20 backdrop-blur border shadow-soft p-4 sm:p-3 md:p-6 w-full max-w-full overflow-hidden relative">
@@ -597,11 +601,15 @@ const BookingForm: React.FC = () => {
 
           {/* Form Fields Grid - Optimized responsive grid for better space utilization */}
           <div className="py-2">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-2 md:gap-3">
-              {/* Fly From */}
-              <div className="col-span-1 md:col-span-1 lg:col-span-3">
-                <div className="input__fields relative">
-                  <label htmlFor="fly-from-booking" className="text-xs text-gray-500 mb-1 block">Fly From</label>
+            {/* Origin/Destination - Desktop layout aligned with FlightsHotelsBookingForm */}
+            <div className="relative">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3 lg:gap-4">
+                {/* Fly From */}
+                <div className="space-y-2 lg:col-span-6">
+                  <label htmlFor="fly-from-booking" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                    <Plane className="h-4 w-4" />
+                    From
+                  </label>
                   <AirportAutocomplete
                     id="fly-from-booking"
                     name="origin"
@@ -610,16 +618,17 @@ const BookingForm: React.FC = () => {
                     onValueChange={(value) => setData((d) => ({ ...d, origin: value }))}
                     placeholder="Enter city or airport..."
                     icon={<Plane className="mr-2 h-4 w-4 opacity-70" />}
-                    label="Fly From"
+                    label="From"
                   />
                   {errors.origin && <p className="mt-1 text-xs text-destructive">{errors.origin}</p>}
                 </div>
-              </div>
 
-              {/* Fly To */}
-              <div className="col-span-1 md:col-span-1 lg:col-span-3">
-                <div className="input__fields relative">
-                  <label htmlFor="fly-to-booking" className="text-xs text-gray-500 mb-1 block">Fly To</label>
+                {/* Fly To */}
+                <div className="space-y-2 lg:col-span-6">
+                  <label htmlFor="fly-to-booking" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                    <Plane className="h-4 w-4" />
+                    To
+                  </label>
                   <AirportAutocomplete
                     id="fly-to-booking"
                     name="destination"
@@ -628,120 +637,125 @@ const BookingForm: React.FC = () => {
                     onValueChange={(value) => setData((d) => ({ ...d, destination: value }))}
                     placeholder="Enter city or airport..."
                     icon={<ArrowLeftRight className="mr-2 h-4 w-4 opacity-70" />}
-                    label="Fly To"
+                    label="To"
                   />
                   {errors.destination && <p className="mt-1 text-xs text-destructive">{errors.destination}</p>}
                 </div>
               </div>
 
+              {/* Swap Button */}
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  className="h-8 w-8 rounded-full bg-background border-2"
+                  onClick={swapLocations}
+                >
+                  <ArrowLeftRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Date fields - Desktop layout aligned with FlightsHotelsBookingForm */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3 lg:gap-4 mt-3">
               {/* Departure Date */}
-              <div className="col-span-1 md:col-span-1 lg:col-span-2">
-                <div className="input__fields relative">
-                  <label htmlFor="departure-date-booking" className="text-xs text-gray-500 mb-1 block">Departure Date</label>
+              <div className="space-y-2 lg:col-span-6">
+                <label htmlFor="departure-date-booking" className="text-sm font-medium text-gray-700">Departure Date</label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      id="departure-date-booking"
+                      variant="outline"
+                      className={cn(
+                        "h-12 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal border-input",
+                        !data.departDate && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />
+                      {data.departDate ? format(data.departDate, "dd/MM/yyyy") : "Departure"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <CalendarWidget
+                      mode="single"
+                      selected={data.departDate}
+                      onSelect={(date) => setData((d) => ({ ...d, departDate: date }))}
+                      disabled={(date) => date < new Date()}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+                {errors.departDate && <p className="mt-1 text-xs text-destructive">{errors.departDate}</p>}
+              </div>
+
+              {/* Return Date */}
+              {data.tripType === "round" && (
+                <div className="space-y-2 lg:col-span-6">
+                  <label htmlFor="return-date-booking" className="text-sm font-medium text-gray-700">Return Date</label>
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
-                        id="departure-date-booking"
+                        id="return-date-booking"
                         variant="outline"
                         className={cn(
                           "h-12 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal border-input",
-                          !data.departDate && "text-muted-foreground"
+                          !data.returnDate && "text-muted-foreground"
                         )}
                       >
                         <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />
-                        {data.departDate ? format(data.departDate, "dd/MM/yyyy") : "Departure"}
+                        {data.returnDate ? format(data.returnDate, "dd/MM/yyyy") : "Returning"}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
                       <CalendarWidget
                         mode="single"
-                        selected={data.departDate}
-                        onSelect={(date) => setData((d) => ({ ...d, departDate: date }))}
-                        disabled={(date) => date < new Date()}
+                        selected={data.returnDate}
+                        onSelect={(date) => setData((d) => ({ ...d, returnDate: date }))}
+                        disabled={(date) => date < new Date() || (data.departDate && date <= data.departDate)}
                         initialFocus
                       />
                     </PopoverContent>
                   </Popover>
-                  {errors.departDate && <p className="mt-1 text-xs text-destructive">{errors.departDate}</p>}
-                </div>
-              </div>
-
-              {/* Return Date */}
-              {data.tripType === "round" && (
-                <div className="col-span-1 md:col-span-1 lg:col-span-2">
-                  <div className="input__fields relative">
-                    <label htmlFor="return-date-booking" className="text-xs text-gray-500 mb-1 block">Return Date</label>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          id="return-date-booking"
-                          variant="outline"
-                          className={cn(
-                            "h-12 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal border-input",
-                            !data.returnDate && "text-muted-foreground"
-                          )}
-                        >
-                          <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />
-                          {data.returnDate ? format(data.returnDate, "dd/MM/yyyy") : "Returning"}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <CalendarWidget
-                          mode="single"
-                          selected={data.returnDate}
-                          onSelect={(date) => setData((d) => ({ ...d, returnDate: date }))}
-                          disabled={(date) => date < new Date() || (data.departDate && date <= data.departDate)}
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
-                    {errors.returnDate && <p className="mt-1 text-xs text-destructive">{errors.returnDate}</p>}
-                  </div>
+                  {errors.returnDate && <p className="mt-1 text-xs text-destructive">{errors.returnDate}</p>}
                 </div>
               )}
+            </div>
 
-              {/* Phone Number */}
-              <div className="col-span-1 md:col-span-1 lg:col-span-2">
-                <div className="input__fields relative">
-                  <label htmlFor="phone-booking" className="text-xs text-gray-500 mb-1 block">Phone Number</label>
-                  <div className="relative">
-                    <Input
-                      id="phone-booking"
-                      name="phone"
-                      type="tel"
-                      placeholder="UK Number Only"
-                      value={data.phone || ""}
-                      onChange={(e) => setData((d) => ({ ...d, phone: e.target.value }))}
-                      className="h-12 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10"
-                      autoComplete="tel"
-                      inputMode="tel"
-                    />
-                    <Phone className="absolute right-3 top-3 h-4 w-4 opacity-70" />
-                  </div>
+            {/* Contact Information - Desktop layout aligned with FlightsHotelsBookingForm */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3 lg:gap-4 mt-3">
+              <div className="space-y-2 lg:col-span-6">
+                <label htmlFor="phone-booking" className="text-sm font-medium text-gray-700">Phone Number</label>
+                <div className="relative">
+                  <Input
+                    id="phone-booking"
+                    name="phone"
+                    type="tel"
+                    placeholder="UK Number Only"
+                    value={data.phone || ""}
+                    onChange={(e) => setData((d) => ({ ...d, phone: e.target.value }))}
+                    className="h-12 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10"
+                    autoComplete="tel"
+                    inputMode="tel"
+                  />
+                  <Phone className="absolute right-3 top-3 h-4 w-4 opacity-70" />
                 </div>
               </div>
-
-              {/* Email Address - Only show when return date is not visible or adjust span */}
-              <div className={cn(
-                "col-span-1 md:col-span-1",
-                data.tripType === "round" ? "lg:col-span-12 lg:mt-2" : "lg:col-span-4"
-              )}>
-                <div className="input__fields relative">
-                  <label htmlFor="email-booking" className="text-xs text-gray-500 mb-1 block">Email Address</label>
-                  <div className="relative">
-                    <Input
-                      id="email-booking"
-                      name="email"
-                      type="email"
-                      placeholder="Email (Optional)"
-                      value={data.email || ""}
-                      onChange={(e) => setData((d) => ({ ...d, email: e.target.value }))}
-                      className="h-12 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10"
-                      autoComplete="email"
-                      inputMode="email"
-                    />
-                    <Mail className="absolute right-3 top-3 h-4 w-4 opacity-70" />
-                  </div>
+              <div className="space-y-2 lg:col-span-6">
+                <label htmlFor="email-booking" className="text-sm font-medium text-gray-700">Email Address</label>
+                <div className="relative">
+                  <Input
+                    id="email-booking"
+                    name="email"
+                    type="email"
+                    placeholder="Email (Optional)"
+                    value={data.email || ""}
+                    onChange={(e) => setData((d) => ({ ...d, email: e.target.value }))}
+                    className="h-12 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10"
+                    autoComplete="email"
+                    inputMode="email"
+                  />
+                  <Mail className="absolute right-3 top-3 h-4 w-4 opacity-70" />
                 </div>
               </div>
             </div>
