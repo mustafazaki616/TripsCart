@@ -34,9 +34,9 @@ const FlightsAfrica = () => {
       <div className="bg-background">
         <div className="container mx-auto px-4 py-16">
           <div className="max-w-3xl mx-auto prose prose-invert">
-            <h2>Discover Africa with TripsCart</h2>
+            <h2>Discover Africa with flightshop380</h2>
             <p>
-              Explore great-value fares to key African destinations with TripsCart. We offer competitive prices 
+              Explore great-value fares to key African destinations with flightshop380. We offer competitive prices 
               on flights to major cities across Africa, including Accra, Lagos, Nairobi, and Harare.
             </p>
             <p>

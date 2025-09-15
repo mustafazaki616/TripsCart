@@ -34,9 +34,9 @@ const HajjPage = () => {
       <div className="bg-background">
         <div className="container mx-auto px-4 py-16">
           <div className="max-w-3xl mx-auto prose prose-invert">
-            <h2>Book Your Hajj Journey with TripsCart</h2>
+            <h2>Book Your Hajj Journey with flightshop380</h2>
             <p>
-              TripsCart is one of the most trusted and highly credible travel companies of the present time. 
+              flightshop380 is one of the most trusted and highly credible travel companies of the present time. 
               We offer numerous packages of Hajj flights at competitive rates. The interesting part besides 
               the affordable rates is the superior customer service by the professional customer department.
             </p>

@@ -9,7 +9,7 @@ const BookingHelp = () => {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">Booking Help</h1>
           <p className="text-lg text-muted-foreground">
-            Step-by-step guidance to help you complete your bookings successfully on TripsCart
+            Step-by-step guidance to help you complete your bookings successfully on flightshop380
           </p>
         </div>
 

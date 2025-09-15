@@ -48,13 +48,13 @@ const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
           {/* Company Info */}
           <div className="lg:col-span-2">
-            <div className="text-2xl font-bold mb-4">TripsCart</div>
+            <div className="text-2xl font-bold mb-4"> flightshop380</div>
             <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
-              TripsCart offers a seamless flight search experience, smart comparisons, and secure checkout to help you book the best fares with ease. Your trusted travel companion for unforgettable journeys.
+              flightshop380 offers a seamless flight search experience, smart comparisons, and secure checkout to help you book the best fares with ease. Your trusted travel companion for unforgettable journeys.
             </p>
             <div className="text-sm text-muted-foreground">
-              <p className="mb-1">📧 info@tripscart.co.uk</p>
-              <p className="mb-1">📞 019-315-87001</p>
+              <p className="mb-1">📧 info@flightshop380.com</p>
+              <p className="mb-1">📞 020-360-31248</p>  
               <p>🕒 24/7 Customer Support</p>
             </div>
           </div>
@@ -118,16 +118,16 @@ const Footer = () => {
         {/* ATOL Protection Information */}
         <div className="mt-12 pt-8 border-t">
           <div className="text-center max-w-4xl mx-auto">
-            <h3 className="text-lg font-semibold mb-4 text-foreground">Your Travel Protection with TripsCart</h3>
+            <h3 className="text-lg font-semibold mb-4 text-foreground">Your Travel Protection with flightshop380</h3>
             <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6 text-sm text-muted-foreground leading-relaxed">
               <p className="mb-4">
-                Selected flights and flight-inclusive holidays available through TripsCart are financially protected under the ATOL scheme. However, ATOL protection does not cover all holiday and travel services featured on our platform. We recommend confirming the protection applicable to your booking before proceeding.
+                Selected flights and flight-inclusive holidays available through flightshop380 are financially protected under the ATOL scheme. However, ATOL protection does not cover all holiday and travel services featured on our platform. We recommend confirming the protection applicable to your booking before proceeding.
               </p>
               <p className="mb-4">
                 If you do not receive an ATOL Certificate upon booking, your reservation will not be ATOL protected. Should you receive an ATOL Certificate, please verify that all components of your trip are properly listed. If any parts are missing, those elements are not financially protected.
               </p>
               <p className="mb-4">
-                For comprehensive information about financial protection and the ATOL Certificate, please visit our booking terms or contact our support team. TripsCart is committed to ensuring your travel experience is both memorable and secure.
+                For comprehensive information about financial protection and the ATOL Certificate, please visit our booking terms or contact our support team. flightshop380 is committed to ensuring your travel experience is both memorable and secure.
               </p>
               {/* <p className="text-center font-medium text-foreground">
                 For the latest travel guidance from the Foreign & Commonwealth Office, including security updates, local regulations, and passport requirements, 
@@ -141,7 +141,7 @@ const Footer = () => {
         <div className="mt-8 pt-6 border-t">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
             <div className="text-xs text-muted-foreground text-center lg:text-left">
-              © {new Date().getFullYear()} TripsCart. All rights reserved. | Registered in England & Wales
+              © {new Date().getFullYear()}  flightshop380. All rights reserved. | Registered in England & Wales
             </div>
             <div className="flex flex-wrap gap-4 text-xs text-muted-foreground justify-center">
               <a href="/booking-terms" className="hover:text-yellow-400 transition-colors">Privacy Policy</a>

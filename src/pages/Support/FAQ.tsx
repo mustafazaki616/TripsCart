@@ -27,7 +27,7 @@ const FAQ = () => {
         {
           id: "booking-2",
           question: "Can I book flights and hotels together?",
-          answer: "Yes! TripsCart offers package deals that combine flights and hotels for better savings. Look for the 'Flight + Hotel' option when searching to see bundled packages."
+          answer: "Yes! flightshop380 offers package deals that combine flights and hotels for better savings. Look for the 'Flight + Hotel' option when searching to see bundled packages."
         },
         {
           id: "booking-3",
@@ -64,7 +64,7 @@ const FAQ = () => {
         {
           id: "manage-1",
           question: "How can I view my booking details?",
-          answer: "Log into your TripsCart account and go to 'My Bookings' to view all your reservations, confirmation numbers, and booking details. You can also access this information from your confirmation email."
+          answer: "Log into your flightshop380 account and go to 'My Bookings' to view all your reservations, confirmation numbers, and booking details. You can also access this information from your confirmation email."
         },
         {
           id: "manage-2",
@@ -107,7 +107,7 @@ const FAQ = () => {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">Frequently Asked Questions</h1>
           <p className="text-lg text-muted-foreground">
-            Find quick answers to the most common questions about booking and using TripsCart services
+            Find quick answers to the most common questions about booking and using flightshop380 services
           </p>
         </div>
 

@@ -8,7 +8,7 @@ const Hotels = () => {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">Hotel Booking Services</h1>
           <p className="text-lg text-muted-foreground">
-            Discover and book the perfect accommodation for your stay with TripsCart's extensive hotel network
+            Discover and book the perfect accommodation for your stay with flightshop380's extensive hotel network
           </p>
         </div>
 
@@ -74,7 +74,7 @@ const Hotels = () => {
           <h2 className="text-2xl font-semibold mb-4">Hotel Booking Made Simple</h2>
           <div className="space-y-4 text-muted-foreground">
             <p>
-              TripsCart's hotel booking platform offers competitive rates and instant confirmation for thousands of 
+              flightshop380's hotel booking platform offers competitive rates and instant confirmation for thousands of 
               properties worldwide. Our partnerships with leading hotel chains and independent properties ensure 
               you get the best value for your money.
             </p>

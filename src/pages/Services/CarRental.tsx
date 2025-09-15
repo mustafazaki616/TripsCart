@@ -8,7 +8,7 @@ const CarRental = () => {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">Car Rental Services</h1>
           <p className="text-lg text-muted-foreground">
-            Rent a car with ease and explore your destination at your own pace with TripsCart's car rental partners
+            Rent a car with ease and explore your destination at your own pace with  flightshop380's car rental partners
           </p>
         </div>
 
@@ -71,10 +71,10 @@ const CarRental = () => {
         </div>
 
         <div className="bg-muted/50 rounded-lg p-8">
-          <h2 className="text-2xl font-semibold mb-4">Why Rent a Car with TripsCart?</h2>
+          <h2 className="text-2xl font-semibold mb-4">Why Rent a Car with flightshop380?</h2>
           <div className="space-y-4 text-muted-foreground">
             <p>
-              TripsCart partners with leading car rental companies to offer competitive rates and reliable service. 
+               flightshop380 partners with leading car rental companies to offer competitive rates and reliable service. 
               Our platform makes it easy to compare prices, vehicle types, and rental terms from multiple providers 
               in one convenient location.
             </p>

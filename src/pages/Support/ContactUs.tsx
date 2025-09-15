@@ -84,8 +84,8 @@ const ContactUs = () => {
                   <CardContent>
                     <CardDescription className="text-base">
                       <div className="space-y-1">
-                        <p>General: support@tripscart.com</p>
-                        <p>Bookings: bookings@tripscart.com</p>
+                        <p>General: info@flightshop380.com</p>
+                        <p>Bookings: info@flightshop380.com</p>
                         <p>Response within 24 hours</p>
                       </div>
                     </CardDescription>

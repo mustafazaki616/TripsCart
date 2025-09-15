@@ -8,7 +8,7 @@ const HelpCenter = () => {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">Help Center</h1>
           <p className="text-lg text-muted-foreground">
-            Find answers to common questions and get the support you need for your TripsCart experience
+            Find answers to common questions and get the support you need for your flightshop380 experience
           </p>
         </div>
 

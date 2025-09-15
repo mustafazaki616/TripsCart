@@ -23,7 +23,7 @@ const HeroSection = () => {
         {/* Emergency Phone Banner - Mobile Only */}
         <div className="mt-6 md:hidden">
           <a 
-            href="tel:01931587001" 
+            href="tel:020-360-31248" 
             className="flex items-center justify-center gap-3 bg-gradient-to-r from-primary to-primary/80 text-primary-foreground rounded-xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 active:scale-95"
           >
             <div className="bg-white/20 rounded-full p-2">
@@ -31,7 +31,7 @@ const HeroSection = () => {
             </div>
             <div className="text-center">
               <div className="text-sm font-medium opacity-90">24/7 Emergency Support</div>
-              <div className="text-lg font-bold">Call: 019-315-87001</div>
+              <div className="text-lg font-bold">Call: 020-360-31248</div>
             </div>
           </a>
         </div>

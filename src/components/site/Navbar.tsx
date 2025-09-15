@@ -13,11 +13,11 @@ const Navbar = () => {
       <div className="bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/70 text-white py-2 hidden md:block">
         <div className="container mx-auto flex justify-between items-center text-sm">
           <div className="flex items-center gap-4">
-            <a href="tel:0208-004-4475" className="flex items-center gap-1 hover:text-yellow-400 transition-colors">
-              <Phone className="w-3 h-3" /> 019-315-87001
+            <a href="tel:020-360-31248" className="flex items-center gap-1 hover:text-yellow-400 transition-colors">
+              <Phone className="w-3 h-3" /> 020-360-31248
             </a>
-            <a href="mailto:info@tripscart.co.uk" className="flex items-center gap-1 hover:text-yellow-400 transition-colors">
-              <Mail className="w-3 h-3" /> info@tripscart.co.uk
+            <a href="mailto:info@flightshop380.com" className="flex items-center gap-1 hover:text-yellow-400 transition-colors">
+              <Mail className="w-3 h-3" /> info@flightshop380.com
             </a>
             <div className="flex items-center gap-1">
               <span className="flex items-center gap-1">
@@ -41,7 +41,7 @@ const Navbar = () => {
       <nav className="container mx-auto flex items-center justify-between py-3 px-4 sm:px-6">
         <a href="/" className="flex items-center gap-2">
           <ShoppingCart className="text-primary" />
-          <span className="text-lg font-bold">TripsCart</span>
+          <span className="text-lg font-bold">flightshop380</span>
         </a>
         <div className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
           <a href="/" className="hover:text-yellow-400 transition-colors">HOME</a>
@@ -97,7 +97,7 @@ const Navbar = () => {
           <SheetContent side="left" className="w-[85vw] max-w-[280px] p-0 border-r">
             <div className="p-4 border-b flex items-center gap-2 bg-primary/10">
               <ShoppingCart className="text-primary" />
-              <span className="text-lg font-bold">TripsCart</span>
+              <span className="text-lg font-bold">flightshop380</span>
             </div>
             <nav className="p-2 overflow-y-auto max-h-[calc(100vh-80px)] text-sm">
               <a href="/" className="block px-3 py-2.5 rounded hover:bg-accent border-b">HOME</a>
@@ -149,8 +149,8 @@ const Navbar = () => {
                   <a href="tel:0208-004-4475" className="flex items-center gap-1 text-xs">
                     <Phone className="w-3 h-3" /> +44 01315 87001
                   </a>
-                  <a href="mailto:info@tripscart.com" className="flex items-center gap-1 text-xs">
-                    <Mail className="w-3 h-3" /> info@tripscart.co.uk
+                  <a href="mailto:info@flightshop380.com" className="flex items-center gap-1 text-xs">
+                    <Mail className="w-3 h-3" /> info@flightshop380.com
                   </a>
                 </div>
                 <div className="flex items-center gap-3 mt-3 justify-center">

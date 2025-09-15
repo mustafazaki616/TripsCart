@@ -49,7 +49,7 @@ const AccreditationDrawer: React.FC = () => {
                 />
                 <p className="text-sm leading-relaxed">
                   We are <span className="font-semibold">IATA Registered</span> -
-                  TripsCart
+                   flightshop380
                 </p>
               </div>
             </div>

@@ -8,7 +8,7 @@ const VisaServices = () => {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">Visa Services</h1>
           <p className="text-lg text-muted-foreground">
-            Simplify your visa application process with TripsCart's comprehensive visa assistance services
+            Simplify your visa application process with flightshop380's comprehensive visa assistance services
           </p>
         </div>
 
@@ -74,7 +74,7 @@ const VisaServices = () => {
           <h2 className="text-2xl font-semibold mb-4">Comprehensive Visa Support</h2>
           <div className="space-y-4 text-muted-foreground">
             <p>
-              TripsCart's visa services team consists of experienced professionals who understand the complexities 
+              flightshop380's visa services team consists of experienced professionals who understand the complexities 
               of international travel documentation. We provide personalized assistance to ensure your visa 
               application meets all requirements and is submitted correctly.
             </p>

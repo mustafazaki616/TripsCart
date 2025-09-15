@@ -34,7 +34,7 @@ const Umrah = () => {
       <div className="bg-background">
         <div className="container mx-auto px-4 py-16">
           <div className="max-w-3xl mx-auto prose prose-invert">
-            <h2>Plan Your Sacred Journey with TripsCart</h2>
+            <h2>Plan Your Sacred Journey with flightshop380</h2>
             <p>
               Affordable Umrah packages from the UK provide a budget-friendly option for pilgrims seeking to perform 
               the sacred journey to Makkah and Madinah. These packages generally cover the essential aspects of 

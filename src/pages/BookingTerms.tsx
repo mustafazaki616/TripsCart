@@ -12,7 +12,7 @@ const BookingTerms = () => {
               <h1 className="text-4xl md:text-5xl font-bold">Booking Terms & Conditions</h1>
             </div>
             <p className="text-xl text-muted-foreground mb-8">
-              Please read these terms carefully before making your booking with TripsCart.
+              Please read these terms carefully before making your booking with flightshop380.
             </p>
           </div>
         </div>
@@ -31,13 +31,13 @@ const BookingTerms = () => {
               </h2>
               <div className="space-y-4 text-muted-foreground">
                 <p>
-                  By making a booking with TripsCart, you agree to be bound by these terms and conditions. These terms apply to all bookings made through our website, phone, or in-person.
+                  By making a booking with flightshop380, you agree to be bound by these terms and conditions. These terms apply to all bookings made through our website, phone, or in-person.
                 </p>
                 <p>
                   All prices are quoted in British Pounds (GBP) unless otherwise stated. Prices are subject to change without notice until the booking is confirmed.
                 </p>
                 <p>
-                  Bookings are not confirmed until you receive a confirmation email from TripsCart with your booking reference number.
+                  Bookings are not confirmed until you receive a confirmation email from flightshop380 with your booking reference number.
                 </p>
               </div>
             </div>
@@ -152,7 +152,7 @@ const BookingTerms = () => {
                 </ul>
                 <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
                   <p className="text-red-700 dark:text-red-300">
-                    <strong>Warning:</strong> TripsCart is not responsible for any medical expenses or losses incurred during travel.
+                    <strong>Warning:</strong> flightshop380 is not responsible for any medical expenses or losses incurred during travel.
                   </p>
                 </div>
               </div>
@@ -194,7 +194,7 @@ const BookingTerms = () => {
               </h2>
               <div className="space-y-4 text-muted-foreground">
                 <p>
-                  TripsCart is not liable for any failure to perform due to circumstances beyond our control, including but not limited to:
+                  flightshop380 is not liable for any failure to perform due to circumstances beyond our control, including but not limited to:
                 </p>
                 <ul className="list-disc list-inside space-y-1 ml-4">
                   <li>Natural disasters and extreme weather conditions</li>
@@ -220,8 +220,8 @@ const BookingTerms = () => {
                   For questions about these terms or to make changes to your booking:
                 </p>
                 <ul className="list-disc list-inside space-y-1 ml-4">
-                  <li><strong>Email:</strong> info@tripscart.co.uk</li>
-                  <li><strong>Phone:</strong> 019-315-87001</li>
+                  <li><strong>Email:</strong> info@flightshop380.com</li>
+                  <li><strong>Phone:</strong> 020-360-31248</li>
                   <li><strong>Hours:</strong> Monday-Sunday 9:00 AM - 9:00 PM GMT</li>
                   <li><strong>Emergency:</strong> 24/7 emergency contact provided with booking confirmation</li>
                 </ul>
@@ -236,7 +236,7 @@ const BookingTerms = () => {
                   These terms and conditions are governed by English law. Any disputes will be subject to the exclusive jurisdiction of the courts of England and Wales.
                 </p>
                 <p>
-                  TripsCart reserves the right to modify these terms at any time. Updated terms will be posted on our website and will apply to all new bookings.
+                  flightshop380 reserves the right to modify these terms at any time. Updated terms will be posted on our website and will apply to all new bookings.
                 </p>
                 <p className="text-sm">
                   <strong>Last updated:</strong> {new Date().toLocaleDateString()}

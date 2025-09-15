@@ -10,7 +10,7 @@ const About = () => {
           <div className="text-center max-w-4xl mx-auto">
             <div className="flex items-center justify-center gap-2 mb-6">
               <Plane className="text-primary w-8 h-8" />
-              <h1 className="text-4xl md:text-5xl font-bold">About TripsCart</h1>
+              <h1 className="text-4xl md:text-5xl font-bold">About flightshop380</h1>
             </div>
             <p className="text-xl text-muted-foreground mb-8">
               Your trusted partner for seamless travel experiences, connecting you to the world with confidence and care.
@@ -26,7 +26,7 @@ const About = () => {
             <div>
               <h2 className="text-3xl font-bold mb-6">Our Mission</h2>
               <p className="text-lg text-muted-foreground mb-6">
-                At TripsCart, we believe that travel should be accessible, enjoyable, and worry-free. Our mission is to provide exceptional travel services that connect people with their dreams, whether it's a spiritual journey to Umrah, an adventure across Africa, or a business trip to Pakistan.
+                At flightshop380, we believe that travel should be accessible, enjoyable, and worry-free. Our mission is to provide exceptional travel services that connect people with their dreams, whether it's a spiritual journey to Umrah, an adventure across Africa, or a business trip to Pakistan.
               </p>
               <p className="text-lg text-muted-foreground">
                 We're committed to offering competitive prices, personalized service, and comprehensive support throughout your entire journey.
@@ -153,7 +153,7 @@ const About = () => {
       {/* Team */}
       <section className="py-16 bg-secondary/20">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">Why Choose TripsCart?</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">Why Choose flightshop380?</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="w-16 h-16 bg-primary/20 rounded-full mx-auto mb-4 flex items-center justify-center">

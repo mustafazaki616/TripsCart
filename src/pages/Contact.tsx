@@ -109,7 +109,7 @@ const Contact = () => {
               <h3 className="text-xl font-semibold mb-3">Call Us</h3>
               <p className="text-muted-foreground mb-4">
                 <a href="tel:+442012345678" className="text-primary hover:underline">
-                  019-315-87001
+                  020-360-31248
                 </a>
               </p>
               <p className="text-sm text-muted-foreground">
@@ -124,12 +124,12 @@ const Contact = () => {
               </div>
               <h3 className="text-xl font-semibold mb-3">Email Us</h3>
               <p className="text-muted-foreground mb-4">
-                <a href="mailto:info@tripscart.com" className="text-primary hover:underline">
-                  info@tripscart.co.uk
+                <a href="mailto:info@flightshop380.com" className="text-primary hover:underline">
+                  info@flightshop380.com
                 </a>
               </p>
               <p className="text-sm text-muted-foreground">
-                Support: info@tripcart.co.uk
+                Support: info@flightshop380.com
               </p>
             </div>
           </div>
@@ -179,7 +179,7 @@ const Contact = () => {
                       type="tel"
                       value={formData.phone}
                       onChange={(e) => setField("phone", e.target.value)}
-                      placeholder="019-315-87001"
+                      placeholder="020-360-31248"
                       className="h-12"
                       autoComplete="tel"
                       inputMode="tel"

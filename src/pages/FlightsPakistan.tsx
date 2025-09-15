@@ -41,9 +41,9 @@ const FlightsPakistan = () => {
       <div className="bg-background">
         <div className="container mx-auto px-4 py-16">
           <div className="max-w-3xl mx-auto prose prose-invert">
-            <h2>Find the Best Flights with TripsCart</h2>
+            <h2>Find the Best Flights with flightshop380</h2>
             <p>
-              Looking for affordable flights? TripsCart offers the best fares from the UK to all major 
+              Looking for affordable flights? flightshop380 offers the best fares from the UK to all major 
               countries. Whether you're traveling to Pakistan, India, Dubai, or any other destination, 
               we ensure competitive prices and excellent service.
             </p>

@@ -8,7 +8,7 @@ const TravelInsurance = () => {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">Travel Insurance</h1>
           <p className="text-lg text-muted-foreground">
-            Protect your journey with comprehensive travel insurance coverage from TripsCart's trusted partners
+            Protect your journey with comprehensive travel insurance coverage from flightshop380's trusted partners
           </p>
         </div>
 
@@ -79,7 +79,7 @@ const TravelInsurance = () => {
               to unforeseen circumstances, comprehensive coverage gives you peace of mind.
             </p>
             <p>
-              TripsCart partners with reputable insurance providers to offer competitive rates and comprehensive 
+              flightshop380 partners with reputable insurance providers to offer competitive rates and comprehensive 
               coverage options. Whether you're taking a short domestic trip or an extended international journey, 
               we have insurance plans tailored to your specific travel needs.
             </p>

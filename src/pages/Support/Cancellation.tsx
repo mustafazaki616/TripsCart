@@ -9,7 +9,7 @@ const Cancellation = () => {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">Cancellation Policy & Help</h1>
           <p className="text-lg text-muted-foreground">
-            Understand your cancellation options and learn how to cancel or modify your TripsCart bookings
+            Understand your cancellation options and learn how to cancel or modify your flightshop380 bookings
           </p>
         </div>
 
@@ -40,7 +40,7 @@ const Cancellation = () => {
                   <div className="flex-shrink-0 w-6 h-6 bg-yellow-500 text-black rounded-full flex items-center justify-center text-sm font-semibold">
                     1
                   </div>
-                  <p className="text-sm">Log into your TripsCart account</p>
+                  <p className="text-sm">Log into your flightshop380 account</p>
                 </div>
                 <div className="flex gap-3">
                   <div className="flex-shrink-0 w-6 h-6 bg-yellow-500 text-black rounded-full flex items-center justify-center text-sm font-semibold">

@@ -8,7 +8,7 @@ const FlightBooking = () => {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">Flight Booking Services</h1>
           <p className="text-lg text-muted-foreground">
-            Book your flights with confidence through TripsCart's comprehensive flight booking platform
+            Book your flights with confidence through flightshop380's comprehensive flight booking platform
           </p>
         </div>
 
@@ -71,10 +71,10 @@ const FlightBooking = () => {
         </div>
 
         <div className="bg-muted/50 rounded-lg p-8">
-          <h2 className="text-2xl font-semibold mb-4">Why Choose TripsCart for Flight Booking?</h2>
+          <h2 className="text-2xl font-semibold mb-4">Why Choose flightshop380 for Flight Booking?</h2>
           <div className="space-y-4 text-muted-foreground">
             <p>
-              TripsCart offers a seamless flight booking experience with competitive prices and comprehensive search options. 
+               flightshop380 offers a seamless flight booking experience with competitive prices and comprehensive search options. 
               Our platform connects you with trusted airlines and provides transparent pricing with no hidden fees.
             </p>
             <p>

@@ -12,7 +12,7 @@ const EmergencyCallButton = () => {
   };
 
   const handleLandlineCall = () => {
-    window.location.href = 'tel:019-315-87001';
+    window.location.href = 'tel:020-360-31248';
     setIsModalOpen(false);
   };
 
@@ -63,7 +63,7 @@ const EmergencyCallButton = () => {
                 <Phone className="h-5 w-5 text-primary" />
                 <div className="flex flex-col items-start">
                   <span className="font-medium">Call Landline</span>
-                  <span className="text-sm text-muted-foreground">019-315-87001</span>
+                  <span className="text-sm text-muted-foreground">020-360-31248</span>
                 </div>
               </Button>
               
