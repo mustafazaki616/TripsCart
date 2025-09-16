@@ -63,7 +63,7 @@ export const PassengerModal: React.FC<PassengerModalProps> = ({
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-[425px] p-0">
+        <DialogContent className="max-w-xs p-0 rounded-lg">
           <div className="bg-gray-800 text-white rounded-lg p-4 space-y-4">
             {/* Adults */}
             <div className="flex items-center justify-between">
