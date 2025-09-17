@@ -28,9 +28,7 @@ export const PassengerModal: React.FC<PassengerModalProps> = ({
     if (increment) {
       newPassengers[type] += 1;
     } else {
-      if (type === 'adults' && newPassengers[type] > 1) {
-        newPassengers[type] -= 1;
-      } else if (type !== 'adults' && newPassengers[type] > 0) {
+      if (newPassengers[type] > 0) {
         newPassengers[type] -= 1;
       }
     }
@@ -77,7 +75,7 @@ export const PassengerModal: React.FC<PassengerModalProps> = ({
                   size="sm"
                   className="h-8 w-8 p-0 text-white hover:bg-gray-700"
                   onClick={() => updateCount('adults', false)}
-                  disabled={passengers.adults <= 1}
+                  disabled={passengers.adults <= 0}
                 >
                   <Minus className="h-4 w-4" />
                 </Button>

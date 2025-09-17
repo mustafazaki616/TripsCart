@@ -534,9 +534,6 @@ const BookingForm: React.FC = () => {
                                 onClick={() =>
                                   setData((d) => {
                                     const updated = { ...d, [row.key]: Math.max(row.min, value - 1) } as FormState;
-                                    if (row.key === "adults" && updated.infants > updated.adults) {
-                                      updated.infants = updated.adults;
-                                    }
                                     return updated;
                                   })
                                 }
@@ -544,27 +541,21 @@ const BookingForm: React.FC = () => {
                               >
                                 <Minus className="h-4 w-4" />
                               </Button>
-                              <span className="w-8 text-center text-sm">{value}</span>
-                              <Button
-                                type="button"
-                                size="icon"
-                                variant="secondary"
-                                onClick={() =>
-                                  setData((d) => {
-                                    const cap = 9;
-                                    const total = d.adults + d.children + d.infants;
-                                    if (total >= cap) return d;
-                                    const updated = { ...d, [row.key]: value + 1 } as FormState;
-                                    if (row.key === "infants" && updated.infants > updated.adults) {
-                                      return d;
-                                    }
-                                    return updated;
-                                  })
-                                }
-                                aria-label={`Increase ${row.label}`}
-                              >
-                                <Plus className="h-4 w-4" />
-                              </Button>
+                            <span className="w-8 text-center text-sm">{value}</span>
+                            <Button
+                              type="button"
+                              size="icon"
+                              variant="secondary"
+                              onClick={() =>
+                                setData((d) => {
+                                  const updated = { ...d, [row.key]: value + 1 } as FormState;
+                                  return updated;
+                                })
+                              }
+                              aria-label={`Increase ${row.label}`}
+                            >
+                              <Plus className="h-4 w-4" />
+                            </Button>
                             </div>
                           </div>
                         );
