@@ -54,7 +54,7 @@ const Footer = () => {
             </p>
             <div className="text-sm text-muted-foreground">
               <p className="mb-1">📧 info@flightshop380.com</p>
-              <p className="mb-1">📞 020-360-31248</p>  
+              <p className="mb-1">📞 0203-603-1248</p>  
               <p>🕒 24/7 Customer Support</p>
             </div>
           </div>

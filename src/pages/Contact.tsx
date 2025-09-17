@@ -109,7 +109,7 @@ const Contact = () => {
               <h3 className="text-xl font-semibold mb-3">Call Us</h3>
               <p className="text-muted-foreground mb-4">
                 <a href="tel:+442012345678" className="text-primary hover:underline">
-                  020-360-31248
+                  0203-603-1248
                 </a>
               </p>
               <p className="text-sm text-muted-foreground">
@@ -179,7 +179,7 @@ const Contact = () => {
                       type="tel"
                       value={formData.phone}
                       onChange={(e) => setField("phone", e.target.value)}
-                      placeholder="020-360-31248"
+                      placeholder="0203-603-1248"
                       className="h-12"
                       autoComplete="tel"
                       inputMode="tel"

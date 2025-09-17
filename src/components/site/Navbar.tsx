@@ -13,8 +13,8 @@ const Navbar = () => {
       <div className="bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/70 text-white py-2 hidden md:block">
         <div className="container mx-auto flex justify-between items-center text-sm">
           <div className="flex items-center gap-4">
-            <a href="tel:020-360-31248" className="flex items-center gap-1 hover:text-yellow-400 transition-colors">
-              <Phone className="w-3 h-3" /> 020-360-31248
+            <a href="tel:0203-603-1248" className="flex items-center gap-1 hover:text-yellow-400 transition-colors">
+              <Phone className="w-3 h-3" /> 0203-603-1248
             </a>
             <a href="mailto:info@flightshop380.com" className="flex items-center gap-1 hover:text-yellow-400 transition-colors">
               <Mail className="w-3 h-3" /> info@flightshop380.com
