@@ -1,14 +1,19 @@
 import BookingForm from "@/components/site/BookingForm";
 import africaBg from "@/assets/africa-bg.jpg";
+import africaMobileBg from "@/assets/mobile-bg/mobile-africa.jpg";
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const FlightsAfrica = () => {
+  const isMobile = useIsMobile();
   return (
     <>
       {/* Hero Section with Background Image */}
       <div 
-        className="relative min-h-screen bg-cover bg-center"
+        className="relative min-h-screen bg-cover bg-center bg-no-repeat overflow-hidden"
         style={{ 
-          backgroundImage: `url(${africaBg})`,
+          backgroundImage: `url(${isMobile ? africaMobileBg : africaBg})`,
+          backgroundSize: 'cover',
+          minHeight: '100vh'
         }}
       >
         {/* Gradient Overlay */}

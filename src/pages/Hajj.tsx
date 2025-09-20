@@ -1,14 +1,19 @@
 import BookingForm from "@/components/site/BookingForm";
 import hajjBg from "@/assets/hajj-bg.jpg";
+import hajjMobileBg from "@/assets/mobile-bg/mobile-hajj.jpg";
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const HajjPage = () => {
+  const isMobile = useIsMobile();
   return (
     <>
       {/* Hero Section with Background Image */}
       <div 
-        className="relative min-h-screen bg-cover bg-center"
+        className="relative min-h-screen bg-cover bg-center bg-no-repeat overflow-hidden"
         style={{ 
-          backgroundImage: `url(${hajjBg})`,
+          backgroundImage: `url(${isMobile ? hajjMobileBg : hajjBg})`,
+          backgroundSize: 'cover',
+          minHeight: '100vh'
         }}
       >
         {/* Gradient Overlay */}

@@ -26,13 +26,13 @@ const Navbar = () => {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <a href="https://www.facebook.com/share/1A38pdBkqU/?mibextid=wwXIfr" aria-label="Facebook" className="hover:text-yellow-400 transition-colors" target="_blank" rel="noopener noreferrer">
+            <a aria-label="Facebook" className="hover:text-yellow-400 transition-colors" target="_blank" rel="noopener noreferrer">
               <Facebook className="w-4 h-4" />
             </a>
-            <a href="https://www.instagram.com/tripscartuk?igsh=MWo0bzV1cm8yYWp3Nw%3D%3D&utm_source=qr" aria-label="Instagram" className="hover:text-yellow-400 transition-colors" target="_blank" rel="noopener noreferrer">
+            <a aria-label="Instagram" className="hover:text-yellow-400 transition-colors" target="_blank" rel="noopener noreferrer">
               <Instagram className="w-4 h-4" />
             </a>
-            <a href="https://twitter.com" aria-label="Twitter" className="hover:text-yellow-400 transition-colors" target="_blank" rel="noopener noreferrer">
+            <a aria-label="Twitter" className="hover:text-yellow-400 transition-colors" target="_blank" rel="noopener noreferrer">
               <Twitter className="w-4 h-4" />
             </a>
           </div>
@@ -147,20 +147,20 @@ const Navbar = () => {
               <div className="mt-4 px-3 py-2 bg-primary/10 rounded">
                 <div className="flex flex-col gap-2">
                   <a href="tel:0208-004-4475" className="flex items-center gap-1 text-xs">
-                    <Phone className="w-3 h-3" /> +44 01315 87001
+                    <Phone className="w-3 h-3" /> 0203-603-1248
                   </a>
                   <a href="mailto:info@flightshop380.com" className="flex items-center gap-1 text-xs">
                     <Mail className="w-3 h-3" /> info@flightshop380.com
                   </a>
                 </div>
                 <div className="flex items-center gap-3 mt-3 justify-center">
-                  <a href="https://www.facebook.com/share/1A38pdBkqU/?mibextid=wwXIfr" aria-label="Facebook" className="hover:text-yellow-400 transition-colors" target="_blank" rel="noopener noreferrer">
+                  <a aria-label="Facebook" className="hover:text-yellow-400 transition-colors" target="_blank" rel="noopener noreferrer">
                     <Facebook className="w-4 h-4" />
                   </a>
-                  <a href="https://www.instagram.com/tripscartuk?igsh=MWo0bzV1cm8yYWp3Nw%3D%3D&utm_source=qr" aria-label="Instagram" className="hover:text-yellow-400 transition-colors" target="_blank" rel="noopener noreferrer">
+                  <a aria-label="Instagram" className="hover:text-yellow-400 transition-colors" target="_blank" rel="noopener noreferrer">
                     <Instagram className="w-4 h-4" />
                   </a>
-                  <a href="https://twitter.com" aria-label="Twitter" className="hover:text-yellow-400 transition-colors" target="_blank" rel="noopener noreferrer">
+                  <a aria-label="Twitter" className="hover:text-yellow-400 transition-colors" target="_blank" rel="noopener noreferrer">
                     <Twitter className="w-4 h-4" />
                   </a>
                 </div>

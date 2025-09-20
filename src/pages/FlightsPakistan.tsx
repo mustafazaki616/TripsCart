@@ -1,20 +1,21 @@
 import BookingForm from "@/components/site/BookingForm";
 import fpBgImg from "@/assets/fp-bg-img.png";
+import pakistanMobileBg from "@/assets/mobile-bg/mobile-fp.jpg";
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const FlightsPakistan = () => {
+
+  const isMobile = useIsMobile();
 
   return (
     <>
       {/* Hero Section with Single Background Image */}
        <div 
-         className="relative min-h-screen bg-cover bg-top md:bg-center bg-no-repeat md:bg-fixed overflow-hidden"
+         className="relative min-h-screen bg-cover bg-center bg-no-repeat overflow-hidden"
          style={{ 
-           backgroundImage: `url(${fpBgImg})`,
+           backgroundImage: `url(${isMobile ? pakistanMobileBg : fpBgImg})`,
            backgroundSize: 'cover',
-           minHeight: '100vh',
-           WebkitBackgroundSize: 'cover',
-           MozBackgroundSize: 'cover',
-           OBackgroundSize: 'cover'
+           minHeight: '100vh'
          }}
        >
         
