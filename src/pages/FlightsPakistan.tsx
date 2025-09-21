@@ -1,5 +1,5 @@
 import BookingForm from "@/components/site/BookingForm";
-import fpBgImg from "@/assets/fp-bg-img.png";
+import fpBgImg from "@/assets/mobile-bg/mobile-bg-fpafr.jpg";
 import pakistanMobileBg from "@/assets/mobile-bg/mobile-bg-fpafr.jpg";
 import { useIsMobile } from '@/hooks/use-mobile';
 

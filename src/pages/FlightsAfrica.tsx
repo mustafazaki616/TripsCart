@@ -1,5 +1,5 @@
 import BookingForm from "@/components/site/BookingForm";
-import africaBg from "@/assets/africa-bg.jpg";
+import africaBg from "@/assets/mobile-bg/africa-bg-mobile.avif";
 import africaMobileBg from "@/assets/mobile-bg/africa-bg-mobile.avif";
 import { useIsMobile } from '@/hooks/use-mobile';
 
