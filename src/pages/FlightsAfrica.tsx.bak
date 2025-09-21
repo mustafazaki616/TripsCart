@@ -1,5 +1,5 @@
 import UmrahBookingForm from "@/components/site/UmrahBookingForm";
-import africaBg from "@/assets/africa-bg.jpg";
+import africaBg from "@/assets/mobile-bg/africa-bg-mobile.avif";
 
 const FlightsAfrica = () => {
   return (

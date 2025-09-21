@@ -1,6 +1,6 @@
 import BookingForm from "@/components/site/BookingForm";
 import hajjBg from "@/assets/hajj-bg.jpg";
-import hajjMobileBg from "@/assets/mobile-bg/mobile-hajj.jpg";
+import hajjMobileBg from "@/assets/mobile-bg/hajj-bg-mobile.avif";
 import { useIsMobile } from '@/hooks/use-mobile';
 
 const HajjPage = () => {

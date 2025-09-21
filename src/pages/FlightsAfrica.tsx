@@ -1,6 +1,6 @@
 import BookingForm from "@/components/site/BookingForm";
 import africaBg from "@/assets/africa-bg.jpg";
-import africaMobileBg from "@/assets/mobile-bg/mobile-africa.jpg";
+import africaMobileBg from "@/assets/mobile-bg/africa-bg-mobile.avif";
 import { useIsMobile } from '@/hooks/use-mobile';
 
 const FlightsAfrica = () => {
