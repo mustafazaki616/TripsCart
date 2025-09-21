@@ -66,7 +66,7 @@ const ContactUs = () => {
                   <CardContent>
                     <CardDescription className="text-base">
                       <div className="space-y-1">
-                        <p>UK: +44 20 1234 5678</p>
+                        <p>UK: <a href="tel:+44 7304 2296094" className="hover:text-yellow-400 transition-colors">+44 20 1234 5678</a></p>
                         {/* <p>US: +1 555 123 4567</p> */}
                         <p>Available 24/7 for urgent matters</p>
                       </div>
@@ -84,8 +84,8 @@ const ContactUs = () => {
                   <CardContent>
                     <CardDescription className="text-base">
                       <div className="space-y-1">
-                        <p>General: info@flightshop380.com</p>
-                        <p>Bookings: info@flightshop380.com</p>
+                        <p>General: <a href="mailto:info@flightshop380.com" className="hover:text-yellow-400 transition-colors">info@flightshop380.com</a></p>
+                        <p>Bookings: <a href="mailto:info@flightshop380.com" className="hover:text-yellow-400 transition-colors">info@flightshop380.com</a></p>
                         <p>Response within 24 hours</p>
                       </div>
                     </CardDescription>

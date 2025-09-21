@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Twitter } from "lucide-react";
+import { Facebook, Instagram, Twitter, Phone, Mail } from "lucide-react";
 
 // Payment card icons as SVG components
 const DeltaIcon = () => (
@@ -53,9 +53,13 @@ const Footer = () => {
               flightshop380 offers a seamless flight search experience, smart comparisons, and secure checkout to help you book the best fares with ease. Your trusted travel companion for unforgettable journeys.
             </p>
             <div className="text-sm text-muted-foreground">
-              <p className="mb-1">📧 info@flightshop380.com</p>
-              <p className="mb-1">📞 0203-603-1248</p>  
-              <p>🕒 24/7 Customer Support</p>
+              <a href="mailto:info@flightshop380.com" className="flex items-center gap-1 hover:text-yellow-400 transition-colors mb-1">
+                <Mail className="w-4 h-4" /> info@flightshop380.com
+              </a>
+              <a href="tel:0203-603-1248" className="flex items-center gap-1 hover:text-yellow-400 transition-colors mb-1">
+                <Phone className="w-4 h-4" /> 0203-603-1248
+              </a>
+              <p className="flex items-center gap-1">🕒 24/7 Customer Support</p>
             </div>
           </div>
 

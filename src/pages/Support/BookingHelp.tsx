@@ -25,12 +25,9 @@ const BookingHelp = () => {
               <CardDescription className="text-base mb-4">
                 Learn how to search, compare, and book flights with ease.
               </CardDescription>
-              <Button variant="outline" className="w-full">
-                Flight Guide
-              </Button>
+              <Button variant="outline" className="w-full" onClick={() => window.open('https://wa.me/447304229064', '_blank')}>Flight Guide</Button>
             </CardContent>
           </Card>
-
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -42,12 +39,9 @@ const BookingHelp = () => {
               <CardDescription className="text-base mb-4">
                 Find and book the perfect accommodation for your stay.
               </CardDescription>
-              <Button variant="outline" className="w-full">
-                Hotel Guide
-              </Button>
+              <Button variant="outline" className="w-full" onClick={() => window.open('https://wa.me/447304229064', '_blank')}>Hotel Guide</Button>
             </CardContent>
           </Card>
-
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -59,9 +53,7 @@ const BookingHelp = () => {
               <CardDescription className="text-base mb-4">
                 Rent a car for your trip with our simple booking process.
               </CardDescription>
-              <Button variant="outline" className="w-full">
-                Car Rental Guide
-              </Button>
+              <Button variant="outline" className="w-full" onClick={() => window.open('https://wa.me/447304229064', '_blank')}>Car Rental Guide</Button>
             </CardContent>
           </Card>
         </div>

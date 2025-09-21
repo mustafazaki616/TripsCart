@@ -1,6 +1,6 @@
 import BookingForm from "@/components/site/BookingForm";
-import fpBgImg from "@/assets/mobile-bg/mobile-bg-fpafr.jpg";
-import pakistanMobileBg from "@/assets/mobile-bg/mobile-bg-fpafr.jpg";
+import fpBgImg from "@/assets/mobile-bg/fpbg2.avif";
+import pakistanMobileBg from "@/assets/mobile-bg/fpbg2.avif";
 import { useIsMobile } from '@/hooks/use-mobile';
 
 const FlightsPakistan = () => {

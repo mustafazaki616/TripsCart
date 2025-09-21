@@ -1,4 +1,4 @@
-import { FileText, AlertTriangle, Info, CheckCircle } from "lucide-react";
+import { FileText, AlertTriangle, Info, CheckCircle, Phone, Mail } from "lucide-react";
 
 const BookingTerms = () => {
   return (
@@ -220,8 +220,18 @@ const BookingTerms = () => {
                   For questions about these terms or to make changes to your booking:
                 </p>
                 <ul className="list-disc list-inside space-y-1 ml-4">
-                  <li><strong>Email:</strong> info@flightshop380.com</li>
-                  <li><strong>Phone:</strong> 020-360-31248</li>
+                  <li className="flex items-center gap-2">
+                    <strong>Email:</strong> 
+                    <a href="mailto:info@flightshop380.com" className="flex items-center gap-1 hover:text-yellow-400 transition-colors">
+                      <Mail className="w-4 h-4" /> info@flightshop380.com
+                    </a>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <strong>Phone:</strong> 
+                    <a href="tel:020-360-31248" className="flex items-center gap-1 hover:text-yellow-400 transition-colors">
+                      <Phone className="w-4 h-4" /> 020-360-31248
+                    </a>
+                  </li>
                   <li><strong>Hours:</strong> Monday-Sunday 9:00 AM - 9:00 PM GMT</li>
                   <li><strong>Emergency:</strong> 24/7 emergency contact provided with booking confirmation</li>
                 </ul>

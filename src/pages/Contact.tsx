@@ -107,15 +107,14 @@ const Contact = () => {
                 <Phone className="w-8 h-8 text-primary" />
               </div>
               <h3 className="text-xl font-semibold mb-3">Call Us</h3>
-              <p className="text-muted-foreground mb-4">
-                <a href="tel:+442012345678" className="text-primary hover:underline">
-                  0203-603-1248
-                </a>
-              </p>
+              <a href="tel:0203-603-1248" className="flex items-center gap-2 hover:text-primary transition-colors mb-4">
+                <Phone className="w-4 h-4" />
+                0203-603-1248
+              </a>
               <p className="text-sm text-muted-foreground">
                 Emergency: 24/7 Support Available
               </p>
-            </div>
+              </div>
 
             {/* Email Contact */}
             <div className="bg-card rounded-xl p-8 border text-center">
@@ -123,15 +122,18 @@ const Contact = () => {
                 <Mail className="w-8 h-8 text-primary" />
               </div>
               <h3 className="text-xl font-semibold mb-3">Email Us</h3>
-              <p className="text-muted-foreground mb-4">
-                <a href="mailto:info@flightshop380.com" className="text-primary hover:underline">
+              <a href="mailto:info@flightshop380.com" className="flex items-center gap-2 hover:text-primary transition-colors mb-4">
+                <Mail className="w-4 h-4" />
+                info@flightshop380.com
+              </a>
+              <p className="text-sm text-muted-foreground flex items-center justify-center gap-1">
+                Support:
+                <a href="mailto:info@flightshop380.com" className="flex items-center gap-2 hover:text-primary transition-colors">
+                  <Mail className="w-4 h-4" />
                   info@flightshop380.com
                 </a>
               </p>
-              <p className="text-sm text-muted-foreground">
-                Support: info@flightshop380.com
-              </p>
-            </div>
+              </div>
           </div>
 
           {/* Contact Form */}
