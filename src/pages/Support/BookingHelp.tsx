@@ -1,8 +1,10 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plane, Hotel, Car, FileText, CreditCard, Calendar } from "lucide-react";
+import { useNavigate } from 'react-router-dom';
 
 const BookingHelp = () => {
+  const navigate = useNavigate();
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
@@ -184,10 +186,10 @@ const BookingHelp = () => {
                 our support team is ready to help you complete your reservation.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button className="bg-yellow-500 hover:bg-yellow-600 text-black">
+                <Button className="bg-yellow-500 hover:bg-yellow-600 text-black" onClick={() => navigate('/support/contact-us')}>
                   Contact Support
                 </Button>
-                <Button variant="outline">
+                <Button variant="outline" onClick={() => window.open('https://wa.me/447304229064', '_blank')}>
                   Live Chat
                 </Button>
               </div>
