@@ -1,0 +1,804 @@
+import * as React from "react";
+import { format } from "date-fns";
+import { ArrowLeftRight, Calendar, CalendarIcon, Mail, Phone, Plane, UserRound, Search, Minus, Plus, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar as CalendarWidget } from "@/components/ui/calendar";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import HotelsBookingForm from "./HotelsBookingForm";
+import FlightsHotelsBookingForm from "./FlightsHotelsBookingForm";
+import CarHireBookingForm from "./CarHireBookingForm";
+import VisaBookingForm from "./VisaBookingForm";
+import { sendAdminEmail } from "@/lib/email";
+import { searchAirports, getAirportByCode, type Airport } from "@/data/airports";
+import { PassengerModal, type PassengerCounts } from "./PassengerModal";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+
+const cabinClasses = ["Economy", "Premium Economy", "Business", "First"] as const;
+
+// Airport Autocomplete Component
+interface AirportAutocompleteProps {
+  value?: string;
+  onValueChange: (value: string) => void;
+  placeholder: string;
+  icon: React.ReactNode;
+  label?: string;
+  id: string;
+  name?: string;
+  autoComplete?: string;
+}
+
+const AirportAutocomplete: React.FC<AirportAutocompleteProps> = ({ value, onValueChange, placeholder, icon, label, id, name, autoComplete }) => {
+  const [open, setOpen] = React.useState(false);
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const [filteredAirports, setFilteredAirports] = React.useState<Airport[]>([]);
+
+  // Get display text for selected airport
+  const selectedAirport = value ? getAirportByCode(value) : null;
+  const displayText = selectedAirport ? `${selectedAirport.code} - ${selectedAirport.name}` : "";
+
+  // Filter airports based on search query
+  React.useEffect(() => {
+    if (searchQuery.length > 0) {
+      const results = searchAirports(searchQuery).slice(0, 10); // Limit to 10 results
+      setFilteredAirports(results);
+    } else {
+      setFilteredAirports([]); // Show no suggestions when search is empty
+    }
+  }, [searchQuery]);
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      {/* Trigger as read-only input so the external label htmlFor matches a persistent input element */}
+      <div className="relative">
+        <PopoverTrigger asChild>
+          <Input
+            id={id}
+            readOnly
+            value={displayText}
+            placeholder={placeholder}
+            autoComplete={autoComplete ?? "off"}
+            role="combobox"
+            aria-expanded={open}
+            aria-haspopup="listbox"
+            aria-controls={`${id}-list`}
+            className="h-10 md:h-12 w-full px-3 pl-8 text-sm rounded-md bg-secondary/60 border-input text-left"
+          />
+        </PopoverTrigger>
+        <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2">
+          {icon}
+        </div>
+      </div>
+      <PopoverContent className="w-[340px] p-0" align="start">
+        {label && (
+          <div className="flex items-center justify-between px-3 py-2 border-b bg-background">
+            <span className="text-xs text-muted-foreground">{label}</span>
+            <button type="button" aria-label="Close" onClick={() => setOpen(false)} className="p-1 hover:opacity-80">
+              <X className="h-3.5 w-3.5 opacity-60" />
+            </button>
+          </div>
+        )}
+        <Command shouldFilter={false}>
+          <CommandInput
+            id={`${id}-input`}
+            placeholder="Search city or airport..."
+            value={searchQuery}
+            onValueChange={setSearchQuery}
+            autoComplete={autoComplete ?? "off"}
+            // prevent browser autofill dropdowns
+            aria-controls={`${id}-list`}
+          />
+          <CommandList id={`${id}-list`}>
+            {searchQuery.length === 0 ? (
+              <div className="p-4 text-sm text-muted-foreground text-center">
+                Start typing to search airports...
+              </div>
+            ) : filteredAirports.length === 0 ? (
+              <CommandEmpty>No airports found.</CommandEmpty>
+            ) : (
+              <CommandGroup>
+                {filteredAirports.map((airport) => (
+                  <CommandItem
+                    key={airport.code}
+                    value={`${airport.code} ${airport.city} ${airport.country} ${airport.name}`}
+                    onSelect={() => {
+                      onValueChange(airport.code);
+                      setOpen(false);
+                      setSearchQuery("");
+                    }}
+                    className="cursor-pointer"
+                  >
+                    <div className="flex flex-col">
+                      <div className="text-sm"><span className="font-semibold">{airport.code}</span> - {airport.name}</div>
+                      <div className="text-xs text-muted-foreground">{airport.city}, {airport.country.toUpperCase()}</div>
+                    </div>
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            )}
+          </CommandList>
+        </Command>
+        {/* Hidden input to expose value to forms and autofill engines without breaking custom UI */}
+        <input type="hidden" id={`${id}-value`} name={name} autoComplete={autoComplete ?? "off"} value={value ?? ""} />
+      </PopoverContent>
+    </Popover>
+  );
+};
+
+// Helper function to generate date options for the next 365 days
+const getDateOptions = (startDate?: Date) => {
+  const options = [];
+  const start = startDate || new Date();
+  
+  for (let i = 0; i < 365; i++) {
+    const date = new Date(start);
+    date.setDate(start.getDate() + i);
+    options.push({
+      value: date.toISOString(),
+      label: format(date, "EEE, dd MMM yyyy"),
+      shortLabel: format(date, "dd MMM")
+    });
+  }
+  
+  return options;
+};
+
+type FormState = {
+  tripType: "round" | "oneway";
+  origin?: string;
+  destination?: string;
+  departDate?: Date;
+  returnDate?: Date;
+  adults: number;
+  children: number;
+  infants: number;
+  cabin: typeof cabinClasses[number];
+  phone?: string;
+  email?: string;
+};
+
+type FormErrors = Partial<Record<
+  | "origin"
+  | "destination"
+  | "departDate"
+  | "returnDate"
+  | "adults"
+  | "infants"
+  | "cabin"
+  | "phone"
+  | "email",
+  string
+>>;
+
+const BookingForm: React.FC = () => {
+  const [data, setData] = React.useState<FormState>({
+    tripType: "round",
+    adults: 1,
+    children: 0,
+    infants: 0,
+    cabin: "Economy",
+  });
+
+  const [errors, setErrors] = React.useState<FormErrors>({});
+  const [showModal, setShowModal] = React.useState(false);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+
+  // Popover state for travelers dropdown only
+  const [openTravellers, setOpenTravellers] = React.useState(false);
+
+  const validate = (): boolean => {
+    const newErrors: FormErrors = {};
+
+    if (!data.origin) newErrors.origin = "Please select departure city";
+    if (!data.destination) newErrors.destination = "Please select destination city";
+    if (!data.departDate) newErrors.departDate = "Please select departure date";
+    if (data.tripType === "round" && !data.returnDate) newErrors.returnDate = "Please select return date";
+    if (data.adults < 1) newErrors.adults = "At least 1 adult required";
+    if (data.infants > data.adults) newErrors.infants = "Infants cannot exceed adults";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validate()) return;
+
+    setIsSubmitting(true);
+    try {
+      const originAirport = getAirportByCode(data.origin!);
+      const destinationAirport = getAirportByCode(data.destination!);
+      
+      const emailData = {
+        name: '', // Will be handled by the email template
+        email: data.email || '',
+        phone: data.phone || '',
+        departureDate: data.departDate,
+        returnDate: data.returnDate,
+        departureCity: `${originAirport?.city}, ${originAirport?.country} (${data.origin})`,
+        destinationCity: `${destinationAirport?.city}, ${destinationAirport?.country} (${data.destination})`,
+        adults: data.adults,
+        children: data.children,
+        infants: data.infants,
+        class: data.cabin,
+        message: `Trip Type: ${data.tripType}`
+      };
+
+      await sendAdminEmail(emailData, 'Flight Booking');
+      setShowModal(true);
+    } catch (error) {
+      console.error('Failed to send booking request:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const clearForm = () => {
+    setData({
+      tripType: "round",
+      adults: 1,
+      children: 0,
+      infants: 0,
+      cabin: "Economy",
+    });
+    setErrors({});
+  };
+
+  const swapLocations = () => {
+    setData(d => ({ ...d, origin: d.destination, destination: d.origin }));
+  };
+
+  return (
+    <>
+    <form onSubmit={submit} className="booking-form-container rounded-2xl bg-card/20 backdrop-blur border shadow-soft p-4 sm:p-3 md:p-6 w-full max-w-full overflow-hidden relative">
+      {/* Category tabs */}
+      <Tabs defaultValue="flight" className="w-full">
+        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 h-auto sm:h-14 rounded-t-lg bg-secondary/80 p-1 flex-wrap gap-1 text-xs sm:text-sm">
+          <TabsTrigger value="flight" className="data-[state=active]:text-primary data-[state=active]:font-semibold">Flight</TabsTrigger>
+          <TabsTrigger value="hotels" className="data-[state=active]:text-primary data-[state=active]:font-semibold">Hotels</TabsTrigger>
+          <TabsTrigger value="flighthotel" className="data-[state=active]:text-primary data-[state=active]:font-semibold">Flights & Hotels</TabsTrigger>
+          <TabsTrigger value="car" className="data-[state=active]:text-primary data-[state=active]:font-semibold">Car Hire</TabsTrigger>
+          <TabsTrigger value="visa" className="data-[state=active]:text-primary data-[state=active]:font-semibold">Visa</TabsTrigger>
+        </TabsList>
+        
+        <div className="relative mt-2">
+          <div className="h-px bg-border" />
+          <span className="absolute left-0 -top-px h-[2px] w-28 bg-primary rounded-full" aria-hidden="true" />
+        </div>
+
+        {/* Flight Form */}
+        <TabsContent value="flight">
+        {/* Mobile Compact Layout */}
+        <div className="block md:hidden space-y-3">
+          {/* Trip type selector */}
+          <div className="flex gap-2 justify-center">
+            <Button
+              type="button"
+              variant={data.tripType === "round" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setData((d) => ({ ...d, tripType: "round" }))}
+              className="text-xs px-4"
+            >
+              Round-trip
+            </Button>
+            <Button
+              type="button"
+              variant={data.tripType === "oneway" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setData((d) => ({ ...d, tripType: "oneway" }))}
+              className="text-xs px-4"
+            >
+              One Way
+            </Button>
+          </div>
+
+          {/* Passengers and Cabin Class - Two Column Grid */}
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label htmlFor="passengers" className="text-xs text-gray-500 mb-1 block">Passengers</label>
+              <PassengerModal
+                passengers={{
+                  adults: data.adults,
+                  children: data.children,
+                  infants: data.infants
+                }}
+                onPassengersChange={(passengers: PassengerCounts) => {
+                  setData(d => ({ ...d, ...passengers }));
+                }}
+                className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60"
+              />
+              {errors.adults && <p className="mt-1 text-xs text-destructive">{errors.adults}</p>}
+              {errors.infants && <p className="mt-1 text-xs text-destructive">{errors.infants}</p>}
+            </div>
+            <div>
+              <label htmlFor="cabin-class-mobile" className="text-xs text-gray-500 mb-1 block">Cabin Class</label>
+              <Select value={data.cabin} onValueChange={(v) => setData(d => ({ ...d, cabin: v as FormState["cabin"] }))}>
+                <SelectTrigger id="cabin-class-mobile" name="cabin" className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60">
+                  <SelectValue placeholder="Select cabin class" />
+                </SelectTrigger>
+                <SelectContent>
+                  {cabinClasses.map((c) => (
+                    <SelectItem key={c} value={c}>{c}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          {/* Fly From - Full Width */}
+          <div>
+            <label htmlFor="fly-from-booking-mobile" className="text-xs text-gray-500 mb-1 block">Fly From</label>
+            <AirportAutocomplete
+              id="fly-from-booking-mobile"
+              name="origin"
+              autoComplete="off"
+              value={data.origin}
+              onValueChange={(value) => setData((d) => ({ ...d, origin: value }))}
+              placeholder="Enter city or airport..."
+              icon={<Plane className="mr-2 h-4 w-4 opacity-70" />}
+              label="Fly From"
+            />
+            {errors.origin && <p className="mt-1 text-xs text-destructive">{errors.origin}</p>}
+          </div>
+
+          {/* Fly To - Full Width */}
+          <div>
+            <label htmlFor="fly-to-booking-mobile" className="text-xs text-gray-500 mb-1 block">Fly To</label>
+            <AirportAutocomplete
+              id="fly-to-booking-mobile"
+              name="destination"
+              autoComplete="off"
+              value={data.destination}
+              onValueChange={(value) => setData((d) => ({ ...d, destination: value }))}
+              placeholder="Enter city or airport..."
+              icon={<ArrowLeftRight className="mr-2 h-4 w-4 opacity-70" />}
+              label="Fly To"
+            />
+            {errors.destination && <p className="mt-1 text-xs text-destructive">{errors.destination}</p>}
+          </div>
+
+          {/* Check-in + Check-out Dates - Two Column Grid */}
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label htmlFor="departure-date-booking-mobile" className="text-xs text-gray-500 mb-1 block">Departure Date</label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    id="departure-date-booking-mobile"
+                    variant="outline"
+                    className={cn(
+                      "h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal",
+                      !data.departDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    <span className="truncate">{data.departDate ? format(data.departDate, "dd/MM/yyyy") : "dd/mm/yyyy"}</span>
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <CalendarWidget
+                    mode="single"
+                    selected={data.departDate}
+                    onSelect={(date) => setData((d) => ({ ...d, departDate: date }))}
+                    disabled={(date) => date < new Date()}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+              {errors.departDate && <p className="mt-1 text-xs text-destructive">{errors.departDate}</p>}
+            </div>
+            {data.tripType === "round" && (
+              <div>
+                <label htmlFor="return-date-booking-mobile" className="text-xs text-gray-500 mb-1 block">Return Date</label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      id="return-date-booking-mobile"
+                      variant="outline"
+                      className={cn(
+                          "h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal",
+                        !data.returnDate && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      <span className="truncate">{data.returnDate ? format(data.returnDate, "dd/MM/yyyy") : "dd/mm/yyyy"}</span>
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <CalendarWidget
+                      mode="single"
+                      selected={data.returnDate}
+                      onSelect={(date) => setData((d) => ({ ...d, returnDate: date }))}
+                      disabled={(date) => date < new Date() || (data.departDate && date <= data.departDate)}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+                {errors.returnDate && <p className="mt-1 text-xs text-destructive">{errors.returnDate}</p>}
+              </div>
+            )}
+           </div>
+
+          {/* Phone + Email - Two Column Grid */}
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label htmlFor="phone-booking-mobile" className="text-xs text-gray-500 mb-1 block">Phone Number</label>
+              <div className="relative">
+                <Input
+                  id="phone-booking-mobile"
+                  name="phone"
+                  type="tel"
+                  placeholder="UK Number Only"
+                  value={data.phone || ""}
+                  onChange={(e) => setData((d) => ({ ...d, phone: e.target.value }))}
+                  className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10 truncate"
+                  autoComplete="tel"
+                  inputMode="tel"
+                />
+                <Phone className="absolute right-3 top-3 h-4 w-4 opacity-70" />
+              </div>
+              {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
+            </div>
+            <div>
+              <label htmlFor="email-booking-mobile" className="text-xs text-gray-500 mb-1 block">Email Address</label>
+              <div className="relative">
+                <Input
+                  id="email-booking-mobile"
+                  name="email"
+                  type="email"
+                  placeholder="Email (Optional)"
+                  value={data.email || ""}
+                  onChange={(e) => setData((d) => ({ ...d, email: e.target.value }))}
+                  className="h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10 truncate"
+                  autoComplete="email"
+                  inputMode="email"
+                />
+                <Mail className="absolute right-3 top-3 h-4 w-4 opacity-70" />
+              </div>
+              {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
+            </div>
+          </div>
+          
+          {/* Search Button - Full Width */}
+          <Button 
+            type="submit" 
+            className="w-full h-12 text-sm mt-3" 
+            disabled={isSubmitting}
+          >
+            <Search className="mr-2 h-4 w-4" />
+            {isSubmitting ? "Searching..." : "Search Flights"}
+          </Button>
+        </div>
+
+        {/* Desktop Layout */}
+        <div className="hidden md:block space-y-3">
+          {/* Trip type selector */}
+          <div className="flex gap-2 justify-center md:justify-start">
+            <Button
+              type="button"
+              variant={data.tripType === "round" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setData((d) => ({ ...d, tripType: "round" }))}
+              className="text-xs px-4"
+            >
+              Round-trip
+            </Button>
+            <Button
+              type="button"
+              variant={data.tripType === "oneway" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setData((d) => ({ ...d, tripType: "oneway" }))}
+              className="text-xs px-4"
+            >
+              One Way
+            </Button>
+          </div>
+
+          {/* Passengers and Cabin Class */}
+          <div className="py-2">
+            <div className="flex gap-1 md:gap-3">
+              <div className="flex-1">
+                <div className="hidden md:block">
+                  <label htmlFor="passengers-booking" className="mb-1 block text-xs md:text-sm text-muted-foreground">Passengers</label>
+                  <Popover open={openTravellers} onOpenChange={setOpenTravellers}>
+                    <PopoverTrigger asChild>
+                      <Button id="passengers-booking" variant="outline" className="w-full justify-start h-10 md:h-12 bg-secondary/60 text-left text-xs md:text-sm">
+                        <span className="truncate">
+                          {data.adults + data.children + data.infants} Passenger{(data.adults + data.children + data.infants) > 1 ? "s" : ""}
+                        </span>
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent align="end" className="w-72">
+                      {[
+                        { key: "adults", label: "Adults", caption: "12+", min: 1 },
+                        { key: "children", label: "Children", caption: "2-11", min: 0 },
+                        { key: "infants", label: "Infants", caption: "Under 2", min: 0 },
+                      ].map((row) => {
+                        const value = data[row.key as keyof Pick<FormState, "adults" | "children" | "infants">] as number;
+                        return (
+                          <div key={row.key} className="flex items-center justify-between py-2">
+                            <div>
+                              <div className="text-sm font-medium">{row.label}</div>
+                              <div className="text-xs text-muted-foreground">{row.caption}</div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Button
+                                type="button"
+                                size="icon"
+                                variant="secondary"
+                                disabled={value <= row.min}
+                                onClick={() =>
+                                  setData((d) => {
+                                    const updated = { ...d, [row.key]: Math.max(row.min, value - 1) } as FormState;
+                                    return updated;
+                                  })
+                                }
+                                aria-label={`Decrease ${row.label}`}
+                              >
+                                <Minus className="h-4 w-4" />
+                              </Button>
+                            <span className="w-8 text-center text-sm">{value}</span>
+                            <Button
+                              type="button"
+                              size="icon"
+                              variant="secondary"
+                              onClick={() =>
+                                setData((d) => {
+                                  const updated = { ...d, [row.key]: value + 1 } as FormState;
+                                  return updated;
+                                })
+                              }
+                              aria-label={`Increase ${row.label}`}
+                            >
+                              <Plus className="h-4 w-4" />
+                            </Button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                      <div className="mt-3 flex justify-end">
+                        <Button type="button" onClick={() => setOpenTravellers(false)}>Done</Button>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                  {(errors.adults || errors.infants) && (
+                    <p className="mt-1 text-xs text-destructive">
+                      {errors.adults || errors.infants}
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div className="min-w-[120px] md:flex-1">
+                <div className="md:mb-1">
+                  <label className="hidden md:block text-xs md:text-sm text-muted-foreground" htmlFor="cabin-class">Cabin Class</label>
+                </div>
+                <Select value={data.cabin} onValueChange={(v) => setData(d => ({ ...d, cabin: v as FormState["cabin"] }))}>
+                  <SelectTrigger id="cabin-class" name="cabin" className="h-16 md:h-12 px-3 text-sm rounded-md bg-secondary/60">
+                    <SelectValue placeholder="Select cabin class" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {cabinClasses.map((c) => (
+                      <SelectItem key={c} value={c}>{c}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </div>
+
+          {/* Form Fields Grid - Optimized responsive grid for better space utilization */}
+          <div className="py-2">
+            {/* Origin/Destination - Desktop layout aligned with FlightsHotelsBookingForm */}
+            <div className="relative">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3 lg:gap-4">
+                {/* Fly From */}
+                <div className="space-y-2 lg:col-span-6">
+                  <label htmlFor="fly-from-booking" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                    <Plane className="h-4 w-4" />
+                    From
+                  </label>
+                  <AirportAutocomplete
+                    id="fly-from-booking"
+                    name="origin"
+                    autoComplete="off"
+                    value={data.origin}
+                    onValueChange={(value) => setData((d) => ({ ...d, origin: value }))}
+                    placeholder="Enter city or airport..."
+                    icon={<Plane className="mr-2 h-4 w-4 opacity-70" />}
+                    label="From"
+                  />
+                  {errors.origin && <p className="mt-1 text-xs text-destructive">{errors.origin}</p>}
+                </div>
+
+                {/* Fly To */}
+                <div className="space-y-2 lg:col-span-6">
+                  <label htmlFor="fly-to-booking" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                    <Plane className="h-4 w-4" />
+                    To
+                  </label>
+                  <AirportAutocomplete
+                    id="fly-to-booking"
+                    name="destination"
+                    autoComplete="off"
+                    value={data.destination}
+                    onValueChange={(value) => setData((d) => ({ ...d, destination: value }))}
+                    placeholder="Enter city or airport..."
+                    icon={<ArrowLeftRight className="mr-2 h-4 w-4 opacity-70" />}
+                    label="To"
+                  />
+                  {errors.destination && <p className="mt-1 text-xs text-destructive">{errors.destination}</p>}
+                </div>
+              </div>
+
+              {/* Swap Button */}
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  className="h-8 w-8 rounded-full bg-background border-2"
+                  onClick={swapLocations}
+                >
+                  <ArrowLeftRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Date fields - Desktop layout aligned with FlightsHotelsBookingForm */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3 lg:gap-4 mt-3">
+              {/* Departure Date */}
+              <div className="space-y-2 lg:col-span-6">
+                <label htmlFor="departure-date-booking" className="text-sm font-medium text-gray-700">Departure Date</label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      id="departure-date-booking"
+                      variant="outline"
+                      className={cn(
+                        "h-12 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal border-input",
+                        !data.departDate && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />
+                      {data.departDate ? format(data.departDate, "dd/MM/yyyy") : "Departure"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <CalendarWidget
+                      mode="single"
+                      selected={data.departDate}
+                      onSelect={(date) => setData((d) => ({ ...d, departDate: date }))}
+                      disabled={(date) => date < new Date()}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+                {errors.departDate && <p className="mt-1 text-xs text-destructive">{errors.departDate}</p>}
+              </div>
+
+              {/* Return Date */}
+              {data.tripType === "round" && (
+                <div className="space-y-2 lg:col-span-6">
+                  <label htmlFor="return-date-booking" className="text-sm font-medium text-gray-700">Return Date</label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        id="return-date-booking"
+                        variant="outline"
+                        className={cn(
+                          "h-12 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 justify-start text-left font-normal border-input",
+                          !data.returnDate && "text-muted-foreground"
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />
+                        {data.returnDate ? format(data.returnDate, "dd/MM/yyyy") : "Returning"}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <CalendarWidget
+                        mode="single"
+                        selected={data.returnDate}
+                        onSelect={(date) => setData((d) => ({ ...d, returnDate: date }))}
+                        disabled={(date) => date < new Date() || (data.departDate && date <= data.departDate)}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  {errors.returnDate && <p className="mt-1 text-xs text-destructive">{errors.returnDate}</p>}
+                </div>
+              )}
+            </div>
+
+            {/* Contact Information - Desktop layout aligned with FlightsHotelsBookingForm */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3 lg:gap-4 mt-3">
+              <div className="space-y-2 lg:col-span-6">
+                <label htmlFor="phone-booking" className="text-sm font-medium text-gray-700">Phone Number</label>
+                <div className="relative">
+                  <Input
+                    id="phone-booking"
+                    name="phone"
+                    type="tel"
+                    placeholder="UK Number Only"
+                    value={data.phone || ""}
+                    onChange={(e) => setData((d) => ({ ...d, phone: e.target.value }))}
+                    className="h-12 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10"
+                    autoComplete="tel"
+                    inputMode="tel"
+                  />
+                  <Phone className="absolute right-3 top-3 h-4 w-4 opacity-70" />
+                </div>
+              </div>
+              <div className="space-y-2 lg:col-span-6">
+                <label htmlFor="email-booking" className="text-sm font-medium text-gray-700">Email Address</label>
+                <div className="relative">
+                  <Input
+                    id="email-booking"
+                    name="email"
+                    type="email"
+                    placeholder="Email (Optional)"
+                    value={data.email || ""}
+                    onChange={(e) => setData((d) => ({ ...d, email: e.target.value }))}
+                    className="h-12 md:h-12 w-full px-3 text-sm rounded-md bg-secondary/60 pr-10"
+                    autoComplete="email"
+                    inputMode="email"
+                  />
+                  <Mail className="absolute right-3 top-3 h-4 w-4 opacity-70" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Search Button */}
+          <div className="flex pt-4 justify-center">
+            <Button type="submit" disabled={isSubmitting} className="px-8 h-12 md:h-14 bg-primary hover:bg-primary/90 text-primary-foreground text-base font-semibold w-full md:w-auto">
+              {isSubmitting ? "Searching..." : "Search Flight"}
+            </Button>
+          </div>
+        </div>
+
+
+        </TabsContent>
+
+        {/* Hotels Form */}
+        <TabsContent value="hotels">
+          <HotelsBookingForm />
+        </TabsContent>
+
+        {/* Flights + Hotels Form */}
+        <TabsContent value="flighthotel">
+          <FlightsHotelsBookingForm />
+        </TabsContent>
+
+        {/* Car Hire Form */}
+        <TabsContent value="car">
+          <CarHireBookingForm />
+        </TabsContent>
+
+        {/* Visa Form */}
+        <TabsContent value="visa">
+          <VisaBookingForm />
+        </TabsContent>
+      </Tabs>
+    </form>
+
+    {/* Success modal */}
+    <Dialog open={showModal} onOpenChange={(open) => { if (!open) { setShowModal(false); clearForm(); } }}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>Booking Request Submitted!</DialogTitle>
+        </DialogHeader>
+        <p className="text-sm text-muted-foreground">Thank you for your booking request. Our travel experts will review your requirements and contact you within 24 hours with personalized options and pricing.</p>
+        <div className="mt-4 flex justify-end">
+          <Button onClick={() => { setShowModal(false); clearForm(); }}>Close</Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+    </>
+  );
+};
+
+export default BookingForm;
