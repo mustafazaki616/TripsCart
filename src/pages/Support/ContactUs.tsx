@@ -66,7 +66,7 @@ const ContactUs = () => {
                   <CardContent>
                     <CardDescription className="text-base">
                       <div className="space-y-1">
-                        <p>UK: <a href="tel:+44 7304 2296094" className="hover:text-yellow-400 transition-colors">+44 20 1234 5678</a></p>
+                        <p>UK: <a href="tel:+44 7304 2296094" className="hover:text-yellow-400 transition-colors">UK: +44 7304 2296094</a></p>
                         {/* <p>US: +1 555 123 4567</p> */}
                         <p>Available 24/7 for urgent matters</p>
                       </div>
