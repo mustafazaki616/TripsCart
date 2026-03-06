@@ -29,7 +29,7 @@ const Navbar = () => {
             <a aria-label="Facebook" className="hover:text-yellow-400 transition-colors" target="_blank" rel="noopener noreferrer">
               <Facebook className="w-4 h-4" />
             </a>
-            <a aria-label="Instagram" className="hover:text-yellow-400 transition-colors" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.instagram.com/flightshop_380?igsh=MWo0bzV1cm8yYWp3Nw%3D%3D&utm_source=qr" aria-label="Instagram" className="hover:text-yellow-400 transition-colors" target="_blank" rel="noopener noreferrer">
               <Instagram className="w-4 h-4" />
             </a>
             <a aria-label="Twitter" className="hover:text-yellow-400 transition-colors" target="_blank" rel="noopener noreferrer">
@@ -157,7 +157,7 @@ const Navbar = () => {
                   <a aria-label="Facebook" className="hover:text-yellow-400 transition-colors" target="_blank" rel="noopener noreferrer">
                     <Facebook className="w-4 h-4" />
                   </a>
-                  <a aria-label="Instagram" className="hover:text-yellow-400 transition-colors" target="_blank" rel="noopener noreferrer">
+                  <a href="https://www.instagram.com/flightshop_380?igsh=MWo0bzV1cm8yYWp3Nw%3D%3D&utm_source=qr" aria-label="Instagram" className="hover:text-yellow-400 transition-colors" target="_blank" rel="noopener noreferrer">
                     <Instagram className="w-4 h-4" />
                   </a>
                   <a aria-label="Twitter" className="hover:text-yellow-400 transition-colors" target="_blank" rel="noopener noreferrer">

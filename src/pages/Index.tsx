@@ -15,6 +15,18 @@ const Index = () => {
     ],
   };
 
+  const organizationJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'flightshop380',
+    url: 'https://www.flightshop380.com',
+    logo: '/src/assets/favicon/shop-logo.png',
+    description: 'Book cheap flights and hotels with flightshop380. Compare routes, dates, and fares with our modern booking experience.',
+    sameAs: [
+      'https://twitter.com/flightshop380'
+    ]
+  };
+
   return (
     <>
       <HeroSection />
@@ -24,6 +36,7 @@ const Index = () => {
       <TrustpilotReviews />
       <FAQSection />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
     </>
   );
 };

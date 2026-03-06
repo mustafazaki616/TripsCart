@@ -102,38 +102,38 @@ const Contact = () => {
             </div>
 
             {/* Phone Contact */}
-            <div className="bg-card rounded-xl p-8 border text-center">
-              <div className="w-16 h-16 bg-primary/20 rounded-full mx-auto mb-4 flex items-center justify-center">
+            <div className="bg-card rounded-xl p-8 border w-full min-w-0 flex flex-col items-center justify-center text-center">
+              <div className="w-16 h-16 bg-primary/20 rounded-full mb-4 flex items-center justify-center shrink-0">
                 <Phone className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold mb-3">Call Us</h3>
-              <a href="tel:0203-603-1248" className="flex items-center gap-2 hover:text-primary transition-colors mb-4">
-                <Phone className="w-4 h-4" />
+              <h3 className="text-xl font-semibold mb-3 w-full">Call Us</h3>
+              <a href="tel:0203-603-1248" className="inline-flex items-center justify-center gap-2 hover:text-primary transition-colors mb-4">
+                <Phone className="w-4 h-4 shrink-0" />
                 0203-603-1248
               </a>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground w-full">
                 Emergency: 24/7 Support Available
               </p>
-              </div>
+            </div>
 
             {/* Email Contact */}
-            <div className="bg-card rounded-xl p-8 border text-center">
-              <div className="w-16 h-16 bg-primary/20 rounded-full mx-auto mb-4 flex items-center justify-center">
+            <div className="bg-card rounded-xl p-8 border w-full min-w-0 flex flex-col items-center justify-center text-center">
+              <div className="w-16 h-16 bg-primary/20 rounded-full mb-4 flex items-center justify-center shrink-0">
                 <Mail className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold mb-3">Email Us</h3>
-              <a href="mailto:info@flightshop380.com" className="flex items-center gap-2 hover:text-primary transition-colors mb-4">
-                <Mail className="w-4 h-4" />
+              <h3 className="text-xl font-semibold mb-3 w-full">Email Us</h3>
+              <a href="mailto:info@flightshop380.com" className="inline-flex items-center justify-center gap-2 hover:text-primary transition-colors mb-4">
+                <Mail className="w-4 h-4 shrink-0" />
                 info@flightshop380.com
               </a>
-              <p className="text-sm text-muted-foreground flex items-center justify-center gap-1">
+              <p className="text-sm text-muted-foreground flex flex-wrap items-center justify-center gap-1 w-full">
                 Support:
-                <a href="mailto:info@flightshop380.com" className="flex items-center gap-2 hover:text-primary transition-colors">
-                  <Mail className="w-4 h-4" />
+                <a href="mailto:info@flightshop380.com" className="inline-flex items-center justify-center gap-2 hover:text-primary transition-colors">
+                  <Mail className="w-4 h-4 shrink-0" />
                   info@flightshop380.com
                 </a>
               </p>
-              </div>
+            </div>
           </div>
 
           {/* Contact Form */}

@@ -97,7 +97,7 @@ const Footer = () => {
               <a href="https://www.facebook.com/share/1A38pdBkqU/?mibextid=wwXIfr" aria-label="Facebook" className="hover:text-yellow-400 transition-colors p-2 rounded-full hover:bg-yellow-400/10" target="_blank" rel="noopener noreferrer">
                 <Facebook size={20} />
               </a>
-              <a href="https://www.instagram.com/tripscartuk?igsh=MWo0bzV1cm8yYWp3Nw%3D%3D&utm_source=qr" aria-label="Instagram" className="hover:text-yellow-400 transition-colors p-2 rounded-full hover:bg-yellow-400/10" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.instagram.com/flightshop_380?igsh=MWo0bzV1cm8yYWp3Nw%3D%3D&utm_source=qr" aria-label="Instagram" className="hover:text-yellow-400 transition-colors p-2 rounded-full hover:bg-yellow-400/10" target="_blank" rel="noopener noreferrer">
                 <Instagram size={20} />
               </a>
             </div>
