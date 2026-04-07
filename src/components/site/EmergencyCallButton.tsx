@@ -17,7 +17,7 @@ const EmergencyCallButton = () => {
   };
 
   const handleWhatsAppCall = () => {
-    window.open('https://wa.me/447304229064', '_blank');
+    window.open('https://wa.me/4402036031248', '_blank');
     setIsModalOpen(false);
   };
 
@@ -74,7 +74,7 @@ const EmergencyCallButton = () => {
                 <MessageSquare className="h-5 w-5" />
                 <div className="flex flex-col items-start">
                   <span className="font-medium">WhatsApp Chat</span>
-                  <span className="text-sm text-green-100">+44 7304 229064</span>
+                  <span className="text-sm text-green-100">+44 0203 603 1248</span>
                 </div>
               </Button>
             </div>

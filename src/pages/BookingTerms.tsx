@@ -229,7 +229,7 @@ const BookingTerms = () => {
                   <li className="flex items-center gap-2">
                     <strong>Phone:</strong> 
                     <a href="tel:020-360-31248" className="flex items-center gap-1 hover:text-yellow-400 transition-colors">
-                      <Phone className="w-4 h-4" /> 020-360-31248
+                      <Phone className="w-4 h-4" /> 0203-603-1248
                     </a>
                   </li>
                   <li><strong>Hours:</strong> Monday-Sunday 9:00 AM - 9:00 PM GMT</li>
